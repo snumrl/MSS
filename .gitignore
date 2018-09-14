@@ -2,4 +2,6 @@
 *.pyc
 *.obj
 *.mtl
+*.so
+*.pt
 build

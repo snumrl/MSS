@@ -22,7 +22,9 @@ class Container(nn.Module):
 		self.num = num
 		self.container = nn.Parameter(torch.zeros(self.num),requires_grad=False)
 		self.counter = nn.Parameter(torch.zeros(1),requires_grad=False)
+
 	def Push(self,val):
+
 		self.container[int(self.counter.data[0].numpy().tolist())] = val
 		self.counter += 1
 
@@ -45,6 +47,23 @@ class Model(nn.Module):
 		self.v_fc2 = nn.Linear(num_h1,num_h2)
 		self.v_fc3 = nn.Linear(num_h2,1)
 		self.reward_container = Container(10000)
+
+		torch.nn.init.xavier_uniform_(self.p_fc1.weight)
+		torch.nn.init.xavier_uniform_(self.p_fc2.weight)
+		torch.nn.init.xavier_uniform_(self.p_fc3.weight)
+
+		self.p_fc1.bias.data.zero_()
+		self.p_fc2.bias.data.zero_()
+		self.p_fc3.bias.data.zero_()
+
+		torch.nn.init.xavier_uniform_(self.v_fc1.weight)
+		torch.nn.init.xavier_uniform_(self.v_fc2.weight)
+		torch.nn.init.xavier_uniform_(self.v_fc3.weight)
+
+		self.v_fc1.bias.data.zero_()
+		self.v_fc2.bias.data.zero_()
+		self.v_fc3.bias.data.zero_()
+
 		
 	def forward(self,x):
 		p_out = F.relu(self.p_fc1(x))
@@ -60,8 +79,8 @@ class Model(nn.Module):
 
 	def load(self,path):
 		print('load nn {}'.format(path))
-		print(path)
 		self.load_state_dict(torch.load(path))
+
 	def save(self,path):
 		print('save nn {}'.format(path))
 		torch.save(self.state_dict(),path)
@@ -230,3 +249,59 @@ class Model(nn.Module):
 # 	def get_random_action(self,x):
 # 		p,_ = self.forward(torch.tensor(x.reshape(1,-1)))
 # 		return p.sample().detach().numpy()
+
+class MuscleNN(nn.Module):
+	def __init__(self,num_input,num_output):
+		super(MuscleNN,self).__init__()
+
+		self.num_input = num_input
+		self.num_output = num_output
+		self.num_h1 = 128
+		self.num_h2 = 128
+
+		self.fc1 = nn.Linear(self.num_input,self.num_h1)
+		self.fc2 = nn.Linear(self.num_h1,self.num_h2)
+		self.fc3 = nn.Linear(self.num_h2,self.num_output)
+		self.training_loss_container = Container(50000)
+		self.evaluation_loss_container = Container(50000)
+		
+		self.mean_input = Container(self.num_input)
+		self.std_input = Container(self.num_input)
+		self.mean_output = Container(self.num_output)
+		self.std_output = Container(self.num_output)
+
+		torch.nn.init.xavier_uniform_(self.fc1.weight)
+		torch.nn.init.xavier_uniform_(self.fc2.weight)
+		torch.nn.init.xavier_uniform_(self.fc3.weight)
+
+		self.fc1.bias.data.zero_()
+		self.fc2.bias.data.zero_()
+		self.fc3.bias.data.zero_()
+
+	def SetNormalizer(self,mi,si,mo,so):		
+		for x in mi:
+			self.mean_input.Push(x.tolist())
+		for x in si:
+			self.std_input.Push(x.tolist())
+		for x in mo:
+			self.mean_output.Push(x.tolist())
+		for x in so:
+			self.std_output.Push(x.tolist())
+
+	def forward(self,x):
+		x = (x - self.mean_input.container)/self.std_input.container
+
+		out = F.relu(self.fc1(x))
+		out = F.relu(self.fc2(out))
+		out = self.fc3(out)
+
+		out = (out - self.mean_output.container)/self.std_output.container
+		return out
+
+	def load(self,path):
+		print('load nn {}'.format(path))
+		self.load_state_dict(torch.load(path))
+		
+	def save(self,path):
+		print('save nn {}'.format(path))
+		torch.save(self.state_dict(),path)

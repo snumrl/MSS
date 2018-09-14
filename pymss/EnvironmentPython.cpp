@@ -134,6 +134,13 @@ BOOST_PYTHON_MODULE(pymss)
 {
 	Py_Initialize();
 	np::initialize();
+	class_<Preprocess>("Preprocess",init<int>())
+		.def("GeneratePairs",&Preprocess::GeneratePairs)
+		.def("GetNumInput",&Preprocess::GetNumInput)
+		.def("GetNumOutput",&Preprocess::GetNumOutput)
+		.def("GetNormalizer",&Preprocess::GetNormalizer)
+		.def("Get",&Preprocess::Get);
+
 	class_<EnvironmentPython>("Env",init<int>())
 		.def("GetNumState",&EnvironmentPython::GetNumState)
 		.def("GetNumAction",&EnvironmentPython::GetNumAction)

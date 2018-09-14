@@ -39,7 +39,7 @@ Parse(const std::string& path)
 			ss>>index;
 			mBVHs.push_back(new BVH());
 			// std::cout<<index<<std::endl;
-			mBVHs.back()->Parse(std::string(DPHY_DIR)+std::string("/motion/")+index);
+			mBVHs.back()->Parse(std::string(MSS_ROOT_DIR)+std::string("/motion/")+index);
 		}
 		else if(index=="t")
 		{

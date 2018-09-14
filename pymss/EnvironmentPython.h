@@ -1,5 +1,6 @@
 #ifndef __MSS_ENVIRONMENT_PYTHON_H__
 #define __MSS_ENVIRONMENT_PYTHON_H__
+#include "Preprocess.h"
 #include "Environment.h"
 #include <vector>
 #include <string>

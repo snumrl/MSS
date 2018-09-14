@@ -53,7 +53,7 @@ protected:
 	int mFocusBodyNum;
 
 	//python object
-	p::object mm,mns,sys_module,nn_module; //main module,main namespace,sys module,nn_module
+	p::object mm,mns,sys_module,nn_module,muscle_module; //main module,main namespace,sys module,nn_module
 
 };
 

@@ -14,7 +14,8 @@ public:
 	void Step();
 	void Reset(bool random=true);
 	bool IsTerminalState();
-	
+
+	//For Deep RL
 	Eigen::VectorXd GetState();
 	double GetReward();
 	Eigen::VectorXd GetAction(){return mAction;}
@@ -22,8 +23,13 @@ public:
 	int GetNumState(){return GetState().rows();};
 	int GetNumAction(){return mAction.rows();};
 
-	Character* GetCharacter(){return mCharacter;}
+	//For Muscle Regressor
+
+
+	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};
+	Character* GetCharacter(){return mCharacter;};
 	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}	
+	QP*	GetQP(){return mQP;}
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;

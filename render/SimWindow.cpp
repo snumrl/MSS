@@ -26,7 +26,7 @@ SimWindow(const std::string& nn_path)
 	mm = p::import("__main__");
 	mns = mm.attr("__dict__");
 	sys_module = p::import("sys");
-	p::str module_dir = (std::string(DPHY_DIR)+"/dphy").c_str();
+	p::str module_dir = (std::string(MSS_ROOT_DIR)+"/pymss").c_str();
 	sys_module.attr("path").attr("insert")(1, module_dir);
 	p::exec("import torch",mns);
 	p::exec("import torch.nn as nn",mns);
@@ -43,6 +43,7 @@ SimWindow(const std::string& nn_path)
 	p::exec(str,mns);
 
 	nn_module = p::eval("Model(num_state,num_action)",mns);
+	
 	p::object load = nn_module.attr("load");
 	load(nn_path);
 	
@@ -90,13 +91,6 @@ Display()
 	glEnd();
 	{
 		GUI::DrawSkeleton(character->GetSkeleton());
-		int count =0;
-		// for(auto muscle : character->GetMuscles())
-		// {
-			 // muscle->activation = mAction[count++];
-			// muscle->Update(mWorld->getTimeStep());
-			// muscle->ApplyForceToBody();
-		// }
 		GUI::DrawMuscles(character->GetMuscles());
 		auto cps = character->GetContactPoints();
 
@@ -151,6 +145,7 @@ Display()
 		character->GetSkeleton()->setPositions(p);
 		character->GetSkeleton()->computeForwardKinematics(true,false,false);
 		GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
+		GUI::DrawMuscles(character->GetMuscles());
 		auto cps = character->GetContactPoints();
 
 		for(auto cp : cps)
@@ -188,7 +183,8 @@ Keyboard(unsigned char key,int x,int y)
 	{
 		case '`': mIsRotate= !mIsRotate;break;
 		case 'C': mIsCapture = true; break;
-		case ']': mWorld->Step();break;
+	
+		case ']': GetActionFromNN();mWorld->SetAction(mAction);mWorld->Step();break;
 		case 'R': mWorld->Reset(false);break;
 		case 'r': mWorld->Reset(true);break;
 		case 'm': mAction.setZero();

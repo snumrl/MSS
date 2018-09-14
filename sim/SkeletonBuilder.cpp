@@ -300,7 +300,7 @@ BodyNode* SkeletonBuilder::MakeFreeJointBody(
 		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 	if(obj_file!="None")
 	{
-		std::string obj_path = std::string(DPHY_DIR)+"/character/OBJ/"+obj_file;
+		std::string obj_path = std::string(MSS_ROOT_DIR)+"/character/OBJ/"+obj_file;
 		const aiScene* mesh = MeshShape::loadMesh(std::string(obj_path));
 		
 		ShapePtr visual_shape = std::shared_ptr<MeshShape>(new MeshShape(Eigen::Vector3d(0.01,0.01,0.01),mesh));
@@ -357,7 +357,7 @@ BodyNode* SkeletonBuilder::MakeBallJointBody(
 		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 	if(obj_file!="None")
 	{
-		std::string obj_path = std::string(DPHY_DIR)+"/character/OBJ/"+obj_file;
+		std::string obj_path = std::string(MSS_ROOT_DIR)+"/character/OBJ/"+obj_file;
 		const aiScene* mesh = MeshShape::loadMesh(std::string(obj_path));
 
 		ShapePtr visual_shape = std::shared_ptr<MeshShape>(new MeshShape(Eigen::Vector3d(0.01,0.01,0.01),mesh));
@@ -431,7 +431,7 @@ BodyNode* SkeletonBuilder::MakeRevoluteJointBody(
 		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 	if(obj_file!="None")
 	{
-		std::string obj_path = std::string(DPHY_DIR)+"/character/OBJ/"+obj_file;
+		std::string obj_path = std::string(MSS_ROOT_DIR)+"/character/OBJ/"+obj_file;
 		const aiScene* mesh = MeshShape::loadMesh(std::string(obj_path));
 		ShapePtr visual_shape = std::shared_ptr<MeshShape>(new MeshShape(Eigen::Vector3d(0.01,0.01,0.01),mesh));
 		//bn = target_skel->getRootBodyNode();
@@ -497,7 +497,7 @@ BodyNode* SkeletonBuilder::MakePrismaticJointBody(
 		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 	if(obj_file!="None")
 	{
-		std::string obj_path = std::string(DPHY_DIR)+"/character/OBJ/"+obj_file;
+		std::string obj_path = std::string(MSS_ROOT_DIR)+"/character/OBJ/"+obj_file;
 		const aiScene* mesh = MeshShape::loadMesh(std::string(obj_path));
 		ShapePtr visual_shape = std::shared_ptr<MeshShape>(new MeshShape(Eigen::Vector3d(0.01,0.01,0.01),mesh));
 		//bn = target_skel->getRootBodyNode();
@@ -552,7 +552,7 @@ BodyNode* SkeletonBuilder::MakeWeldJointBody(
 		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 	if(obj_file!="None")
 	{
-		std::string obj_path = std::string(DPHY_DIR)+"/character/OBJ/"+obj_file;
+		std::string obj_path = std::string(MSS_ROOT_DIR)+"/character/OBJ/"+obj_file;
 		const aiScene* mesh = MeshShape::loadMesh(std::string(obj_path));
 		ShapePtr visual_shape = std::shared_ptr<MeshShape>(new MeshShape(Eigen::Vector3d(0.01,0.01,0.01),mesh));
 		//bn = target_skel->getRootBodyNode();

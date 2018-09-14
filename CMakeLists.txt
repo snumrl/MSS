@@ -12,7 +12,7 @@ add_compile_options(-std=gnu++11)
 add_compile_options(-Wdeprecated-declarations)
 
 add_compile_options(-DHAVE_CSTDDEF)
-add_definitions(-DDPHY_DIR="${CMAKE_HOME_DIRECTORY}")
+add_definitions(-DMSS_ROOT_DIR="${CMAKE_HOME_DIRECTORY}")
 set(CMAKE_MODULE_PATH "${CMAKE_HOME_DIRECTORY}/cmake_module")
 
 add_subdirectory( sim )

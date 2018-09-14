@@ -13,16 +13,16 @@ Environment(int control_Hz,int simulation_Hz)
 	
 	mWorld->getConstraintSolver()->setCollisionDetector(dart::collision::DARTCollisionDetector::create());
 	// this->mWorld->getConstraintSolver()->setLCPSolver(dart::common::make_unique<dart::constraint::PGSLCPSolver>(mWorld->getTimeStep()));
-	mGround = MSS::SkeletonBuilder::BuildFromFile(std::string(DPHY_DIR)+std::string("/character/ground.xml"));
+	mGround = MSS::SkeletonBuilder::BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/character/ground.xml"));
 	mWorld->addSkeleton(mGround);
-	mCharacter = new Character(mWorld,std::string(DPHY_DIR)+std::string("/character/lower_body_simple.xml"));
+	mCharacter = new Character(mWorld,std::string(MSS_ROOT_DIR)+std::string("/character/lower_body_simple.xml"));
 	mWorld->addSkeleton(mCharacter->GetSkeleton());
 	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode(0)));
-	mCharacter->LoadMuscles(std::string(DPHY_DIR)+std::string("/character/lower_body_simple_muscle.xml"));
+	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/lower_body_simple_muscle.xml"));
 	//Hard-coded parameter
-	mCharacter->LoadContactPoints(std::string(DPHY_DIR)+std::string("/character/txt/contact.txt"),0.035,mGround->getBodyNode(0));
+	mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact.txt"),0.035,mGround->getBodyNode(0));
 	
-	mCharacter->LoadMotionGraph(std::string(DPHY_DIR)+std::string("/motion/simple.graph"),std::vector<int>{0,0,0,0,0},1.0/(double)mControlHz);
+	mCharacter->LoadMotionGraph(std::string(MSS_ROOT_DIR)+std::string("/motion/simple.graph"),std::vector<int>{0,0,0,0,0},1.0/(double)mControlHz);
 	// mCharacter->AddInterestBodies(std::vector<std::string> {"FemurR","TibiaR","TalusR","ProximalPhalanx1R","CalcaneusR","Spine","Torso","Neck","Head","ShoulderR","ArmR","ForeArmR","HandR"});
 	// mCharacter->AddInterestBodies(std::vector<std::string> {"FemurL","TibiaL","TalusL","ProximalPhalanx1L","CalcaneusL","ShoulderL","ArmL","ForeArmL","HandL"});
 	mCharacter->AddInterestBodies(std::vector<std::string> {"FemurR","TibiaR","TalusR"});
@@ -521,9 +521,11 @@ Environment(int control_Hz,int simulation_Hz)
 		mCharacter->SetIKAction(new IKAction("WholeBodyIK",mCharacter->GetSkeleton(),target_body,p_upper,p_lower));
 	}
 
-	mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size()+mCharacter->GetIKAction()->GetDof()+mCharacter->GetKpActions().size());
+	// mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size()+mCharacter->GetIKAction()->GetDof()+mCharacter->GetKpActions().size());
+	mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size());
 	// mAction = Eigen::VectorXd::Zero(mCharacter->GetMuscles().size());
-	
+	auto kpkv = mCharacter->GetKpKv(300.0);
+	mCharacter->SetPDParameters(kpkv.first,kpkv.second);
 	mQP = new QP(mCharacter);
 	Reset(false);
 	
@@ -536,45 +538,37 @@ Step()
 	mCharacter->GetMotionGraph()->Step();
 	int sim_per_control = mSimulationHz/mControlHz;
 	int dof = mCharacter->GetSkeleton()->getNumDofs();
-	Eigen::VectorXd action_motion = mAction.head(mCharacter->GetMotionActions().size());
-	Eigen::VectorXd action_IK = mAction.segment(mCharacter->GetMotionActions().size(),mCharacter->GetIKAction()->GetDof());
-	Eigen::VectorXd action_kp = mAction.tail(mCharacter->GetKpActions().size());
-	auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(action_motion);
-
-	target.first = mCharacter->GetIKTargetPositions(target.first,action_IK);
-	auto kpkv = mCharacter->GetKpKv(300.0,action_kp);
-
+	auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction);
+	
 	//For Kinematic Moves
 	// mCharacter->GetSkeleton()->setPositions(target.first);
 	// mCharacter->GetSkeleton()->setVelocities(target.second);
 	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// return;
 	
-	mCharacter->SetPDParameters(kpkv.first,kpkv.second);
-	
 	for(int i =0;i<sim_per_control;i++)
 	{
 		//For Muscle Actuator
-		for(auto muscle : mCharacter->GetMuscles())
-			muscle->Update(mWorld->getTimeStep());
-		if(i%2==0)
-		{
-			Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(target.first,target.second);
-			mQP->Minimize(qdd_desired);
-		}
+		// for(auto muscle : mCharacter->GetMuscles())
+		// 	muscle->Update(mWorld->getTimeStep());
+		// if(i%2==0)
+		// {
+		// 	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(target.first,target.second);
+		// 	mQP->Minimize(qdd_desired);
+		// }
 
-		Eigen::VectorXd solution = mQP->GetSolution();
-		Eigen::VectorXd activation = solution.tail(mCharacter->GetMuscles().size());
-		int count = 0;
-		for(auto muscle : mCharacter->GetMuscles())
-		{
-			muscle->activation = activation[count++];
-			muscle->Update(mWorld->getTimeStep());
-			muscle->ApplyForceToBody();
-		}
+		// Eigen::VectorXd solution = mQP->GetSolution();
+		// Eigen::VectorXd activation = solution.tail(mCharacter->GetMuscles().size());
+		// int count = 0;
+		// for(auto muscle : mCharacter->GetMuscles())
+		// {
+		// 	muscle->activation = activation[count++];
+		// 	muscle->Update(mWorld->getTimeStep());
+		// 	muscle->ApplyForceToBody();
+		// }
 		//For Joint Torque
-		// Eigen::VectorXd tau = mCharacter->GetSPDForces(target.first,target.second);
-		// mCharacter->GetSkeleton()->setForces(tau);
+		Eigen::VectorXd tau = mCharacter->GetSPDForces(target.first,target.second);
+		mCharacter->GetSkeleton()->setForces(tau);
 		auto contact_points = mCharacter->GetContactPoints();
 		for(auto cp : contact_points)
 		{
