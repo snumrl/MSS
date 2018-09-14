@@ -1,13 +1,13 @@
-#MSS(Musculoskeletal System)
+# MSS(Musculoskeletal System)
 
-##Abstract
+## Abstract
 
 This codes implement basic simulation and control of **Musculoskeletal** system. Skeletal movements are driven by the actuation of the muscles, which are coordinated by their activation levels. Interfacing with python and pytorch, it is available to use Deep Reinforcement Learning(DRL) algorithm such as Proximal Policy Optimization(PPO).
 
-##How to install
+## How to install
 
 
-###Install boost with python3
+### Install boost with python3
 
 We strongly recommand that you install boost libraries from the **source code**
 (not apt-get, etc...).
@@ -39,18 +39,18 @@ Lib
 * `/usr/local/lib/libboost_numpy3.so`
 
 
-###Install DART 7.0
+### Install DART 7.0
 
 Please refer to http://dartsim.github.io/ (Install version 7.0)
 
 
-###Install TinyXML, Eigen, OpenGL, assimp, Python3.6, virtualenv, ipython3
+### Install TinyXML, Eigen, OpenGL, assimp, Python3.6, virtualenv, ipython3
 
 ```bash
-sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev python3.6 virtualenv ipython3
+sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev python3-dev numpy3-dev virtualenv ipython3
 ```
 
-###Install PIP things
+### Install PIP things
 
 You should first activate virtualenv.
 - pytorch
@@ -66,7 +66,7 @@ pip3 install torchvision
 pip3 install numpy
 ```
 
-##How to compile and run
+## How to compile and run
 
 ```bash
 mkdir build
