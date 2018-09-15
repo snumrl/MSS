@@ -79,7 +79,7 @@ class Regressor(object):
 				b = torch.tensor(b)
 				
 				a_inference = self.model(X)
-				qdd = torch.einsum('ijk,ik,ij->ij',(A,a_inference,b))
+				qdd = torch.einsum('ijk,ik->ij',(A,a_inference)) + b
 				loss = 0.01*((a_inference).pow(2)).mean() + (((qdd-qdd_des)/self.qdd_normalize).pow(2).mean())
 
 				self.loss = loss.data.tolist()
