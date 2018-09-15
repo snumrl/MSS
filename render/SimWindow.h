@@ -15,7 +15,7 @@ class SimWindow : public GUI::GLUTWindow
 {
 public:
 	SimWindow();
-	SimWindow(const std::string& nn_path);
+	SimWindow(const std::string& nn_path,const std::string& muscle_nn_path);
 	
 protected:
 

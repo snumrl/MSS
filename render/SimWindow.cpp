@@ -13,12 +13,12 @@ SimWindow::
 SimWindow()
 	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mActionNum(0),mRandomAction(false)
 {
-	mWorld = new MSS::Environment(30,600);
+	mWorld = new MSS::Environment(600,600);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
 }
 SimWindow::
-SimWindow(const std::string& nn_path)
+SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)
 	:SimWindow()
 {
 	mIsNNLoaded = true;
@@ -46,7 +46,7 @@ SimWindow(const std::string& nn_path)
 	
 	p::object load = nn_module.attr("load");
 	load(nn_path);
-	
+	mWorld->LoadMuscleNN(muscle_nn_path);
 }
 
 void
@@ -77,18 +77,28 @@ Display()
 		dynamic_cast<const BoxShape*>(ground->getBodyNode(0)->getShapeNodesWith<dart::dynamics::VisualAspect>()[0]->getShape().get())->getSize()[1]*0.5;
 	glColor3f(0,0,0);
 	glLineWidth(1.0);
+	Eigen::Vector3d com = character->GetSkeleton()->getCOM();
+	double ox,oz;
+	ox = std::fmod(com[0],0.5);
+	oz = std::fmod(com[2],0.5);
+	ox = com[0]-ox;
+	oz = com[2]-oz;
+	
+	glPushMatrix();
+	glTranslatef(ox,0,oz);
 	glBegin(GL_LINES);
-	for(float x =-10.0;x<=10.0001;x+=0.5)
+	for(float x =-20.0;x<=20.0001;x+=0.5)
 	{
-		glVertex3f(x,y,-10.0);
-		glVertex3f(x,y,100.0);
+		glVertex3f(x,y,-20.0);
+		glVertex3f(x,y,20.0);
 	}
-	for(float x =-10.0;x<=100.0001;x+=0.5)
+	for(float x =-20.0;x<=20.0001;x+=0.5)
 	{
-		glVertex3f(-10.0,y,x);
-		glVertex3f(10.0,y,x);
+		glVertex3f(-20.0,y,x);
+		glVertex3f(20.0,y,x);
 	}
 	glEnd();
+	glPopMatrix();
 	{
 		GUI::DrawSkeleton(character->GetSkeleton());
 		GUI::DrawMuscles(character->GetMuscles());

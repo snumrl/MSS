@@ -13,11 +13,15 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 
 find_package(DART REQUIRED COMPONENTS optimizer-ipopt CONFIG)
 find_package(TinyXML REQUIRED)
+find_package(PythonLibs REQUIRED)
+find_package(Boost 1.66.0 COMPONENTS filesystem python3 numpy3)
 
 include_directories(${DART_INCLUDE_DIRS})
 include_directories(${TinyXML_INCLUDE_DIRS})
+include_directories(${PYTHON_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIRS})
 
 file(GLOB srcs "*.h" "*.cpp")
 
 add_library(sim ${srcs})
-target_link_libraries(sim ${DART_LIBRARIES} ${TinyXML_LIBRARIES} quadprog)
+target_link_libraries(sim ${DART_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${TinyXML_LIBRARIES} quadprog)

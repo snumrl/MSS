@@ -4,13 +4,15 @@
 #include <iostream>
 
 EnvironmentPython::
-EnvironmentPython(int num_slaves)
+EnvironmentPython(int num_slaves,std::string muscle_nn_path)
 	:mNumSlaves(num_slaves)
 {
 	dart::math::seedRand();
 	omp_set_num_threads(num_slaves);
-	for(int i =0;i<mNumSlaves;i++)
+	for(int i =0;i<mNumSlaves;i++){
 		mSlaves.push_back(new MSS::Environment(30,600));
+		mSlaves[i]->LoadMuscleNN(muscle_nn_path);
+	}
 	mNumState = mSlaves[0]->GetNumState();
 	mNumAction = mSlaves[0]->GetNumAction();
 }
@@ -136,12 +138,14 @@ BOOST_PYTHON_MODULE(pymss)
 	np::initialize();
 	class_<Preprocess>("Preprocess",init<int>())
 		.def("GeneratePairs",&Preprocess::GeneratePairs)
-		.def("GetNumInput",&Preprocess::GetNumInput)
-		.def("GetNumOutput",&Preprocess::GetNumOutput)
+		.def("GetNumDofs",&Preprocess::GetNumDofs)
+		.def("GetNumMuscles",&Preprocess::GetNumMuscles)
+		.def("GetIndexOffset",&Preprocess::GetIndexOffset)
 		.def("GetNormalizer",&Preprocess::GetNormalizer)
+		.def("GetLinearizedDynamics",&Preprocess::GetLinearizedDynamics)
 		.def("Get",&Preprocess::Get);
 
-	class_<EnvironmentPython>("Env",init<int>())
+	class_<EnvironmentPython>("Env",init<int,std::string>())
 		.def("GetNumState",&EnvironmentPython::GetNumState)
 		.def("GetNumAction",&EnvironmentPython::GetNumAction)
 		.def("Step",&EnvironmentPython::Step)

@@ -6,8 +6,9 @@ namespace MSS
 
 Environment::
 Environment(int control_Hz,int simulation_Hz)
-	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1)
+	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1),mIsNNLoaded(false)
 {
+
 	mWorld->setGravity(Eigen::Vector3d(0,-9.81,0));
 	mWorld->setTimeStep(1.0/(double)mSimulationHz);
 	
@@ -532,25 +533,93 @@ Environment(int control_Hz,int simulation_Hz)
 }
 void
 Environment::
+LoadMuscleNN(const std::string& path)
+{
+	mIsNNLoaded = true;
+	mm = p::import("__main__");
+	mns = mm.attr("__dict__");
+	sys_module = p::import("sys");
+	p::str module_dir = (std::string(MSS_ROOT_DIR)+"/pymss").c_str();
+	sys_module.attr("path").attr("insert")(1, module_dir);
+	p::exec("import torch",mns);
+	p::exec("import torch.nn as nn",mns);
+	p::exec("import torch.optim as optim",mns);
+	p::exec("import torch.nn.functional as F",mns);
+	p::exec("import torchvision.transforms as T",mns);
+	p::exec("import numpy as np",mns);
+	p::exec("from Model import *",mns);
+
+	p::str str = ("num_input = "+std::to_string(GetState().rows()+mCharacter->GetSkeleton()->getNumDofs())).c_str();
+	p::exec(str,mns);
+	str = ("num_output = "+std::to_string(mCharacter->GetMuscles().size())).c_str();
+	p::exec(str,mns);
+
+	nn_module = p::eval("MuscleNN(num_input,num_output)",mns);
+	p::object load = nn_module.attr("load");
+	load(path);
+}
+
+Eigen::VectorXd
+Environment::
+GetActivationFromNN()
+{
+	if(!mIsNNLoaded)
+		return Eigen::VectorXd::Zero(mCharacter->GetMuscles().size());
+	p::object forward = nn_module.attr("get_activation");
+	auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction);
+	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(target.first,target.second);
+	
+	Eigen::VectorXd s = GetState();	
+	Eigen::VectorXd input(s.rows()+qdd_desired.rows());
+	input<<s,qdd_desired;
+	p::tuple shape = p::make_tuple(input.rows());
+	np::dtype dtype = np::dtype::get_builtin<float>();
+	np::ndarray input_np = np::empty(shape,dtype);
+	
+	float* dest = reinterpret_cast<float*>(input_np.get_data());
+	for(int i =0;i<input.rows();i++)
+		dest[i] = input[i];
+	
+	p::object temp = forward(input_np);
+	np::ndarray activation_np = np::from_object(temp);
+
+	float* srcs = reinterpret_cast<float*>(activation_np.get_data());
+	Eigen::VectorXd activation(mCharacter->GetMuscles().size());
+	for(int i=0;i<activation.rows();i++)
+		activation[i] = srcs[i];
+
+	return activation;
+}
+void
+Environment::
 Step()
 {
 	mTimeElapsed += 1.0 / (double)mControlHz;
 	mCharacter->GetMotionGraph()->Step();
 	int sim_per_control = mSimulationHz/mControlHz;
 	int dof = mCharacter->GetSkeleton()->getNumDofs();
+	mAction.setZero();
 	auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction);
 	
 	//For Kinematic Moves
-	// mCharacter->GetSkeleton()->setPositions(target.first);
-	// mCharacter->GetSkeleton()->setVelocities(target.second);
-	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
-	// return;
+	Eigen::VectorXd activation = GetActivationFromNN();
+	int count = 0;
+	for(auto muscle : mCharacter->GetMuscles())
+	{
+		muscle->activation = activation[count++];
+		muscle->Update(mWorld->getTimeStep());
+	}
+	std::cout<<activation.transpose()<<std::endl;
+	mCharacter->GetSkeleton()->setPositions(target.first);
+	mCharacter->GetSkeleton()->setVelocities(target.second);
+	mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+	return;
 	
 	for(int i =0;i<sim_per_control;i++)
 	{
 		//For Muscle Actuator
-		// for(auto muscle : mCharacter->GetMuscles())
-		// 	muscle->Update(mWorld->getTimeStep());
+		for(auto muscle : mCharacter->GetMuscles())
+			muscle->Update(mWorld->getTimeStep());
 		// if(i%2==0)
 		// {
 		// 	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(target.first,target.second);
@@ -559,16 +628,19 @@ Step()
 
 		// Eigen::VectorXd solution = mQP->GetSolution();
 		// Eigen::VectorXd activation = solution.tail(mCharacter->GetMuscles().size());
-		// int count = 0;
-		// for(auto muscle : mCharacter->GetMuscles())
-		// {
-		// 	muscle->activation = activation[count++];
-		// 	muscle->Update(mWorld->getTimeStep());
-		// 	muscle->ApplyForceToBody();
-		// }
+		Eigen::VectorXd activation = GetActivationFromNN();
+		std::cout<<activation.transpose()<<std::endl;
+		int count = 0;
+		for(auto muscle : mCharacter->GetMuscles())
+		{
+			muscle->activation = activation[count++];
+			muscle->Update(mWorld->getTimeStep());
+			muscle->ApplyForceToBody();
+		}
 		//For Joint Torque
-		Eigen::VectorXd tau = mCharacter->GetSPDForces(target.first,target.second);
-		mCharacter->GetSkeleton()->setForces(tau);
+		// Eigen::VectorXd tau = mCharacter->GetSPDForces(target.first,target.second);
+		// mCharacter->GetSkeleton()->setForces(tau);
+		
 		auto contact_points = mCharacter->GetContactPoints();
 		for(auto cp : contact_points)
 		{

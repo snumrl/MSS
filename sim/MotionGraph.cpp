@@ -143,6 +143,7 @@ Step()
 		mRtarget = R_target;
 		mRy = Ry;
 		mCurrentRootOffset.segment<3>(3) = mCurrentRootOffset.segment<3>(3) + expMapRot(mCurrentRootOffset.segment<3>(0))*(m_f.segment<3>(3)-m_next_0.segment<3>(3));
+		mCurrentRootOffset[4]=0.0;
 		mCurrentRootOffset.segment<3>(0) = logMap(Ry);
 		
 	}
@@ -164,7 +165,8 @@ GetMotion()
 	}
 	Eigen::Matrix3d R_t = expMapRot(mCurrentRootOffset.segment<3>(0))*expMapRot(m_t.segment<3>(0));
 	m_t.segment<3>(0) = logMap(R_t);
-	m_t.segment<3>(3) = mCurrentRootOffset.segment<3>(3) + expMapRot(mCurrentRootOffset.segment<3>(0))*(m_t.segment<3>(3)-mBVHs[mSequences[mCurrentSequence]]->GetP0());
+	// m_t.segment<3>(3) = mCurrentRootOffset.segment<3>(3) + expMapRot(mCurrentRootOffset.segment<3>(0))*(m_t.segment<3>(3)-mBVHs[mSequences[mCurrentSequence]]->GetP0());
+	m_t.segment<3>(3) = mCurrentRootOffset.segment<3>(3) + mRy*(m_t.segment<3>(3)-mBVHs[mSequences[mCurrentSequence]]->GetP0());
 	return m_t;
 }
 Eigen::VectorXd

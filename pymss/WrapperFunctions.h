@@ -11,6 +11,7 @@ namespace np = boost::python::numpy;
 np::ndarray toNumPyArray(const std::vector<float>& val);
 np::ndarray toNumPyArray(const std::vector<double>& val);
 np::ndarray toNumPyArray(const std::vector<Eigen::VectorXd>& val);
+np::ndarray toNumPyArray(const std::vector<Eigen::MatrixXd>& val);
 np::ndarray toNumPyArray(const std::vector<std::vector<float>>& val);
 np::ndarray toNumPyArray(const std::vector<std::vector<double>>& val);
 np::ndarray toNumPyArray(const std::vector<bool>& val);

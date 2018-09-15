@@ -11,7 +11,7 @@
 class EnvironmentPython
 {
 public:
-	EnvironmentPython(int num_slaves);
+	EnvironmentPython(int num_slaves,std::string muscle_nn_path);
 	//For general properties
 	int GetNumState();
 	int GetNumAction();

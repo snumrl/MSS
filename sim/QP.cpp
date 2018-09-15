@@ -56,6 +56,8 @@ QP(MSS::Character* character)
 
 	mM_minus_JtA.resize(mNumDofs,mNumDofs+mNumMuscles);
 	mJtp_minus_c.resize(mNumDofs);	
+	mJtA = Eigen::MatrixXd::Zero(mNumDofs,mNumMuscles);
+	mJtp = Eigen::VectorXd::Zero(mNumDofs);
 	mSolution.setZero();
 	mQddDesired.setZero();
 
@@ -104,6 +106,18 @@ Initialize()
 	for(int i = 0;i<mNumMuscles;i++)
 		e[i+mNumMuscles] = 1.0;
 }
+Eigen::MatrixXd
+QP::
+GetJtA()
+{
+	return mJtA;
+}
+Eigen::VectorXd
+QP::
+GetJtp_minus_c()
+{
+	return mJtp_minus_c;
+}
 void
 QP::
 Update(const Eigen::VectorXd& qdd_desired)
@@ -112,23 +126,24 @@ Update(const Eigen::VectorXd& qdd_desired)
 
 	auto& skel = mCharacter->GetSkeleton();
 	auto& muscles = mCharacter->GetMuscles();
-	Eigen::MatrixXd JtA = Eigen::MatrixXd::Zero(mNumDofs,mNumMuscles);
-	Eigen::VectorXd JtP = Eigen::VectorXd::Zero(mNumDofs);
+
+	mJtA.setZero();
+	mJtp.setZero();
 	for(int i =0;i<mNumMuscles;i++){
 		mJt[i] = muscles[i]->GetJacobianTranspose();
 		auto Ap_pair = muscles[i]->GetForceJacobianAndPassive();
 		mA[i] = Ap_pair.first;
 		mP[i] = Ap_pair.second;
-		JtA.block(0,i,mNumDofs,1) = mJt[i]*mA[i];
-		JtP += mJt[i]*mP[i];
+		mJtA.block(0,i,mNumDofs,1) = mJt[i]*mA[i];
+		mJtp += mJt[i]*mP[i];
 	}
 
 	mM_minus_JtA.setZero();
 	mM_minus_JtA.block(0,0,mNumDofs,mNumDofs)= mCharacter->GetSkeleton()->getMassMatrix();
 
-	mM_minus_JtA.block(0,mNumDofs,mNumDofs,mNumMuscles)= -JtA;
+	mM_minus_JtA.block(0,mNumDofs,mNumDofs,mNumMuscles)= -mJtA;
 
-	mJtp_minus_c = JtP - (skel->getCoriolisAndGravityForces());
+	mJtp_minus_c = mJtp - (skel->getCoriolisAndGravityForces());
 
 	//c
 	for(int i = 0;i<mNumDofs;i++)

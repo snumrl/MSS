@@ -13,14 +13,18 @@ public:
 	QP(MSS::Character* Character);
 	void Minimize(const Eigen::VectorXd& qdd_desired);
 	Eigen::VectorXd GetSolution(){return mSolution;}
+	void Update(const Eigen::VectorXd& qdd_desired);
+	Eigen::MatrixXd GetJtA();
+	Eigen::VectorXd GetJtp_minus_c();
 private:
 	void Initialize();
-	void Update(const Eigen::VectorXd& qdd_desired);
 	MSS::Character* mCharacter;
 	int mNumDofs,mNumMuscles;
 	std::vector<Eigen::MatrixXd> mJt,mA;
 	std::vector<Eigen::VectorXd> mP;
 
+	Eigen::MatrixXd mJtA;
+	Eigen::VectorXd mJtp;
 	Eigen::MatrixXd mM_minus_JtA;
 	Eigen::VectorXd mJtp_minus_c;
 

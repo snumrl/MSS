@@ -49,9 +49,9 @@ class ReplayBuffer(object):
 		self.buffer.clear()
 
 class PPO(object):
-	def __init__(self,num_slaves):
+	def __init__(self,num_slaves,muscle_nn_path):
 		np.random.seed(seed = int(time.time()))
-		self.env = Env(num_slaves)
+		self.env = Env(num_slaves,muscle_nn_path)
 		self.num_slaves = num_slaves
 		self.num_state = self.env.GetNumState()
 		self.num_action = self.env.GetNumAction()
@@ -262,11 +262,18 @@ def Plot(y,title,num_fig=1,ylim=True):
 import argparse
 
 if __name__=="__main__":
-	ppo = PPO(16)
+	
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m','--model',help='actor model directory')
+	parser.add_argument('-a','--muscle',help='muscle nn model directory')
+
 	args =parser.parse_args()
+	if args.muscle is None:
+		print('You should put muscle nn.')
+		exit()
+	ppo = PPO(16,args.muscle)
+	
 	if args.model is not None:
 		ppo.LoadModel(args.model)
 	rewards = []

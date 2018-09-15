@@ -31,7 +31,7 @@ int main(int argc,char** argv)
 	if(argc==1)
 		simwindow = new SimWindow();
 	else
-		simwindow = new SimWindow(argv[1]);
+		simwindow = new SimWindow(argv[1],argv[2]);
 
 	glutInit(&argc, argv);
 	simwindow->InitWindow(1920,1080,"Render");

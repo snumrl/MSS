@@ -204,7 +204,8 @@ GetSPDAccelerations(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_d
 
 	Eigen::VectorXd tau = skel->getInvMassMatrix()*(p_diff + v_diff - dt*mKv.cwiseProduct(qddot)-cg);
 	// tau.head<6>().setZero();
-	
+	for(int i =0;i<tau.rows();i++)
+		tau[i] = dart::math::clip(tau[i],-1000.0,1000.0);
 	return tau;
 }
 Eigen::VectorXd

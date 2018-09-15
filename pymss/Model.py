@@ -267,8 +267,8 @@ class MuscleNN(nn.Module):
 		
 		self.mean_input = Container(self.num_input)
 		self.std_input = Container(self.num_input)
-		self.mean_output = Container(self.num_output)
-		self.std_output = Container(self.num_output)
+		# self.mean_output = Container(self.num_output)
+		# self.std_output = Container(self.num_output)
 
 		torch.nn.init.xavier_uniform_(self.fc1.weight)
 		torch.nn.init.xavier_uniform_(self.fc2.weight)
@@ -278,25 +278,29 @@ class MuscleNN(nn.Module):
 		self.fc2.bias.data.zero_()
 		self.fc3.bias.data.zero_()
 
-	def SetNormalizer(self,mi,si,mo,so):		
+	def SetNormalizer(self,mi,si):		
 		for x in mi:
 			self.mean_input.Push(x.tolist())
 		for x in si:
 			self.std_input.Push(x.tolist())
-		for x in mo:
-			self.mean_output.Push(x.tolist())
-		for x in so:
-			self.std_output.Push(x.tolist())
+		# for x in mo:
+			# self.mean_output.Push(x.tolist())
+		# for x in so:
+			# self.std_output.Push(x.tolist())
 
 	def forward(self,x):
 		x = (x - self.mean_input.container)/self.std_input.container
 
 		out = F.relu(self.fc1(x))
 		out = F.relu(self.fc2(out))
-		out = self.fc3(out)
+		out = F.tanh(self.fc3(out))
 
-		out = (out - self.mean_output.container)/self.std_output.container
+		# out = (out - self.mean_output.container)/self.std_output.container
+		out = 0.5*(out+1)
 		return out
+	def get_activation(self,x):
+		act = self.forward(torch.tensor(x.reshape(1,-1)))
+		return act.detach().numpy()
 
 	def load(self,path):
 		print('load nn {}'.format(path))

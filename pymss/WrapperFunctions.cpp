@@ -50,6 +50,25 @@ np::ndarray toNumPyArray(const std::vector<Eigen::VectorXd>& val)
 
 	return array;	
 }
+np::ndarray toNumPyArray(const std::vector<Eigen::MatrixXd>& val)
+{
+	int n = val.size();
+	int m = val[0].rows();
+	int l = val[0].cols();
+
+	p::tuple shape = p::make_tuple(n,m,l);
+	np::dtype dtype = np::dtype::get_builtin<float>();
+	np::ndarray array = np::empty(shape,dtype);
+
+	float* dest = reinterpret_cast<float*>(array.get_data());
+	int index = 0;
+	for(int i=0;i<n;i++)
+		for(int j=0;j<m;j++)
+			for(int k=0;k<l;k++)
+				dest[index++] = val[i](j,k);
+
+	return array;
+}
 np::ndarray toNumPyArray(const std::vector<std::vector<float>>& val)
 {
 	int n =val.size();
