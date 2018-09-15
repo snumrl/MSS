@@ -6,7 +6,7 @@ add_compile_options(-std=gnu++11)
 add_compile_options(-Wdeprecated-declarations)
 
 find_package(Boost 1.66.0 COMPONENTS filesystem python3 numpy3)
-find_package(DART REQUIRED COMPONENTS gui optimizer-ipopt CONFIG)
+find_package(DART REQUIRED COMPONENTS gui CONFIG)
 find_package(PythonLibs REQUIRED)
 
 link_directories(../sim/)

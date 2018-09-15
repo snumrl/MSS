@@ -11,7 +11,7 @@ SET(CMAKE_BUILD_TYPE Release CACHE STRING
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 
-find_package(DART REQUIRED COMPONENTS optimizer-ipopt CONFIG)
+find_package(DART REQUIRED COMPONENTS CONFIG)
 find_package(TinyXML REQUIRED)
 find_package(PythonLibs REQUIRED)
 find_package(Boost 1.66.0 COMPONENTS filesystem python3 numpy3)

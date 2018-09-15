@@ -11,7 +11,7 @@ SET(CMAKE_BUILD_TYPE Release CACHE STRING
 
 link_directories(../sim/)
 include_directories(../sim/)
-find_package(DART REQUIRED COMPONENTS gui optimizer-ipopt CONFIG)
+find_package(DART REQUIRED COMPONENTS gui CONFIG)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(PythonLibs REQUIRED)
