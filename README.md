@@ -6,6 +6,11 @@ This codes implement basic simulation and control of **Musculoskeletal** system.
 
 ## How to install
 
+### Install TinyXML, Eigen, OpenGL, assimp, Python3, etc...
+
+```bash
+sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev libpython3-dev python3-tk python3-numpy virtualenv ipython3 cmake-curses-gui
+```
 
 ### Install boost with python3
 
@@ -19,7 +24,7 @@ We strongly recommand that you install boost libraries from the **source code**
 ```bash
 cd /path/to/boost_1_xx/
 ./bootstrap.sh --with-python=python3
-sudo ./b2 --with-python --with-filesystem install
+sudo ./b2 --with-python --with-filesystem --with-system --with-regex install
 ```
 
 - Check yourself that the libraries are installed well in your directory `/usr/local/`. (or `/usr/`)
@@ -44,26 +49,26 @@ Lib
 Please refer to http://dartsim.github.io/ (Install version 7.0)
 
 
-### Install TinyXML, Eigen, OpenGL, assimp, Python3.6, virtualenv, ipython3
 
-```bash
-sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev libpython3-dev python3-numpy virtualenv ipython3
-```
 
 ### Install PIP things
 
 You should first activate virtualenv.
-- pytorch
+```bash
+virtualenv /path/to/venv --python=python3
+source /path/to/venv/bin/activate
+```
+- pytorch(https://pytorch.org/)
 
 ```bash
-pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl 
+pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp35-cp35m-linux_x86_64.whl 
 pip3 install torchvision
 ```
 
-- numpy
+- numpy, matplotlib
 
 ```bash
-pip3 install numpy
+pip3 install numpy matplotlib ipython
 ```
 
 ## How to compile and run
@@ -74,8 +79,6 @@ cd build
 cmake ..
 make -j8
 ```
-
-
 
 - Run PPO
 ```bash
