@@ -47,7 +47,7 @@ Please refer to http://dartsim.github.io/ (Install version 7.0)
 ### Install TinyXML, Eigen, OpenGL, assimp, Python3.6, virtualenv, ipython3
 
 ```bash
-sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev python3-dev numpy3-dev virtualenv ipython3
+sudo apt-get install libtinyxml-dev libeigen3-dev libxi-dev libxmu-dev freeglut3-dev libassimp-dev libpython3-dev python3-numpy virtualenv ipython3
 ```
 
 ### Install PIP things
