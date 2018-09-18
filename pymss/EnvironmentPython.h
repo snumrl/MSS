@@ -1,6 +1,5 @@
 #ifndef __MSS_ENVIRONMENT_PYTHON_H__
 #define __MSS_ENVIRONMENT_PYTHON_H__
-#include "Preprocess.h"
 #include "Environment.h"
 #include <vector>
 #include <string>
@@ -11,13 +10,17 @@
 class EnvironmentPython
 {
 public:
-	EnvironmentPython(int num_slaves,std::string muscle_nn_path);
+	EnvironmentPython(int num_slaves);
 	//For general properties
 	int GetNumState();
 	int GetNumAction();
+	int GetNumDofs();
+	int GetNumMuscles();
+	int GetSimulationHz(){return mSlaves[0]->GetSimulationHz();};
+	int GetControlHz(){return mSlaves[0]->GetControlHz();};
 
 	//For each slave
-	void Step(int id);
+	void Step(const Eigen::VectorXd& activation,int id);
 	void Reset(bool RSI,int id);
 	bool IsTerminalState(int id);
 	np::ndarray GetState(int id);
@@ -25,15 +28,16 @@ public:
 	double GetReward(int id);
 
 	//For all slaves
-	void Steps();
+	np::ndarray ComputeActivationsQP();
+	void Steps(np::ndarray np_array,p::list terminated);
 	void Resets(bool RSI);
 	np::ndarray IsTerminalStates();
 	np::ndarray GetStates();
 	void SetActions(np::ndarray np_array);
 	np::ndarray GetRewards();
+	p::list GetTuples();
 private:
 	std::vector<MSS::Environment*> mSlaves;
-
 	int mNumSlaves;
 	int mNumState;
 	int mNumAction;

@@ -75,7 +75,52 @@ DrawMuscles(const std::vector<Muscle*>& muscles)
 	}
 	glEnable(GL_LIGHTING);
 }
+void
+GUI::
+DrawActivation(const Eigen::MatrixXd& activation)
+{
+	// Eigen::MatrixXi temp(activation.rows(),activation.cols());
+	// for(int i =0;i<activation.rows();i++)
+	// {
+	// 	for(int j =0;j<activation.cols();j++)
+	// 	{
+	// 		temp(i,j) = activation(i,j)*256;
+	// 	}	
+	// }
+	glDisable(GL_LIGHTING);
+	int w =glutGet(GLUT_WINDOW_WIDTH);
+	int h =glutGet(GLUT_WINDOW_HEIGHT);
 
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0,0,w/3,w/3);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_DEPTH_TEST);
+	glClearColor(1.0, 1.0, 1, 1);
+	gluOrtho2D(0.0,1.0,0.0,1.0);
+	glColor3f(1,1,1);
+	glBegin(GL_QUADS);
+	glVertex2f(0,0);
+	glVertex2f(0,1);
+	glVertex2f(1,1);
+	glVertex2f(1,0);
+	glEnd();
+	glPointSize(10.0);
+	glBegin(GL_POINTS);
+	int n = activation.rows(),m = activation.cols();
+	for(int i =0;i<n;i++)
+	{
+		for(int j =0;j<m;j++)
+		{
+			glColor3f(activation(i,j),activation(i,j),activation(i,j));
+			glVertex2f(((float)i+0.5)/(float)n,(float)j/(float)m);
+		}	
+	}
+	glEnd();
+	glViewport(0,0,w,h);
+	glEnable(GL_LIGHTING);
+}
 void
 GUI::
 DrawShape(const Eigen::Isometry3d& T,

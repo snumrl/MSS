@@ -11,12 +11,21 @@ namespace np = boost::python::numpy;
 namespace MSS
 {
 class Character;
+struct Tuple
+{
+	Eigen::VectorXd s;
+	Eigen::VectorXd qdd_des;
+	Eigen::VectorXd activation;
+	Eigen::MatrixXd A;
+	Eigen::VectorXd b;
+};
 class Environment
 {
 public:
 	Environment(int control_Hz=30,int simulation_Hz=900);
 	
-	void Step();
+	Eigen::VectorXd ComputeActivationQP();	
+	void Step(const Eigen::VectorXd& activation);
 	void Reset(bool random=true);
 	bool IsTerminalState();
 
@@ -28,14 +37,13 @@ public:
 	int GetNumState(){return GetState().rows();};
 	int GetNumAction(){return mAction.rows();};
 
-	//For Muscle Regressor
-	void LoadMuscleNN(const std::string& path);
-	Eigen::VectorXd GetActivationFromNN();
-
 	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};
 	Character* GetCharacter(){return mCharacter;};
 	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}	
 	QP*	GetQP(){return mQP;}
+	int GetControlHz(){return mControlHz;};
+	int GetSimulationHz(){return mSimulationHz;};
+	std::vector<Tuple>& GetTuples(){return mTuples;};
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;
@@ -49,11 +57,12 @@ public:
 	Eigen::VectorXd mAction;
 
 	QP*	mQP;
+	std::pair<Eigen::VectorXd,Eigen::VectorXd> mTarget;
+	Eigen::VectorXd mQddDesired;
 
-	//For Muscle Regressor
-	bool mIsNNLoaded;
-	p::object mm,mns,sys_module,nn_module;
+	std::vector<Tuple> mTuples;
 };
+
 };
 
 

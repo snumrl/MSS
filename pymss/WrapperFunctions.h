@@ -19,5 +19,7 @@ np::ndarray toNumPyArray(const Eigen::VectorXd& vec);
 np::ndarray toNumPyArray(const Eigen::MatrixXd& matrix);
 np::ndarray toNumPyArray(const Eigen::Isometry3d& T);
 Eigen::VectorXd toEigenVector(const np::ndarray& array);
+std::vector<Eigen::VectorXd> toEigenVectorVector(const np::ndarray& array);
 Eigen::MatrixXd toEigenMatrix(const np::ndarray& array);
+std::vector<bool> toStdVector(const p::list& list);
 #endif

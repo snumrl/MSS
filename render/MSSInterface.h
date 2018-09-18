@@ -13,7 +13,7 @@ void DrawSkeleton(
 	const Eigen::Vector3d& color=Eigen::Vector3d(0.8,0.8,0.8));
 
 void DrawMuscles(const std::vector<MSS::Muscle*>& muscles);
-
+void DrawActivation(const Eigen::MatrixXd& activation);
 void DrawShape(const Eigen::Isometry3d& T,
 	const dart::dynamics::Shape* shape,
 	const Eigen::Vector3d& color);

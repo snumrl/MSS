@@ -4,14 +4,13 @@
 #include <iostream>
 
 EnvironmentPython::
-EnvironmentPython(int num_slaves,std::string muscle_nn_path)
+EnvironmentPython(int num_slaves)
 	:mNumSlaves(num_slaves)
 {
 	dart::math::seedRand();
 	omp_set_num_threads(num_slaves);
 	for(int i =0;i<mNumSlaves;i++){
 		mSlaves.push_back(new MSS::Environment(30,600));
-		mSlaves[i]->LoadMuscleNN(muscle_nn_path);
 	}
 	mNumState = mSlaves[0]->GetNumState();
 	mNumAction = mSlaves[0]->GetNumAction();
@@ -29,12 +28,24 @@ GetNumAction()
 {
 	return mNumAction;
 }
+int
+EnvironmentPython::
+GetNumDofs()
+{
+	return mSlaves[0]->GetCharacter()->GetSkeleton()->getNumDofs();
+}
+int
+EnvironmentPython::
+GetNumMuscles()
+{
+	return mSlaves[0]->GetCharacter()->GetMuscles().size();
+}
 //For each slave
 void 
 EnvironmentPython::
-Step(int id)
+Step(const Eigen::VectorXd& activation,int id)
 {
-	mSlaves[id]->Step();
+	mSlaves[id]->Step(activation);
 }
 void 
 EnvironmentPython::
@@ -68,15 +79,29 @@ GetReward(int id)
 }
 
 //For all slaves
-
-void
+np::ndarray 
 EnvironmentPython::
-Steps()
+ComputeActivationsQP()
 {
+	std::vector<Eigen::VectorXd> activations(mNumSlaves);
 #pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
 	{
-		this->Step(id);
+		activations[id] = mSlaves[id]->ComputeActivationQP();
+	}
+	return toNumPyArray(activations);
+}
+void
+EnvironmentPython::
+Steps(np::ndarray np_array,p::list _terminated)
+{
+	std::vector<Eigen::VectorXd> activations =toEigenVectorVector(np_array);
+	auto terminated = toStdVector(_terminated);
+#pragma omp parallel for
+	for (int id = 0; id < mNumSlaves; ++id)
+	{
+		if(terminated[id]==false)
+			this->Step(activations[id],id);
 	}
 }
 void
@@ -116,8 +141,9 @@ SetActions(np::ndarray np_array)
 {
 	Eigen::MatrixXd action = toEigenMatrix(np_array);
 
-	for (int id = 0; id < mNumSlaves; ++id)
+	for (int id = 0; id < mNumSlaves; ++id){
 		mSlaves[id]->SetAction(action.row(id).transpose());
+	}
 }
 np::ndarray
 EnvironmentPython::
@@ -129,35 +155,56 @@ GetRewards()
 
 	return toNumPyArray(rewards);
 }
+p::list
+EnvironmentPython::
+GetTuples()
+{
+	p::list all;
+// #pragma omp parallel for
+	for (int id = 0; id < mNumSlaves; ++id)
+	{
+		auto& tps = mSlaves[id]->GetTuples();
+		for(int j=0;j<tps.size();j++)
+		{
+			p::list t;
+			t.append(toNumPyArray(tps[j].s));
+			t.append(toNumPyArray(tps[j].qdd_des));
+			t.append(toNumPyArray(tps[j].activation));
+			t.append(toNumPyArray(tps[j].A));
+			t.append(toNumPyArray(tps[j].b));
+			all.append(t);
+		}
+		tps.clear();
+	}
 
+	return all;
+}
 using namespace boost::python;
 
 BOOST_PYTHON_MODULE(pymss)
 {
 	Py_Initialize();
 	np::initialize();
-	class_<Preprocess>("Preprocess",init<int>())
-		.def("GeneratePairs",&Preprocess::GeneratePairs)
-		.def("GetNumDofs",&Preprocess::GetNumDofs)
-		.def("GetNumMuscles",&Preprocess::GetNumMuscles)
-		.def("GetIndexOffset",&Preprocess::GetIndexOffset)
-		.def("GetNormalizer",&Preprocess::GetNormalizer)
-		.def("GetLinearizedDynamics",&Preprocess::GetLinearizedDynamics)
-		.def("Get",&Preprocess::Get);
 
-	class_<EnvironmentPython>("Env",init<int,std::string>())
+
+	class_<EnvironmentPython>("Env",init<int>())
 		.def("GetNumState",&EnvironmentPython::GetNumState)
 		.def("GetNumAction",&EnvironmentPython::GetNumAction)
-		.def("Step",&EnvironmentPython::Step)
+		.def("GetNumDofs",&EnvironmentPython::GetNumDofs)
+		.def("GetNumMuscles",&EnvironmentPython::GetNumMuscles)
+		.def("GetSimulationHz",&EnvironmentPython::GetSimulationHz)
+		.def("GetControlHz",&EnvironmentPython::GetControlHz)
 		.def("Reset",&EnvironmentPython::Reset)
 		.def("IsTerminalState",&EnvironmentPython::IsTerminalState)
 		.def("GetState",&EnvironmentPython::GetState)
 		.def("SetAction",&EnvironmentPython::SetAction)
 		.def("GetReward",&EnvironmentPython::GetReward)
+		.def("ComputeActivationsQP",&EnvironmentPython::ComputeActivationsQP)
 		.def("Steps",&EnvironmentPython::Steps)
 		.def("Resets",&EnvironmentPython::Resets)
 		.def("IsTerminalStates",&EnvironmentPython::IsTerminalStates)
 		.def("GetStates",&EnvironmentPython::GetStates)
 		.def("SetActions",&EnvironmentPython::SetActions)
-		.def("GetRewards",&EnvironmentPython::GetRewards);
+		.def("GetRewards",&EnvironmentPython::GetRewards)
+		.def("GetTuples",&EnvironmentPython::GetTuples);
 }

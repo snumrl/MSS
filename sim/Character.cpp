@@ -174,7 +174,7 @@ GetSPDForces(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired)
 
 	Eigen::VectorXd p_diff = -mKp.cwiseProduct(skel->getPositionDifferences(qdqdt,p_desired));
 
-	Eigen::VectorXd v_diff = -mKv.cwiseProduct(dq);
+	Eigen::VectorXd v_diff = -mKv.cwiseProduct(dq-v_desired);
 	Eigen::VectorXd qddot = M_inv*(-skel->getCoriolisAndGravityForces()+
 							p_diff+v_diff+skel->getConstraintForces());
 
@@ -198,7 +198,7 @@ GetSPDAccelerations(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_d
 
 	Eigen::VectorXd p_diff = -mKp.cwiseProduct(skel->getPositionDifferences(qdqdt,p_desired));
 
-	Eigen::VectorXd v_diff = -mKv.cwiseProduct(dq);
+	Eigen::VectorXd v_diff = -mKv.cwiseProduct(dq-v_desired);
 	Eigen::VectorXd cg = skel->getCoriolisAndGravityForces();
 	Eigen::VectorXd qddot = M_inv*(-cg+	p_diff+v_diff+skel->getConstraintForces());
 

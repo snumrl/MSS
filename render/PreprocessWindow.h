@@ -1,5 +1,5 @@
-#ifndef __MSS_SIM_WINDOW_H__
-#define __MSS_SIM_WINDOW_H__
+#ifndef __MSS_PREPROCESS_WINDOW_H__
+#define __MSS_PREPROCESS_WINDOW_H__
 #include "Camera.h"
 #include "GLUTWindow.h"
 #include "GLfunctions.h"
@@ -12,11 +12,10 @@
 namespace p = boost::python;
 namespace np = boost::python::numpy;
 
-class SimWindow : public GUI::GLUTWindow
+class PreprocessWindow : public GUI::GLUTWindow
 {
 public:
-	SimWindow();
-	SimWindow(const std::string& nn_path);
+	PreprocessWindow();
 	
 protected:
 
@@ -39,23 +38,20 @@ protected:
 	void Timer(int value) override;
 
 	/// Screenshot. The png file will be stored as ./frames/Capture/[number].png
-	void Step();
 	void Screenshot();
-	void GetActionFromNN();
+	void GetFromNN();
+
+	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;
+	Eigen::VectorXd q_next,v_next;
+	Eigen::MatrixXd A;
 	MSS::Environment* mWorld;
 
-	Eigen::VectorXd mAction;
-	int mActionNum;
 	bool mIsRotate;
-	bool mIsAuto;
 	bool mIsCapture;
-	bool mIsFocusing;
 	bool mIsNNLoaded;
-	bool mRandomAction;
-	int mFocusBodyNum;
-
+	int mNumTuple;
 	//python object
-	p::object mm,mns,sys_module,nn_module;
+	p::object mm,mns,sys_module,reg_module; //main module,main namespace,sys module,nn_module
 
 };
 

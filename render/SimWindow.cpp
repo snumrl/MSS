@@ -13,12 +13,12 @@ SimWindow::
 SimWindow()
 	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mActionNum(0),mRandomAction(false)
 {
-	mWorld = new MSS::Environment(600,600);
+	mWorld = new MSS::Environment(30,600);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
 }
 SimWindow::
-SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)
+SimWindow(const std::string& nn_path)
 	:SimWindow()
 {
 	mIsNNLoaded = true;
@@ -36,25 +36,22 @@ SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)
 	p::exec("import numpy as np",mns);
 	p::exec("from Model import *",mns);
 
-		
 	boost::python::str str = ("num_state = "+std::to_string(mWorld->GetNumState())).c_str();
 	p::exec(str,mns);
 	str = ("num_action = "+std::to_string(mWorld->GetNumAction())).c_str();
 	p::exec(str,mns);
 
-	nn_module = p::eval("Model(num_state,num_action)",mns);
-	
+	nn_module = p::eval("SimulationNN(num_state,num_action)",mns);
+
 	p::object load = nn_module.attr("load");
 	load(nn_path);
-	mWorld->LoadMuscleNN(muscle_nn_path);
 }
 
 void
 SimWindow::
 Display() 
 {
-	GetActionFromNN();
-	mWorld->SetAction(mAction);
+	
 	glClearColor(1.0, 1.0, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -119,35 +116,35 @@ Display()
 
 		}
 	}
-	// {
-	// 	Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
-	// 	Eigen::VectorXd action_motion = mWorld->GetAction().head(character->GetMotionModes().size());
-	// 	Eigen::VectorXd action_IK = mWorld->GetAction().segment(character->GetMotionModes().size(),character->GetIKMode()->GetDof());
-	// 	auto target = character->GetTargetPositionsAndVelocitiesFromBVH(action_motion);
-	// 	target.first = character->GetIKTargetPositions(target.first,action_IK);
-	// 	target.first[3] += 3.0;
-	// 	character->GetSkeleton()->setPositions(target.first);
-	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
-	// 	GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.2,0.8,0.2));
-	// 	auto cps = character->GetContactPoints();
+	{
+		Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
+		Eigen::VectorXd action_motion = mWorld->GetAction().head(character->GetMotionActions().size());
+		// Eigen::VectorXd action_IK = mWorld->GetAction().segment(character->GetMotionActions().size(),character->GetIKAction()->GetDof());
+		auto target = character->GetTargetPositionsAndVelocitiesFromBVH(action_motion);
+		// target.first = character->GetIKTargetPositions(target.first,action_IK);
+		target.first[3] += 3.0;
+		character->GetSkeleton()->setPositions(target.first);
+		character->GetSkeleton()->computeForwardKinematics(true,false,false);
+		GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.2,0.8,0.2));
+		auto cps = character->GetContactPoints();
 
-	// 	for(auto cp : cps)
-	// 	{
-	// 		glPushMatrix();
-	// 		Eigen::Vector3d pos = cp->GetPosition();
-	// 		if(cp->IsColliding())
-	// 			glColor3f(0.8,0.2,0.2);
-	// 		else
-	// 			glColor3f(0.2,0.2,0.8);
+		for(auto cp : cps)
+		{
+			glPushMatrix();
+			Eigen::Vector3d pos = cp->GetPosition();
+			if(cp->IsColliding())
+				glColor3f(0.8,0.2,0.2);
+			else
+				glColor3f(0.2,0.2,0.8);
 
-	// 		glTranslatef(pos[0],pos[1],pos[2]);
-	// 		GUI::DrawSphere(0.004);
-	// 		glPopMatrix();
+			glTranslatef(pos[0],pos[1],pos[2]);
+			GUI::DrawSphere(0.004);
+			glPopMatrix();
 
-	// 	}
-	// 	character->GetSkeleton()->setPositions(p_save);
-	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
-	// }
+		}
+		character->GetSkeleton()->setPositions(p_save);
+		character->GetSkeleton()->computeForwardKinematics(true,false,false);
+	}
 	{
 		Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
 		Eigen::VectorXd p = character->GetTargetPositions();
@@ -155,7 +152,7 @@ Display()
 		character->GetSkeleton()->setPositions(p);
 		character->GetSkeleton()->computeForwardKinematics(true,false,false);
 		GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
-		GUI::DrawMuscles(character->GetMuscles());
+
 		auto cps = character->GetContactPoints();
 
 		for(auto cp : cps)
@@ -176,8 +173,6 @@ Display()
 		character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	}
 
-	
-
 	glutSwapBuffers();
 	if(mIsCapture)
 		Screenshot();
@@ -194,7 +189,7 @@ Keyboard(unsigned char key,int x,int y)
 		case '`': mIsRotate= !mIsRotate;break;
 		case 'C': mIsCapture = true; break;
 	
-		case ']': GetActionFromNN();mWorld->SetAction(mAction);mWorld->Step();break;
+		case ']': Step();break;
 		case 'R': mWorld->Reset(false);break;
 		case 'r': mWorld->Reset(true);break;
 		case 'm': mAction.setZero();
@@ -275,12 +270,19 @@ Reshape(int w, int h)
 }
 void
 SimWindow::
+Step()
+{
+	GetActionFromNN();
+	mWorld->SetAction(mAction);
+	int sim_per_control = mWorld->GetSimulationHz()/mWorld->GetControlHz();
+	for(int i =0;i<sim_per_control;i++)
+		mWorld->Step(mWorld->ComputeActivationQP());
+}
+void
+SimWindow::
 Timer(int value) 
 {
-	if( mIsAuto ){
-
-		mWorld->Step();
-	}
+	if( mIsAuto ) Step();
 	
 	glutTimerFunc(mDisplayTimeout, TimerEvent,1);
 	glutPostRedisplay();

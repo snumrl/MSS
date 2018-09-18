@@ -3,6 +3,52 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
+GenerateTuple	Preprocess.cpp	/^GenerateTuple(int id)$/;"	f	class:Preprocess
+GenerateTuples	Preprocess.cpp	/^GenerateTuples(int num)$/;"	f	class:Preprocess
+Get	Preprocess.cpp	/^Get()$/;"	f	class:Preprocess
+Preprocess	Preprocess.cpp	/^Preprocess(int num_slaves)$/;"	f	class:Preprocess
+A	Preprocess.h	/^	Eigen::MatrixXd A;$/;"	m	struct:Tuple
+GetNumDofs	Preprocess.h	/^	int GetNumDofs(){return mNumDofs;}$/;"	f	class:Preprocess
+GetNumMuscles	Preprocess.h	/^	int GetNumMuscles(){return mNumMuscles;}$/;"	f	class:Preprocess
+GetNumStates	Preprocess.h	/^	int GetNumStates(){return mNumStates;}$/;"	f	class:Preprocess
+Preprocess	Preprocess.h	/^class Preprocess$/;"	c
+Tuple	Preprocess.h	/^struct Tuple$/;"	s
+__MSS_PREPROCESS_H__	Preprocess.h	2;"	d
+activation	Preprocess.h	/^	Eigen::VectorXd activation;$/;"	m	struct:Tuple
+b	Preprocess.h	/^	Eigen::VectorXd b;$/;"	m	struct:Tuple
+mEngines	Preprocess.h	/^	std::vector<std::default_random_engine> mEngines;$/;"	m	class:Preprocess
+mNumDofs	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
+mNumMuscles	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
+mNumSlaves	Preprocess.h	/^	int mNumSlaves;$/;"	m	class:Preprocess
+mNumStates	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
+mSlaves	Preprocess.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:Preprocess
+mX	Preprocess.h	/^	std::vector<Tuple> mX;$/;"	m	class:Preprocess
+mX_per_slave	Preprocess.h	/^	std::vector<std::vector<Tuple>> mX_per_slave;$/;"	m	class:Preprocess
+q	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
+q_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
+qdd_des	Preprocess.h	/^	Eigen::VectorXd qdd_des;$/;"	m	struct:Tuple
+s	Preprocess.h	/^	Eigen::VectorXd s;$/;"	m	struct:Tuple
+v	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
+v_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
+Buffer	Regression.py	/^class Buffer(object):$/;"	c
+ByteTensor	Regression.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
+Clear	Regression.py	/^	def Clear(self):$/;"	m	class:Buffer
+FloatTensor	Regression.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
+Full	Regression.py	/^	def Full(self):$/;"	m	class:Buffer
+GenerateTuples	Regression.py	/^	def GenerateTuples(self,num):$/;"	m	class:Regressor
+GetTuple	Regression.py	/^	def GetTuple(self,num):$/;"	m	class:Regressor
+LoadModel	Regression.py	/^	def LoadModel(self,model_path):$/;"	m	class:Regressor
+LongTensor	Regression.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
+OptimizeModel	Regression.py	/^	def OptimizeModel(self):$/;"	m	class:Regressor
+Plot	Regression.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
+Push	Regression.py	/^	def Push(self,*args):$/;"	m	class:Buffer
+Regressor	Regression.py	/^class Regressor(object):$/;"	c
+SaveModel	Regression.py	/^	def SaveModel(self):$/;"	m	class:Regressor
+Tensor	Regression.py	/^Tensor = FloatTensor$/;"	v
+Tuple	Regression.py	/^Tuple = namedtuple('Tuple',('s','qdd_des','a','A','b','q','q_d','v','v_d'))$/;"	v
+__init__	Regression.py	/^	def __init__(self,buff_size = 65536):$/;"	m	class:Buffer
+__init__	Regression.py	/^	def __init__(self,num_slaves):$/;"	m	class:Regressor
+use_cuda	Regression.py	/^use_cuda = torch.cuda.is_available()$/;"	v
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	440;"	d	file:
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	443;"	d	file:
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	446;"	d	file:
@@ -825,8 +871,10 @@ SHELL	build/xmlparser/Makefile	/^SHELL = \/bin\/sh$/;"	m
 SUFFIXES	build/xmlparser/Makefile	/^SUFFIXES =$/;"	m
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 BOOST_PYTHON_MODULE	pymss/EnvironmentPython.cpp	/^BOOST_PYTHON_MODULE(pymss)$/;"	f
-EnvironmentPython	pymss/EnvironmentPython.cpp	/^EnvironmentPython(int num_slaves,std::string muscle_nn_path)$/;"	f	class:EnvironmentPython
+EnvironmentPython	pymss/EnvironmentPython.cpp	/^EnvironmentPython(int num_slaves)$/;"	f	class:EnvironmentPython
 GetNumAction	pymss/EnvironmentPython.cpp	/^GetNumAction()$/;"	f	class:EnvironmentPython
+GetNumDofs	pymss/EnvironmentPython.cpp	/^GetNumDofs()$/;"	f	class:EnvironmentPython
+GetNumMuscles	pymss/EnvironmentPython.cpp	/^GetNumMuscles()$/;"	f	class:EnvironmentPython
 GetNumState	pymss/EnvironmentPython.cpp	/^GetNumState()$/;"	f	class:EnvironmentPython
 GetReward	pymss/EnvironmentPython.cpp	/^GetReward(int id)$/;"	f	class:EnvironmentPython
 GetRewards	pymss/EnvironmentPython.cpp	/^GetRewards()$/;"	f	class:EnvironmentPython
@@ -848,79 +896,64 @@ mNumState	pymss/EnvironmentPython.h	/^	int mNumState;$/;"	m	class:EnvironmentPyt
 mSlaves	pymss/EnvironmentPython.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:EnvironmentPython
 Container	pymss/Model.py	/^class Container(nn.Module):$/;"	c
 Get	pymss/Model.py	/^	def Get(self):$/;"	m	class:Container
-Model	pymss/Model.py	/^class Model(nn.Module):$/;"	c
 MultiVariateNormal	pymss/Model.py	/^MultiVariateNormal = torch.distributions.Normal$/;"	v
 MuscleNN	pymss/Model.py	/^class MuscleNN(nn.Module):$/;"	c
 Push	pymss/Model.py	/^	def Push(self,val):$/;"	m	class:Container
-SetNormalizer	pymss/Model.py	/^	def SetNormalizer(self,mi,si,mo,so):		$/;"	m	class:MuscleNN
+SimulationNN	pymss/Model.py	/^class SimulationNN(nn.Module):$/;"	c
 __init__	pymss/Model.py	/^	def __init__(self,num):$/;"	m	class:Container
-__init__	pymss/Model.py	/^	def __init__(self,num_input,num_output):$/;"	m	class:MuscleNN
-__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions):$/;"	m	class:Model
-forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:Model
+__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions,num_dofs,num_muscles):$/;"	m	class:SimulationNN
+__init__	pymss/Model.py	/^	def __init__(self,num_states,num_dofs,num_muscles):$/;"	m	class:MuscleNN
 forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:MuscleNN
-get_action	pymss/Model.py	/^	def get_action(self,s):$/;"	m	class:Model
+forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:SimulationNN
+get_action	pymss/Model.py	/^	def get_action(self,s):$/;"	m	class:SimulationNN
 get_activation	pymss/Model.py	/^	def get_activation(self,x):$/;"	m	class:MuscleNN
-get_random_action	pymss/Model.py	/^	def get_random_action(self,s):$/;"	m	class:Model
-load	pymss/Model.py	/^	def load(self,path):$/;"	m	class:Model
+get_random_action	pymss/Model.py	/^	def get_random_action(self,s):$/;"	m	class:SimulationNN
 load	pymss/Model.py	/^	def load(self,path):$/;"	m	class:MuscleNN
-save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:Model
+load	pymss/Model.py	/^	def load(self,path):$/;"	m	class:SimulationNN
 save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:MuscleNN
+save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:SimulationNN
 temp	pymss/Model.py	/^temp = MultiVariateNormal.log_prob$/;"	v
 temp2	pymss/Model.py	/^temp2 = MultiVariateNormal.entropy$/;"	v
-Evaluate	pymss/MuscleNN.py	/^	def Evaluate(self,num):$/;"	m	class:Regressor
-GeneratePairs	pymss/MuscleNN.py	/^	def GeneratePairs(self,num):$/;"	m	class:Regressor
-LoadModel	pymss/MuscleNN.py	/^	def LoadModel(self,model_path):$/;"	m	class:Regressor
-OptimizeModel	pymss/MuscleNN.py	/^	def OptimizeModel(self):$/;"	m	class:Regressor
-Plot	pymss/MuscleNN.py	/^def Plot(y,y1,title,num_fig=1,ylim=True):$/;"	f
-Regressor	pymss/MuscleNN.py	/^class Regressor(object):$/;"	c
-SaveModel	pymss/MuscleNN.py	/^	def SaveModel(self):$/;"	m	class:Regressor
-__init__	pymss/MuscleNN.py	/^	def __init__(self,num_slaves):$/;"	m	class:Regressor
+ByteTensor	pymss/PPO.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
+Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:MuscleBuffer
 Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:ReplayBuffer
 ComputeTDandGAE	pymss/PPO.py	/^	def ComputeTDandGAE(self):$/;"	m	class:PPO
 Episode	pymss/PPO.py	/^Episode = namedtuple('Episode',('s','a','r', 'value', 'logprob'))$/;"	v
 EpisodeBuffer	pymss/PPO.py	/^class EpisodeBuffer(object):$/;"	c
 Evaluate	pymss/PPO.py	/^	def Evaluate(self):$/;"	m	class:PPO
+FloatTensor	pymss/PPO.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
 GenerateTransitions	pymss/PPO.py	/^	def GenerateTransitions(self):$/;"	m	class:PPO
 GetData	pymss/PPO.py	/^	def GetData(self):$/;"	m	class:EpisodeBuffer
-LoadModel	pymss/PPO.py	/^	def LoadModel(self,model_path):$/;"	m	class:PPO
+LoadModel	pymss/PPO.py	/^	def LoadModel(self,model_number):$/;"	m	class:PPO
+LongTensor	pymss/PPO.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
+MuscleBuffer	pymss/PPO.py	/^class MuscleBuffer(object):$/;"	c
+MuscleTransition	pymss/PPO.py	/^MuscleTransition = namedtuple('MuscleTransition',('s','qdd_des','a','A','b'))$/;"	v
 OptimizeModel	pymss/PPO.py	/^	def OptimizeModel(self):$/;"	m	class:PPO
 PPO	pymss/PPO.py	/^class PPO(object):$/;"	c
 Plot	pymss/PPO.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
 Push	pymss/PPO.py	/^	def Push(self, *args):$/;"	m	class:EpisodeBuffer
+Push	pymss/PPO.py	/^	def Push(self,*args):$/;"	m	class:MuscleBuffer
 Push	pymss/PPO.py	/^	def Push(self,*args):$/;"	m	class:ReplayBuffer
 ReplayBuffer	pymss/PPO.py	/^class ReplayBuffer(object):$/;"	c
-Sample	pymss/PPO.py	/^	def Sample(self, batch_size):$/;"	m	class:ReplayBuffer
 SaveModel	pymss/PPO.py	/^	def SaveModel(self):$/;"	m	class:PPO
+Tensor	pymss/PPO.py	/^Tensor = FloatTensor$/;"	v
 Train	pymss/PPO.py	/^	def Train(self):		$/;"	m	class:PPO
 Transition	pymss/PPO.py	/^Transition = namedtuple('Transition',('s','a', 'logprob', 'TD', 'GAE'))$/;"	v
 __init__	pymss/PPO.py	/^	def __init__(self):$/;"	m	class:EpisodeBuffer
+__init__	pymss/PPO.py	/^	def __init__(self, buff_size = 10000):$/;"	m	class:MuscleBuffer
 __init__	pymss/PPO.py	/^	def __init__(self, buff_size = 10000):$/;"	m	class:ReplayBuffer
-__init__	pymss/PPO.py	/^	def __init__(self,num_slaves,muscle_nn_path):$/;"	m	class:PPO
+__init__	pymss/PPO.py	/^	def __init__(self,num_slaves):$/;"	m	class:PPO
 args	pymss/PPO.py	/^	args =parser.parse_args()$/;"	v
 parser	pymss/PPO.py	/^	parser = argparse.ArgumentParser()$/;"	v
-ppo	pymss/PPO.py	/^	ppo = PPO(16,args.muscle)$/;"	v
+ppo	pymss/PPO.py	/^	ppo = PPO(16)$/;"	v
 rewards	pymss/PPO.py	/^	rewards = []$/;"	v
-GeneratePair	pymss/Preprocess.cpp	/^GeneratePair(int id,int num)$/;"	f	class:Preprocess
-GeneratePairs	pymss/Preprocess.cpp	/^GeneratePairs(int num)$/;"	f	class:Preprocess
-GetAccelerations	pymss/Preprocess.cpp	/^GetAccelerations(np::ndarray _p,np::ndarray _v,np::ndarray _act)$/;"	f	class:Preprocess
-GetNormalizer	pymss/Preprocess.cpp	/^GetNormalizer()$/;"	f	class:Preprocess
-Preprocess	pymss/Preprocess.cpp	/^Preprocess(int num_slaves)$/;"	f	class:Preprocess
-Get	pymss/Preprocess.h	/^	np::ndarray Get(){return toNumPyArray(mX);};$/;"	f	class:Preprocess
-GetNumInput	pymss/Preprocess.h	/^	int GetNumInput(){return mNumInput;};$/;"	f	class:Preprocess
-GetNumOutput	pymss/Preprocess.h	/^	int GetNumOutput(){return mNumOutput;};$/;"	f	class:Preprocess
-Preprocess	pymss/Preprocess.h	/^class Preprocess$/;"	c
-__MSS_PREPROCESS_H__	pymss/Preprocess.h	2;"	d
-mNumInput	pymss/Preprocess.h	/^	int mNumInput,mNumOutput;$/;"	m	class:Preprocess
-mNumOutput	pymss/Preprocess.h	/^	int mNumInput,mNumOutput;$/;"	m	class:Preprocess
-mNumSlaves	pymss/Preprocess.h	/^	int mNumSlaves;$/;"	m	class:Preprocess
-mSlaves	pymss/Preprocess.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:Preprocess
-mX	pymss/Preprocess.h	/^	std::vector<Eigen::VectorXd> mX;$/;"	m	class:Preprocess
-mX_per_slave	pymss/Preprocess.h	/^	std::vector<std::vector<Eigen::VectorXd>> mX_per_slave;$/;"	m	class:Preprocess
+use_cuda	pymss/PPO.py	/^use_cuda = torch.cuda.is_available()$/;"	v
 toEigenMatrix	pymss/WrapperFunctions.cpp	/^Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)$/;"	f
 toEigenVector	pymss/WrapperFunctions.cpp	/^Eigen::VectorXd toEigenVector(const np::ndarray& array)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::Isometry3d& T)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::MatrixXd& matrix)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::VectorXd& vec)$/;"	f
+toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<Eigen::MatrixXd>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<Eigen::VectorXd>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<bool>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<double>& val)$/;"	f
@@ -990,11 +1023,51 @@ quadObj	render/GLfunctions.cpp	/^static GLUquadricObj *quadObj;$/;"	v	file:
 recursiveRender	render/GLfunctions.cpp	/^void recursiveRender(const struct aiScene *sc, const struct aiNode* nd) {$/;"	f
 GUI	render/GLfunctions.h	/^namespace GUI$/;"	n
 __GL_FUNCTIONS_H__	render/GLfunctions.h	2;"	d
+DrawActivation	render/MSSInterface.cpp	/^DrawActivation(const Eigen::MatrixXd& activation)$/;"	f	class:GUI
 DrawMuscles	render/MSSInterface.cpp	/^DrawMuscles(const std::vector<Muscle*>& muscles)$/;"	f	class:GUI
 DrawShape	render/MSSInterface.cpp	/^DrawShape(const Eigen::Isometry3d& T,$/;"	f	class:GUI
 DrawSkeleton	render/MSSInterface.cpp	/^DrawSkeleton($/;"	f	class:GUI
 GUI	render/MSSInterface.h	/^namespace GUI$/;"	n
 __MSS_INTERFACE_H__	render/MSSInterface.h	2;"	d
+Display	render/PreprocessWindow.cpp	/^Display() $/;"	f	class:PreprocessWindow
+GetFromNN	render/PreprocessWindow.cpp	/^GetFromNN()$/;"	f	class:PreprocessWindow
+Keyboard	render/PreprocessWindow.cpp	/^Keyboard(unsigned char key,int x,int y) $/;"	f	class:PreprocessWindow
+Motion	render/PreprocessWindow.cpp	/^Motion(int x, int y) $/;"	f	class:PreprocessWindow
+Mouse	render/PreprocessWindow.cpp	/^Mouse(int button, int state, int x, int y) $/;"	f	class:PreprocessWindow
+PreprocessWindow	render/PreprocessWindow.cpp	/^PreprocessWindow()$/;"	f	class:PreprocessWindow
+Reshape	render/PreprocessWindow.cpp	/^Reshape(int w, int h) $/;"	f	class:PreprocessWindow
+Screenshot	render/PreprocessWindow.cpp	/^Screenshot() {$/;"	f	class:PreprocessWindow
+Timer	render/PreprocessWindow.cpp	/^Timer(int value) $/;"	f	class:PreprocessWindow
+toEigenMatrix	render/PreprocessWindow.cpp	/^Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)$/;"	f
+toEigenVector	render/PreprocessWindow.cpp	/^Eigen::VectorXd toEigenVector(const np::ndarray& array)$/;"	f
+A	render/PreprocessWindow.h	/^	Eigen::MatrixXd A;$/;"	m	class:PreprocessWindow
+PreprocessWindow	render/PreprocessWindow.h	/^class PreprocessWindow : public GUI::GLUTWindow$/;"	c
+__MSS_PREPROCESS_WINDOW_H__	render/PreprocessWindow.h	2;"	d
+activation	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+b	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+mIsCapture	render/PreprocessWindow.h	/^	bool mIsCapture;$/;"	m	class:PreprocessWindow
+mIsNNLoaded	render/PreprocessWindow.h	/^	bool mIsNNLoaded;$/;"	m	class:PreprocessWindow
+mIsRotate	render/PreprocessWindow.h	/^	bool mIsRotate;$/;"	m	class:PreprocessWindow
+mNumTuple	render/PreprocessWindow.h	/^	int mNumTuple;$/;"	m	class:PreprocessWindow
+mWorld	render/PreprocessWindow.h	/^	MSS::Environment* mWorld;$/;"	m	class:PreprocessWindow
+mm	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
+mns	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Display() override;$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Keyboard(unsigned char key,int x,int y) override;$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Motion(int x, int y) override;$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Mouse(int button, int state, int x, int y) override;$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Reshape(int w, int h) override;$/;"	m	class:PreprocessWindow
+override	render/PreprocessWindow.h	/^	void Timer(int value) override;$/;"	m	class:PreprocessWindow
+q	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+q_d	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+q_next	render/PreprocessWindow.h	/^	Eigen::VectorXd q_next,v_next;$/;"	m	class:PreprocessWindow
+qdd_des	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+reg_module	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
+s	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+sys_module	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
+v	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+v_d	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+v_next	render/PreprocessWindow.h	/^	Eigen::VectorXd q_next,v_next;$/;"	m	class:PreprocessWindow
 Display	render/SimWindow.cpp	/^Display() $/;"	f	class:SimWindow
 GetActionFromNN	render/SimWindow.cpp	/^GetActionFromNN()$/;"	f	class:SimWindow
 Keyboard	render/SimWindow.cpp	/^Keyboard(unsigned char key,int x,int y) $/;"	f	class:SimWindow
@@ -1003,7 +1076,7 @@ Mouse	render/SimWindow.cpp	/^Mouse(int button, int state, int x, int y) $/;"	f	c
 Reshape	render/SimWindow.cpp	/^Reshape(int w, int h) $/;"	f	class:SimWindow
 Screenshot	render/SimWindow.cpp	/^Screenshot() {$/;"	f	class:SimWindow
 SimWindow	render/SimWindow.cpp	/^SimWindow()$/;"	f	class:SimWindow
-SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)$/;"	f	class:SimWindow
+SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path)$/;"	f	class:SimWindow
 Timer	render/SimWindow.cpp	/^Timer(int value) $/;"	f	class:SimWindow
 SimWindow	render/SimWindow.h	/^class SimWindow : public GUI::GLUTWindow$/;"	c
 __MSS_SIM_WINDOW_H__	render/SimWindow.h	2;"	d
@@ -1017,17 +1090,16 @@ mIsNNLoaded	render/SimWindow.h	/^	bool mIsNNLoaded;$/;"	m	class:SimWindow
 mIsRotate	render/SimWindow.h	/^	bool mIsRotate;$/;"	m	class:SimWindow
 mRandomAction	render/SimWindow.h	/^	bool mRandomAction;$/;"	m	class:SimWindow
 mWorld	render/SimWindow.h	/^	MSS::Environment* mWorld;$/;"	m	class:SimWindow
-mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:SimWindow
-mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:SimWindow
-muscle_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:SimWindow
-nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:SimWindow
+mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Display() override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Keyboard(unsigned char key,int x,int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Motion(int x, int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Mouse(int button, int state, int x, int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Reshape(int w, int h) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Timer(int value) override;$/;"	m	class:SimWindow
-sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:SimWindow
+sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
 main	render/main.cpp	/^int main(int argc,char** argv)$/;"	f
 IKAction	sim/Action.cpp	/^IKAction(const std::string& _name,const dart::dynamics::SkeletonPtr& skeleton,$/;"	f	class:MSS::IKAction
 KpAction	sim/Action.cpp	/^KpAction(const std::string& _name,const Eigen::VectorXd& upper,const Eigen::VectorXd& lower)$/;"	f	class:MSS::KpAction
@@ -1177,26 +1249,27 @@ is_contact_on	sim/ContactPoint.h	/^	bool is_contact_on;$/;"	m	class:MSS::Contact
 local_position	sim/ContactPoint.h	/^	Eigen::Vector3d local_position;$/;"	m	class:MSS::ContactPoint
 neighbor	sim/ContactPoint.h	/^	std::vector<ContactPoint*> neighbor;$/;"	m	class:MSS::ContactPoint
 updateEngineData	sim/ContactPoint.h	/^	virtual void updateEngineData(){};$/;"	f	class:MSS::ContactPointCollisionObject
+ComputeActivationQP	sim/Environment.cpp	/^ComputeActivationQP()$/;"	f	class:MSS::Environment
 Environment	sim/Environment.cpp	/^Environment(int control_Hz,int simulation_Hz)$/;"	f	class:MSS::Environment
-GetActivationFromNN	sim/Environment.cpp	/^GetActivationFromNN()$/;"	f	class:MSS::Environment
 GetReward	sim/Environment.cpp	/^GetReward()$/;"	f	class:MSS::Environment
 GetState	sim/Environment.cpp	/^GetState()$/;"	f	class:MSS::Environment
 IsTerminalState	sim/Environment.cpp	/^IsTerminalState()$/;"	f	class:MSS::Environment
-LoadMuscleNN	sim/Environment.cpp	/^LoadMuscleNN(const std::string& path)$/;"	f	class:MSS::Environment
 MSS	sim/Environment.cpp	/^namespace MSS$/;"	n	file:
 Reset	sim/Environment.cpp	/^Reset(bool random)$/;"	f	class:MSS::Environment
 SetAction	sim/Environment.cpp	/^SetAction(const Eigen::VectorXd& a)$/;"	f	class:MSS::Environment
-Step	sim/Environment.cpp	/^Step()$/;"	f	class:MSS::Environment
+Step	sim/Environment.cpp	/^Step(const Eigen::VectorXd& activation)$/;"	f	class:MSS::Environment
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(const Eigen::Vector3d& vec,double w = 1.0)$/;"	f	namespace:MSS
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(const Eigen::VectorXd& vec,double w = 1.0)$/;"	f	namespace:MSS
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(double val,double w = 1.0)$/;"	f	namespace:MSS
 Environment	sim/Environment.h	/^class Environment$/;"	c	namespace:MSS
 GetAction	sim/Environment.h	/^	Eigen::VectorXd GetAction(){return mAction;}$/;"	f	class:MSS::Environment
 GetCharacter	sim/Environment.h	/^	Character* GetCharacter(){return mCharacter;};$/;"	f	class:MSS::Environment
+GetControlHz	sim/Environment.h	/^	int GetControlHz(){return mControlHz;};$/;"	f	class:MSS::Environment
 GetGround	sim/Environment.h	/^	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}	$/;"	f	class:MSS::Environment
 GetNumAction	sim/Environment.h	/^	int GetNumAction(){return mAction.rows();};$/;"	f	class:MSS::Environment
 GetNumState	sim/Environment.h	/^	int GetNumState(){return GetState().rows();};$/;"	f	class:MSS::Environment
 GetQP	sim/Environment.h	/^	QP*	GetQP(){return mQP;}$/;"	f	class:MSS::Environment
+GetSimulationHz	sim/Environment.h	/^	int GetSimulationHz(){return mSimulationHz;};$/;"	f	class:MSS::Environment
 GetWorld	sim/Environment.h	/^	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};$/;"	f	class:MSS::Environment
 MSS	sim/Environment.h	/^namespace MSS$/;"	n
 __MSS_ENVIRONMENT_H__	sim/Environment.h	2;"	d
@@ -1204,15 +1277,11 @@ mAction	sim/Environment.h	/^	Eigen::VectorXd mAction;$/;"	m	class:MSS::Environme
 mCharacter	sim/Environment.h	/^	Character* mCharacter;$/;"	m	class:MSS::Environment
 mControlHz	sim/Environment.h	/^	int mControlHz;$/;"	m	class:MSS::Environment
 mGround	sim/Environment.h	/^	dart::dynamics::SkeletonPtr mGround;$/;"	m	class:MSS::Environment
-mIsNNLoaded	sim/Environment.h	/^	bool mIsNNLoaded;$/;"	m	class:MSS::Environment
 mQP	sim/Environment.h	/^	QP*	mQP;$/;"	m	class:MSS::Environment
 mSimulationHz	sim/Environment.h	/^	int mSimulationHz;$/;"	m	class:MSS::Environment
+mTarget	sim/Environment.h	/^	std::pair<Eigen::VectorXd,Eigen::VectorXd> mTarget;$/;"	m	class:MSS::Environment
 mTimeElapsed	sim/Environment.h	/^	double mTimeElapsed;$/;"	m	class:MSS::Environment
 mWorld	sim/Environment.h	/^	dart::simulation::WorldPtr mWorld;$/;"	m	class:MSS::Environment
-mm	sim/Environment.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:MSS::Environment
-mns	sim/Environment.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:MSS::Environment
-nn_module	sim/Environment.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:MSS::Environment
-sys_module	sim/Environment.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:MSS::Environment
 w_com	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_ee	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_p	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
@@ -1289,6 +1358,8 @@ l_mt	sim/Muscle.h	/^	double l_mt;$/;"	m	class:MSS::Muscle
 l_mt0	sim/Muscle.h	/^	double l_mt0;$/;"	m	class:MSS::Muscle
 mAnchors	sim/Muscle.h	/^	std::vector<std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>> mAnchors;$/;"	m	class:MSS::Muscle
 name	sim/Muscle.h	/^	std::string name;$/;"	m	class:MSS::Muscle
+GetJtA	sim/QP.cpp	/^GetJtA()$/;"	f	class:QP
+GetJtp_minus_c	sim/QP.cpp	/^GetJtp_minus_c()$/;"	f	class:QP
 Initialize	sim/QP.cpp	/^Initialize()$/;"	f	class:QP
 Minimize	sim/QP.cpp	/^Minimize(const Eigen::VectorXd& qdd_desired)$/;"	f	class:QP
 QP	sim/QP.cpp	/^QP(MSS::Character* character)$/;"	f	class:QP
@@ -1308,6 +1379,8 @@ e	sim/QP.h	/^	quadprogpp::Vector<double> e;$/;"	m	class:MSS::QP
 mA	sim/QP.h	/^	std::vector<Eigen::MatrixXd> mJt,mA;$/;"	m	class:MSS::QP
 mCharacter	sim/QP.h	/^	MSS::Character* mCharacter;$/;"	m	class:MSS::QP
 mJt	sim/QP.h	/^	std::vector<Eigen::MatrixXd> mJt,mA;$/;"	m	class:MSS::QP
+mJtA	sim/QP.h	/^	Eigen::MatrixXd mJtA;$/;"	m	class:MSS::QP
+mJtp	sim/QP.h	/^	Eigen::VectorXd mJtp;$/;"	m	class:MSS::QP
 mJtp_minus_c	sim/QP.h	/^	Eigen::VectorXd mJtp_minus_c;$/;"	m	class:MSS::QP
 mM_minus_JtA	sim/QP.h	/^	Eigen::MatrixXd mM_minus_JtA;$/;"	m	class:MSS::QP
 mNumDofs	sim/QP.h	/^	int mNumDofs,mNumMuscles;$/;"	m	class:MSS::QP

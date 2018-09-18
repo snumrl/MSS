@@ -197,6 +197,22 @@ Eigen::VectorXd toEigenVector(const np::ndarray& array)
 	}
 	return vec;
 }
+std::vector<Eigen::VectorXd> toEigenVectorVector(const np::ndarray& array)
+{
+	std::vector<Eigen::VectorXd> mat;
+	mat.resize(array.shape(0));
+	
+	float* srcs = reinterpret_cast<float*>(array.get_data());
+	int index = 0;
+	
+	for(int i=0;i<array.shape(0);i++){
+		mat[i].resize(array.shape(1));
+		for(int j=0;j<array.shape(1);j++)
+			mat[i][j] = srcs[index++];
+	}
+
+	return mat;	
+}
 Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)
 {
 	Eigen::MatrixXd mat(array.shape(0),array.shape(1));
@@ -212,4 +228,11 @@ Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)
 		}
 	}
 	return mat;
+}
+std::vector<bool> toStdVector(const p::list& list)
+{
+	std::vector<bool> vec(boost::python::len(list));
+	for(int i =0;i<vec.size();i++)
+		vec[i] = boost::python::extract<bool>(list[i]);
+	return vec;
 }
