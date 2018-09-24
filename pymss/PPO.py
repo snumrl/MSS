@@ -83,8 +83,8 @@ class PPO(object):
 		self.lb = 0.95
 		self.clip_ratio = 0.2
 		
-		self.buffer_size = 4096
-		self.batch_size = 256
+		self.buffer_size = 2048
+		self.batch_size = 128
 		self.muscle_batch_size = 128
 		self.replay_buffer = ReplayBuffer(10000)
 		self.muscle_buffer = MuscleBuffer(150000)
@@ -221,45 +221,45 @@ class PPO(object):
 		print('')
 	def OptimizeModel(self):
 		self.ComputeTDandGAE()
-		# all_transitions = np.array(self.replay_buffer.buffer)
-		# for j in range(self.num_epochs):
-		# 	np.random.shuffle(all_transitions)
-		# 	for i in range(len(all_transitions)//self.batch_size):
-		# 		transitions = all_transitions[i*self.batch_size:(i+1)*self.batch_size]
-		# 		batch = Transition(*zip(*transitions))
+		all_transitions = np.array(self.replay_buffer.buffer)
+		for j in range(self.num_epochs):
+			np.random.shuffle(all_transitions)
+			for i in range(len(all_transitions)//self.batch_size):
+				transitions = all_transitions[i*self.batch_size:(i+1)*self.batch_size]
+				batch = Transition(*zip(*transitions))
 
-		# 		stack_s = np.vstack(batch.s).astype(np.float32)
-		# 		stack_a = np.vstack(batch.a).astype(np.float32)
-		# 		stack_lp = np.vstack(batch.logprob).astype(np.float32)
-		# 		stack_td = np.vstack(batch.TD).astype(np.float32)
-		# 		stack_gae = np.vstack(batch.GAE).astype(np.float32)
+				stack_s = np.vstack(batch.s).astype(np.float32)
+				stack_a = np.vstack(batch.a).astype(np.float32)
+				stack_lp = np.vstack(batch.logprob).astype(np.float32)
+				stack_td = np.vstack(batch.TD).astype(np.float32)
+				stack_gae = np.vstack(batch.GAE).astype(np.float32)
 				
-		# 		a_dist,v = self.model(Tensor(stack_s))
-		# 		'''Critic Loss'''
-		# 		loss_critic = ((v-Tensor(stack_td)).pow(2)).mean()
+				a_dist,v = self.model(Tensor(stack_s))
+				'''Critic Loss'''
+				loss_critic = ((v-Tensor(stack_td)).pow(2)).mean()
 				
-		# 		'''Actor Loss'''
-		# 		ratio = torch.exp(a_dist.log_prob(Tensor(stack_a))-Tensor(stack_lp))
-		# 		stack_gae = (stack_gae-stack_gae.mean())/(stack_gae.std()+ 1E-5)
-		# 		surrogate1 = ratio * Tensor(stack_gae)
-		# 		surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * Tensor(stack_gae)
-		# 		loss_actor = - torch.min(surrogate1,surrogate2).mean()
-		# 		'''Entropy Loss'''
-		# 		loss_entropy = - self.w_entropy * a_dist.entropy().mean()
+				'''Actor Loss'''
+				ratio = torch.exp(a_dist.log_prob(Tensor(stack_a))-Tensor(stack_lp))
+				stack_gae = (stack_gae-stack_gae.mean())/(stack_gae.std()+ 1E-5)
+				surrogate1 = ratio * Tensor(stack_gae)
+				surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * Tensor(stack_gae)
+				loss_actor = - torch.min(surrogate1,surrogate2).mean()
+				'''Entropy Loss'''
+				loss_entropy = - self.w_entropy * a_dist.entropy().mean()
 
-		# 		self.loss_actor = loss_actor.cpu().detach().numpy().tolist()
-		# 		self.loss_critic = loss_critic.cpu().detach().numpy().tolist()
+				self.loss_actor = loss_actor.cpu().detach().numpy().tolist()
+				self.loss_critic = loss_critic.cpu().detach().numpy().tolist()
 				
-		# 		loss = loss_actor + loss_entropy + loss_critic
+				loss = loss_actor + loss_entropy + loss_critic
 
-		# 		self.optimizer.zero_grad()
-		# 		loss.backward(retain_graph=True)
-		# 		for param in self.model.parameters():
-		# 			if param.grad is not None:
-		# 				param.grad.data.clamp_(-0.5,0.5)
-		# 		self.optimizer.step()
-		# 	print('Optimizing sim nn : {}/{}'.format(j+1,self.num_epochs),end='\r')
-		# print('')
+				self.optimizer.zero_grad()
+				loss.backward(retain_graph=True)
+				for param in self.model.parameters():
+					if param.grad is not None:
+						param.grad.data.clamp_(-0.5,0.5)
+				self.optimizer.step()
+			print('Optimizing sim nn : {}/{}'.format(j+1,self.num_epochs),end='\r')
+		print('')
 		# muscle_transitions = np.array(self.muscle_buffer.buffer)
 
 		# valid = Tensor(self.muscle_batch_size,1).fill_(1.0)
@@ -392,6 +392,6 @@ if __name__=="__main__":
 	for i in range(50000):
 		ppo.Train()
 		rewards,losses,discrim_losses = ppo.Evaluate()
-		# Plot(rewards,'reward',0,False)
-		Plot(losses,'muscle Loss',1,False)
+		Plot(rewards,'reward',0,False)
+		# Plot(losses,'muscle Loss',1,False)
 		# Plot(discrim_losses,'disc Loss',2,False)
