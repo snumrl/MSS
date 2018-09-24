@@ -22,6 +22,13 @@ FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
 LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor
 ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor
 Tensor = FloatTensor
+
+def weights_init(m):
+	classname = m.__class__.__name__
+	if classname.find('Linear') != -1:
+		torch.nn.init.xavier_uniform_(m.weight)
+		m.bias.data.zero_()
+		
 class Container(nn.Module):
 	def __init__(self,num):
 		super(Container,self).__init__()
@@ -45,37 +52,32 @@ class MuscleNN(nn.Module):
 		self.num_muscles = num_muscles
 
 		num_h1 = 128
-		num_h2 = 256
-
-		self.fc1 = nn.Linear(num_states,num_h1)
-		self.fc2 = nn.Linear(num_h1+num_dofs,num_h2)
-		self.fc3 = nn.Linear(num_h2,num_muscles)
-		
+		num_h2 = 512
+		num_h3 = 512
+		num_h4 = 256
+		self.fc = nn.Sequential(
+			nn.Linear(num_states+num_dofs,num_h1),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h1,num_h2),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h2,num_h3),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h3,num_h4),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h4,num_muscles),
+			nn.Sigmoid()
+		)
 		self.loss_container = Container(50000)
-
-		torch.nn.init.xavier_uniform_(self.fc1.weight)
-		torch.nn.init.xavier_uniform_(self.fc2.weight)
-		torch.nn.init.xavier_uniform_(self.fc3.weight)
-
-		self.fc1.bias.data.zero_()
-		self.fc2.bias.data.zero_()
-		self.fc3.bias.data.zero_()
 
 		self.std_qdd = torch.zeros(self.num_dofs)
 		for i in range(self.num_dofs):
 			self.std_qdd[i] = 1000.0
 		if use_cuda:
 			self.std_qdd = self.std_qdd.cuda()
-		
+		self.fc.apply(weights_init)
 	def forward(self,s,qdd):
 		qdd = qdd/self.std_qdd
-
-		out = F.relu(self.fc1(s))
-		out = torch.cat([out,qdd],dim=1)
-		out = F.relu(self.fc2(out))
-		out = torch.tanh(self.fc3(out))
-
-		out = 0.5*(out+1)
+		out = self.fc.forward(torch.cat([s,qdd],dim=1))
 		return out		
 
 	def load(self,path):
@@ -86,9 +88,34 @@ class MuscleNN(nn.Module):
 		print('save muscle nn {}'.format(path))
 		torch.save(self.state_dict(),path)
 		
-	def get_activation(self,x):
-		act = self.forward(Tensor(x.reshape(1,-1)))
+	def get_activation(self,s,qdd):
+		act = self.forward(Tensor(s.reshape(1,-1)),Tensor(qdd.reshape(1,-1)))
 		return act.cpu().detach().numpy()
+
+class DiscriminatorNN(nn.Module):
+	def __init__(self,num_muscles):
+		super(DiscriminatorNN,self).__init__()
+		self.num_muscles = num_muscles
+		num_h1 = 128
+		num_h2 = 512
+		num_h3 = 512
+		num_h4 = 256
+		self.fc = nn.Sequential(
+			nn.Linear(self.num_muscles,num_h1),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h1,num_h2),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h2,num_h3),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h3,num_h4),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h4,1),
+			nn.Sigmoid()
+		)
+		self.loss_container = Container(50000)
+		self.fc.apply(weights_init)
+	def forward(self,a):
+		return self.fc(a)
 
 class SimulationNN(nn.Module):
 	def __init__(self,num_states,num_actions):

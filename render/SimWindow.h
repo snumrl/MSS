@@ -17,6 +17,7 @@ class SimWindow : public GUI::GLUTWindow
 public:
 	SimWindow();
 	SimWindow(const std::string& nn_path);
+	SimWindow(const std::string& nn_path,const std::string& muscle_nn_path);
 	
 protected:
 
@@ -42,6 +43,7 @@ protected:
 	void Step();
 	void Screenshot();
 	void GetActionFromNN();
+	Eigen::VectorXd GetActivationFromNN();
 	MSS::Environment* mWorld;
 
 	Eigen::VectorXd mAction;
@@ -51,11 +53,12 @@ protected:
 	bool mIsCapture;
 	bool mIsFocusing;
 	bool mIsNNLoaded;
+	bool mIsMuscleNNLoaded;
 	bool mRandomAction;
 	int mFocusBodyNum;
 
 	//python object
-	p::object mm,mns,sys_module,nn_module;
+	p::object mm,mns,sys_module,nn_module,muscle_nn_module;
 
 };
 

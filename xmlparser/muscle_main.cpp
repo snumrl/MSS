@@ -78,13 +78,16 @@ void ReadMayaConstant(std::vector<MayaConstant>& mc,std::string path)
 		if(index=="unit")
 		{
 			ss>>name;
+			// std::cout<<"unit "<<name<<std::endl;
 			std::cout<<name<<std::endl;
 			mc.push_back(MayaConstant(name));
 		}
 		else if(index=="attach")
 		{
 			ss>>name;
+
 			ss>>x>>y>>z;
+			// std::cout<<"attach "<<name<<" "<<-x<<" "<<y<<" "<<z<<std::endl;
 			mc.back().AddAnchor(name,Eigen::Vector3d(x,y,z));
 		}
 	}
@@ -96,65 +99,36 @@ int main(int argc,char** argv)
 	std::map<std::string,UserConstant> ucs;
 	std::vector<MayaConstant> mcs;
 	ReadMayaConstant(mcs,argv[1]);
-	ucs.insert(std::make_pair("L_Adductor_Longus1",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Bicep_Femoris_Longus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Bicep_Femoris_Short",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Extensor_Digitorum_Longus1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Extensor_Hallucis_Longus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Flexor_Digitorum_Longus2",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Flexor_Hallucis",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gastrocnemius_Lateral_Head",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gluteus_Maximus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gluteus_Maximus2",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gluteus_Maximus4",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gluteus_Medius1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Gracilis",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Obturator_Externus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Obturator_Internus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Peroneus_Longus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Plantaris",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Psoas_Major2",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Rectus_Femoris",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Sartorius",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Semimembranosus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Semitendinosus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Soleus1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Tensor_Fascia_Lata2",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Tibialis_Anterior",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Vastus_Intermedius1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Vastus_Lateralis",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("L_Vastus_Medialis1",UserConstant(500.0,1.0,0.2,0.0)));
-
-	ucs.insert(std::make_pair("R_Adductor_Longus1",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Bicep_Femoris_Longus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Bicep_Femoris_Short",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Extensor_Digitorum_Longus1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Extensor_Hallucis_Longus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Flexor_Digitorum_Longus2",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Flexor_Hallucis",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gastrocnemius_Lateral_Head",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gluteus_Maximus",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gluteus_Maximus2",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gluteus_Maximus4",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gluteus_Medius1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Gracilis",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Obturator_Externus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Obturator_Internus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Peroneus_Longus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Plantaris",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Psoas_Major2",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Rectus_Femoris",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Sartorius",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Semimembranosus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Semitendinosus",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Soleus1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Tensor_Fascia_Lata2",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Tibialis_Anterior",UserConstant(300.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Vastus_Intermedius1",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Vastus_Lateralis",UserConstant(500.0,1.0,0.2,0.0)));
-	ucs.insert(std::make_pair("R_Vastus_Medialis1",UserConstant(500.0,1.0,0.2,0.0)));
-
-
+	for(int i =0;i<mcs.size();i++)
+		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(1000.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Adductor_Longus1",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Bicep_Femoris_Longus",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Bicep_Femoris_Short",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Extensor_Digitorum_Longus1",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Extensor_Hallucis_Longus",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Flexor_Digitorum_Longus2",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Flexor_Hallucis",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gastrocnemius_Lateral_Head",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gluteus_Maximus",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gluteus_Maximus2",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gluteus_Maximus4",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gluteus_Medius1",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Gracilis",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Obturator_Externus",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Obturator_Internus",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Peroneus_Longus",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Plantaris",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Psoas_Major2",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Rectus_Femoris",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Sartorius",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Semimembranosus",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Semitendinosus",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Soleus1",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Tensor_Fascia_Lata2",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Tibialis_Anterior",UserConstant(300.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Vastus_Intermedius1",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Vastus_Lateralis",UserConstant(500.0,1.0,0.2,0.0)));
+	// ucs.insert(std::make_pair("L_Vastus_Medialis1",UserConstant(500.0,1.0,0.2,0.0)));
 
 	TiXmlDocument doc;
 	TiXmlElement* muscle_elem = new TiXmlElement("Muscle");
@@ -167,7 +141,7 @@ int main(int argc,char** argv)
 		auto& uc = ucs.at(mcs[i].mName);
 
 		unit_elem->SetAttribute("name",mcs[i].mName);
-		unit_elem->SetAttribute("f0",std::to_string(uc.f0*5.0));
+		unit_elem->SetAttribute("f0",std::to_string(uc.f0));
 		unit_elem->SetAttribute("lm",std::to_string(uc.lm));
 		unit_elem->SetAttribute("lt",std::to_string(uc.lt));
 		unit_elem->SetAttribute("pen_angle",std::to_string(uc.pen_angle));

@@ -11,7 +11,7 @@ using namespace dart::simulation;
 using namespace dart::dynamics;
 SimWindow::
 SimWindow()
-	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mActionNum(0),mRandomAction(false)
+	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false)
 {
 	mWorld = new MSS::Environment(30,600);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
@@ -47,11 +47,29 @@ SimWindow(const std::string& nn_path)
 	load(nn_path);
 }
 
+SimWindow::
+SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)
+	:SimWindow(nn_path)
+{
+	mIsMuscleNNLoaded = true;
+
+	boost::python::str str = ("num_state = "+std::to_string(mWorld->GetNumState())).c_str();
+	p::exec(str,mns);
+	str = ("num_dofs = "+std::to_string(mWorld->GetCharacter()->GetSkeleton()->getNumDofs())).c_str();
+	p::exec(str,mns);
+	str = ("num_muscles = "+std::to_string(mWorld->GetCharacter()->GetMuscles().size())).c_str();
+	p::exec(str,mns);
+
+	muscle_nn_module = p::eval("MuscleNN(num_state,num_dofs,num_muscles).cuda()",mns);
+
+	p::object load = muscle_nn_module.attr("load");
+	load(muscle_nn_path);
+}
+
 void
 SimWindow::
 Display() 
 {
-	
 	glClearColor(1.0, 1.0, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -275,8 +293,12 @@ Step()
 	GetActionFromNN();
 	mWorld->SetAction(mAction);
 	int sim_per_control = mWorld->GetSimulationHz()/mWorld->GetControlHz();
-	for(int i =0;i<sim_per_control;i++)
-		mWorld->Step(mWorld->ComputeActivationQP());
+	for(int i =0;i<sim_per_control;i++){
+		// Eigen::VectorXd activation = Eigen::VectorXd::Zero(mWorld->GetCharacter()->GetMuscles().size());
+		Eigen::VectorXd activation = (mIsMuscleNNLoaded?GetActivationFromNN():mWorld->ComputeActivationQP());
+		mWorld->Step(activation);		
+		
+	}
 }
 void
 SimWindow::
@@ -322,6 +344,21 @@ Screenshot() {
     return ;
   }
 }
+np::ndarray toNumPyArray(const Eigen::VectorXd& vec)
+{
+	int n = vec.rows();
+	p::tuple shape = p::make_tuple(n);
+	np::dtype dtype = np::dtype::get_builtin<float>();
+	np::ndarray array = np::empty(shape,dtype);
+
+	float* dest = reinterpret_cast<float*>(array.get_data());
+	for(int i =0;i<n;i++)
+	{
+		dest[i] = vec[i];
+	}
+
+	return array;
+}
 void
 SimWindow::
 GetActionFromNN()
@@ -348,4 +385,26 @@ GetActionFromNN()
 	float* srcs = reinterpret_cast<float*>(action_np.get_data());
 	for(int i=0;i<mAction.rows();i++)
 		mAction[i] = srcs[i];
+}
+Eigen::VectorXd
+SimWindow::
+GetActivationFromNN()
+{
+	if(!mIsMuscleNNLoaded)
+		return Eigen::VectorXd::Zero(0);
+	p::object get_activation = muscle_nn_module.attr("get_activation");
+	Eigen::VectorXd state = mWorld->GetState();
+	Eigen::VectorXd qdd_des = mWorld->GetDesiredAcceleration();
+	np::ndarray s_np = toNumPyArray(state);
+	np::ndarray qdd_np = toNumPyArray(qdd_des);
+
+	p::object temp = get_activation(s_np,qdd_np);
+	np::ndarray activation_np = np::from_object(temp);
+
+	Eigen::VectorXd activation(mWorld->GetCharacter()->GetMuscles().size());
+	float* srcs = reinterpret_cast<float*>(activation_np.get_data());
+	for(int i=0;i<activation.rows();i++)
+		activation[i] = srcs[i];
+
+	return activation;
 }

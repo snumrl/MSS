@@ -29,6 +29,7 @@ public:
 
 	//For all slaves
 	np::ndarray ComputeActivationsQP();
+	np::ndarray GetDesiredAccelerations();
 	void Steps(np::ndarray np_array,p::list terminated);
 	void Resets(bool RSI);
 	np::ndarray IsTerminalStates();

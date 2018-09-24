@@ -91,6 +91,18 @@ ComputeActivationsQP()
 	}
 	return toNumPyArray(activations);
 }
+np::ndarray
+EnvironmentPython::
+GetDesiredAccelerations()
+{
+	std::vector<Eigen::VectorXd> qdd_des(mNumSlaves);
+#pragma omp parallel for
+	for (int id = 0; id < mNumSlaves; ++id)
+	{
+		qdd_des[id] = mSlaves[id]->GetDesiredAcceleration();
+	}
+	return toNumPyArray(qdd_des);
+}
 void
 EnvironmentPython::
 Steps(np::ndarray np_array,p::list _terminated)
@@ -200,6 +212,7 @@ BOOST_PYTHON_MODULE(pymss)
 		.def("SetAction",&EnvironmentPython::SetAction)
 		.def("GetReward",&EnvironmentPython::GetReward)
 		.def("ComputeActivationsQP",&EnvironmentPython::ComputeActivationsQP)
+		.def("GetDesiredAccelerations",&EnvironmentPython::GetDesiredAccelerations)
 		.def("Steps",&EnvironmentPython::Steps)
 		.def("Resets",&EnvironmentPython::Resets)
 		.def("IsTerminalStates",&EnvironmentPython::IsTerminalStates)

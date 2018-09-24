@@ -16,23 +16,25 @@ Environment(int control_Hz,int simulation_Hz)
 	// this->mWorld->getConstraintSolver()->setLCPSolver(dart::common::make_unique<dart::constraint::PGSLCPSolver>(mWorld->getTimeStep()));
 	mGround = MSS::SkeletonBuilder::BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/character/ground.xml"));
 	mWorld->addSkeleton(mGround);
-	mCharacter = new Character(mWorld,std::string(MSS_ROOT_DIR)+std::string("/character/lower_body_simple.xml"));
+	mCharacter = new Character(mWorld,std::string(MSS_ROOT_DIR)+std::string("/character/full_body.xml"));
 	mWorld->addSkeleton(mCharacter->GetSkeleton());
 	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode(0)));
-	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/lower_body_simple_muscle.xml"));
+	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/muscle.xml"));
+	std::cout<<"# muscles : "<<mCharacter->GetMuscles().size()<<std::endl;
 	//Hard-coded parameter
-	mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact.txt"),0.035,mGround->getBodyNode(0));
+	mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact_simple.txt"),0.035,mGround->getBodyNode(0));
 	
 	mCharacter->LoadMotionGraph(std::string(MSS_ROOT_DIR)+std::string("/motion/simple.graph"),std::vector<int>{0,0,0,0,0},1.0/(double)mControlHz);
-	// mCharacter->AddInterestBodies(std::vector<std::string> {"FemurR","TibiaR","TalusR","ProximalPhalanx1R","CalcaneusR","Spine","Torso","Neck","Head","ShoulderR","ArmR","ForeArmR","HandR"});
-	// mCharacter->AddInterestBodies(std::vector<std::string> {"FemurL","TibiaL","TalusL","ProximalPhalanx1L","CalcaneusL","ShoulderL","ArmL","ForeArmL","HandL"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"FemurR","TibiaR","TalusR"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"FemurL","TibiaL","TalusL"});
-	mCharacter->AddEndEffector("TalusR");
-	mCharacter->AddEndEffector("TalusL");
-	// mCharacter->AddEndEffector("HandR");
-	// mCharacter->AddEndEffector("HandL");
-	// mCharacter->AddEndEffector("Head");
+	mCharacter->AddInterestBodies(std::vector<std::string> {"R_Femur","R_Tibia","R_Talus"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"L_Femur","L_Tibia","L_Talus"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"Spine","Torso","Neck","Skull"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"R_Shoulder","R_Humerus","R_Radius","R_Hand"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"L_Shoulder","L_Humerus","L_Radius","L_Hand"});
+	mCharacter->AddEndEffector("R_Talus");
+	mCharacter->AddEndEffector("L_Talus");
+	mCharacter->AddEndEffector("R_Hand");
+	mCharacter->AddEndEffector("L_Hand");
+	mCharacter->AddEndEffector("Skull");
 
 	Eigen::VectorXd zeros = Eigen::VectorXd::Zero(mCharacter->GetSkeleton()->getNumDofs());
 	
@@ -51,7 +53,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#0,#1,#2
 	{
-		std::string name = "FemurR";
+		std::string name = "R_Femur";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -69,7 +71,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#3,#4,#5
 	{
-		std::string name = "FemurL";
+		std::string name = "L_Femur";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -87,7 +89,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#6
 	{
-		std::string name = "TibiaR";
+		std::string name = "R_Tibia";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -102,7 +104,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#7
 	{
-		std::string name = "TibiaL";
+		std::string name = "L_Tibia";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -117,7 +119,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#8,#9,#10
 	{
-		std::string name = "TalusR";
+		std::string name = "R_Talus";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -135,7 +137,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#11,#12,#13
 	{
-		std::string name = "TalusL";
+		std::string name = "L_Talus";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -151,204 +153,204 @@ Environment(int control_Hz,int simulation_Hz)
 		}
 		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
 	}
-	// //#14
-	// {
-	// 	std::string name = "Spine";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#15,#16,#17
-	// {
-	// 	std::string name = "Torso";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#18
-	// {
-	// 	std::string name = "Neck";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#19,#20,#21
-	// {
-	// 	std::string name = "Head";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#22
-	// {
-	// 	std::string name = "ShoulderR";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#23
-	// {
-	// 	std::string name = "ShoulderL";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#24,#25,#26
-	// {
-	// 	std::string name = "ArmR";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#27,#28,#29
-	// {
-	// 	std::string name = "ArmL";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#30
-	// {
-	// 	std::string name = "ForeArmR";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#31
-	// {
-	// 	std::string name = "ForeArmL";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	Eigen::VectorXd p_lower = zeros;
-	// 	Eigen::VectorXd p_upper = zeros;
-	// 	int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
-	// 	p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
-	// 	p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
-	// 	kp_lower[index] = min_kp;
-	// 	kp_upper[index] = max_kp;
-	// 	mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#32,#33,#34
-	// {
-	// 	std::string name = "HandR";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
-	// //#35,#36,#37
-	// {
-	// 	std::string name = "HandL";
-	// 	Eigen::VectorXd kp_upper = zeros;
-	// 	Eigen::VectorXd kp_lower = zeros;
-	// 	for(int i =0;i<3;i++)
-	// 	{
-	// 		Eigen::VectorXd p_lower = zeros;
-	// 		Eigen::VectorXd p_upper = zeros;
-	// 		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
-	// 		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
-	// 		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
-	// 		kp_lower[index] = min_kp;
-	// 		kp_upper[index] = max_kp;
-	// 		mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
-	// 	}
-	// 	mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
-	// }
+	//#14
+	{
+		std::string name = "Spine";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#15,#16,#17
+	{
+		std::string name = "Torso";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#18
+	{
+		std::string name = "Neck";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#19,#20,#21
+	{
+		std::string name = "Skull";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#22
+	{
+		std::string name = "R_Shoulder";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#23
+	{
+		std::string name = "L_Shoulder";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#24,#25,#26
+	{
+		std::string name = "R_Humerus";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#27,#28,#29
+	{
+		std::string name = "L_Humerus";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#30
+	{
+		std::string name = "R_Radius";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#31
+	{
+		std::string name = "L_Radius";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		Eigen::VectorXd p_lower = zeros;
+		Eigen::VectorXd p_upper = zeros;
+		int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getIndexInSkeleton();
+		p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionLowerLimit();
+		p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(0)->getPositionUpperLimit();
+		kp_lower[index] = min_kp;
+		kp_upper[index] = max_kp;
+		mCharacter->AddMotionAction(new MotionAction(name,p_upper,p_lower));
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#32,#33,#34
+	{
+		std::string name = "R_Hand";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
+	//#35,#36,#37
+	{
+		std::string name = "L_Hand";
+		Eigen::VectorXd kp_upper = zeros;
+		Eigen::VectorXd kp_lower = zeros;
+		for(int i =0;i<3;i++)
+		{
+			Eigen::VectorXd p_lower = zeros;
+			Eigen::VectorXd p_upper = zeros;
+			int index = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getIndexInSkeleton();
+			p_lower[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionLowerLimit();
+			p_upper[index] = mCharacter->GetSkeleton()->getBodyNode(name)->getParentJoint()->getDof(i)->getPositionUpperLimit();
+			kp_lower[index] = min_kp;
+			kp_upper[index] = max_kp;
+			mCharacter->AddMotionAction(new MotionAction(name+std::to_string(i),p_upper,p_lower));
+		}
+		mCharacter->AddKpAction(new KpAction(name+"_kp",kp_upper,kp_lower));
+	}
 	// //#14
 	// {
 	// 	std::string name = "FistThumbR";
@@ -551,16 +553,16 @@ Step(const Eigen::VectorXd& activation)
 	//For Muscle Actuator
 
 	
-	int count = 0;
-	for(auto muscle : mCharacter->GetMuscles())
-	{
-		muscle->activation = activation[count++];
-		muscle->Update(mWorld->getTimeStep());
-		muscle->ApplyForceToBody();
-	}
+	// int count = 0;
+	// for(auto muscle : mCharacter->GetMuscles())
+	// {
+	// 	muscle->activation = activation[count++];
+	// 	muscle->Update(mWorld->getTimeStep());
+	// 	muscle->ApplyForceToBody();
+	// }
 	//For Joint Torque
-	// Eigen::VectorXd tau = mCharacter->GetSPDForces(target.first,target.second);
-	// mCharacter->GetSkeleton()->setForces(tau);
+	Eigen::VectorXd tau = mCharacter->GetSkeleton()->getMassMatrix()*mQddDesired+mCharacter->GetSkeleton()->getCoriolisAndGravityForces();
+	mCharacter->GetSkeleton()->setForces(tau);
 	Eigen::MatrixXd M_inv = mCharacter->GetSkeleton()->getInvMassMatrix();
 	Tuple tp;
 	tp.s = GetState();
@@ -586,10 +588,10 @@ Eigen::VectorXd
 Environment::
 ComputeActivationQP()
 {
-	for(auto muscle : mCharacter->GetMuscles())
-		muscle->Update(mWorld->getTimeStep());
+	// for(auto muscle : mCharacter->GetMuscles())
+		// muscle->Update(mWorld->getTimeStep());
 	mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
-	mQP->Minimize(mQddDesired);
+	// mQP->Minimize(mQddDesired);
 
 	Eigen::VectorXd solution = mQP->GetSolution();
 

@@ -1,0 +1,2344 @@
+unit L_Abductor_Pollicis_Longus
+attach L_Radius 0.6294 1.4710 -0.0140
+attach L_Radius 0.7323 1.4884 0.0180
+attach L_Radius 0.7863 1.4916 0.0248
+attach L_Hand 0.8227 1.4729 0.0619
+unit L_Adductor_Brevis
+attach Pelvis 0.0319 0.9196 0.0416
+attach L_Femur 0.0831 0.8338 0.0049
+attach L_Femur 0.1104 0.8262 -0.0084
+unit L_Adductor_Brevis1
+attach Pelvis 0.0141 0.9116 0.0427
+attach L_Femur 0.0767 0.7565 -0.0007
+attach L_Femur 0.1040 0.7305 0.0025
+unit L_Adductor_Longus
+attach Pelvis 0.0302 0.9216 0.0427
+attach L_Femur 0.1003 0.7386 0.0027
+attach L_Femur 0.1096 0.7010 0.0014
+unit L_Adductor_Longus1
+attach Pelvis 0.0140 0.9148 0.0489
+attach L_Femur 0.0505 0.7298 0.0051
+attach L_Femur 0.0991 0.6343 0.0014
+unit L_Adductor_Magnus
+attach Pelvis 0.0223 0.8913 0.0134
+attach L_Femur 0.1064 0.8375 -0.0172
+attach L_Femur 0.1338 0.8339 -0.0176
+unit L_Adductor_Magnus1
+attach Pelvis 0.0235 0.8813 0.0130
+attach L_Femur 0.0977 0.8006 -0.0233
+attach L_Femur 0.1244 0.7596 -0.0020
+unit L_Adductor_Magnus2
+attach Pelvis 0.0356 0.8704 -0.0258
+attach L_Femur 0.0699 0.8091 -0.0242
+attach L_Femur 0.1026 0.7451 -0.0248
+attach L_Femur 0.1166 0.7196 0.0012
+unit L_Adductor_Magnus3
+attach Pelvis 0.0475 0.8697 -0.0436
+attach L_Femur 0.0744 0.7819 -0.0340
+attach L_Femur 0.1024 0.7040 -0.0225
+attach L_Femur 0.1054 0.6418 -0.0022
+unit L_Adductor_Magnus4
+attach Pelvis 0.0687 0.8772 -0.0560
+attach Pelvis 0.0630 0.8443 -0.0482
+attach L_Femur 0.0637 0.6412 -0.0314
+attach L_Femur 0.0653 0.5555 -0.0289
+unit L_Anconeous
+attach L_Humerus 0.5064 1.4824 -0.0095
+attach L_Radius 0.5371 1.4797 -0.0263
+attach L_Radius 0.5712 1.4688 -0.0295
+unit L_Bicep_Brachii_Long_Head
+attach L_Shoulder 0.1693 1.4437 -0.0369
+attach L_Humerus 0.1779 1.4217 -0.0330
+attach L_Humerus 0.1810 1.4320 -0.0183
+attach L_Humerus 0.1911 1.4343 -0.0084
+attach L_Humerus 0.2145 1.4348 -0.0071
+attach L_Humerus 0.2591 1.4341 -0.0024
+attach L_Radius 0.5290 1.4483 0.0250
+attach L_Radius 0.5832 1.4625 0.0019
+unit L_Bicep_Brachii_Short_Head
+attach L_Shoulder 0.1684 1.4347 -0.0074
+attach L_Humerus 0.2520 1.4113 -0.0077
+attach L_Humerus 0.4890 1.4253 0.0234
+attach L_Radius 0.5854 1.4614 -0.0013
+unit L_Bicep_Femoris_Longus
+attach Pelvis 0.0709 0.9002 -0.0636
+attach L_Femur 0.0965 0.8548 -0.0463
+attach L_Femur 0.1399 0.5743 -0.0292
+attach L_Femur 0.1441 0.5416 -0.0328
+attach L_Tibia 0.1382 0.4888 -0.0388
+unit L_Bicep_Femoris_Short
+attach L_Femur 0.1182 0.7298 0.0002
+attach L_Femur 0.1435 0.5450 -0.0297
+attach L_Tibia 0.1398 0.4891 -0.0341
+unit L_Bicep_Femoris_Short1
+attach L_Femur 0.1118 0.6184 0.0019
+attach L_Femur 0.1416 0.5320 -0.0199
+attach L_Tibia 0.1379 0.4885 -0.0307
+unit L_Brachialis
+attach L_Humerus 0.3321 1.4604 -0.0190
+attach L_Humerus 0.3500 1.4718 -0.0081
+attach L_Humerus 0.4963 1.4606 0.0175
+attach L_Radius 0.5572 1.4619 -0.0110
+unit L_Brachialis1
+attach L_Humerus 0.3220 1.4441 -0.0102
+attach L_Humerus 0.3532 1.4363 -0.0023
+attach L_Humerus 0.4968 1.4356 0.0085
+attach L_Radius 0.5541 1.4552 -0.0115
+unit L_Brachioradialis
+attach L_Humerus 0.4428 1.4652 -0.0209
+attach L_Humerus 0.4651 1.4903 -0.0082
+attach L_Humerus 0.4997 1.4789 0.0251
+attach L_Radius 0.5618 1.4609 0.0377
+attach L_Radius 0.7086 1.4743 0.0362
+attach L_Radius 0.7867 1.4880 0.0302
+unit L_Coracobrachialis
+attach L_Shoulder 0.1681 1.4326 -0.0083
+attach L_Humerus 0.2289 1.4071 -0.0192
+attach L_Humerus 0.3121 1.4291 -0.0194
+attach L_Humerus 0.3386 1.4418 -0.0167
+unit L_Deltoid
+attach L_Shoulder 0.1432 1.4662 -0.0190
+attach L_Shoulder 0.1607 1.4476 0.0015
+attach L_Humerus 0.2213 1.4119 0.0137
+attach L_Humerus 0.2687 1.4431 0.0141
+attach L_Humerus 0.2996 1.4462 -0.0107
+unit L_Deltoid1
+attach L_Shoulder 0.1977 1.4659 -0.0257
+attach L_Humerus 0.1866 1.4505 -0.0086
+attach L_Humerus 0.2277 1.4677 0.0064
+attach L_Humerus 0.2786 1.4698 0.0074
+attach L_Humerus 0.3183 1.4529 -0.0081
+unit L_Deltoid2
+attach L_Shoulder 0.2037 1.4593 -0.0520
+attach L_Shoulder 0.1933 1.4669 -0.0386
+attach L_Humerus 0.2367 1.4858 -0.0262
+attach L_Humerus 0.2951 1.4776 -0.0162
+attach L_Humerus 0.3241 1.4569 -0.0112
+unit L_Deltoid3
+attach L_Shoulder 0.1591 1.4562 -0.0904
+attach L_Shoulder 0.1867 1.4411 -0.0933
+attach L_Humerus 0.2152 1.4101 -0.1008
+attach L_Humerus 0.2715 1.4766 -0.0725
+attach L_Humerus 0.3189 1.4580 -0.0152
+unit L_Extensor_Carpi_Radialis_Brevis
+attach L_Humerus 0.5079 1.4807 -0.0032
+attach L_Radius 0.5438 1.4962 0.0105
+attach L_Radius 0.7296 1.4869 0.0226
+attach L_Radius 0.7803 1.4863 0.0105
+attach L_Hand 0.8296 1.4867 0.0240
+unit L_Extensor_Carpi_Radialis_Longus
+attach L_Humerus 0.4789 1.4705 -0.0173
+attach L_Humerus 0.5011 1.4897 -0.0010
+attach L_Radius 0.5525 1.4900 0.0299
+attach L_Radius 0.7206 1.4830 0.0279
+attach L_Radius 0.7821 1.4882 0.0133
+attach L_Hand 0.8293 1.4854 0.0385
+unit L_Extensor_Carpi_Ulnaris
+attach L_Humerus 0.5186 1.4831 -0.0067
+attach L_Radius 0.5593 1.4907 -0.0171
+attach L_Radius 0.6523 1.4707 -0.0297
+attach L_Radius 0.7855 1.4494 0.0009
+attach L_Hand 0.8255 1.4777 0.0010
+unit L_Extensor_Digiti_Minimi
+attach L_Humerus 0.5204 1.4837 -0.0054
+attach L_Radius 0.5483 1.4900 -0.0076
+attach L_Radius 0.7832 1.4632 -0.0036
+attach L_Hand 0.8216 1.4821 0.0014
+attach L_Hand 0.8847 1.4621 -0.0052
+attach L_Hand 0.9278 1.4431 -0.0025
+unit L_Extensor_Digitorum_Longus
+attach L_Tibia 0.1233 0.4828 -0.0128
+attach L_Tibia 0.1249 0.4474 -0.0255
+attach L_Tibia 0.0944 0.1128 -0.0255
+attach L_Talus 0.0919 0.0844 -0.0153
+attach L_Talus 0.0900 0.0277 0.0676
+attach L_Talus 0.0920 0.0212 0.0961
+attach L_Talus 0.0938 0.0130 0.1121
+unit L_Extensor_Digitorum_Longus1
+attach L_Tibia 0.1286 0.4919 -0.0100
+attach L_Tibia 0.1336 0.4070 -0.0200
+attach L_Tibia 0.0973 0.1139 -0.0239
+attach L_Talus 0.0984 0.0807 -0.0115
+attach L_Talus 0.1047 0.0245 0.0616
+attach L_Talus 0.1074 0.0195 0.0796
+attach L_Talus 0.1120 0.0106 0.1032
+unit L_Extensor_Digitorum_Longus2
+attach L_Tibia 0.1271 0.4884 -0.0095
+attach L_Tibia 0.1408 0.4067 -0.0144
+attach L_Tibia 0.0985 0.1137 -0.0245
+attach L_Talus 0.1013 0.0775 -0.0106
+attach L_Talus 0.1180 0.0260 0.0543
+attach L_Talus 0.1214 0.0224 0.0687
+attach L_Talus 0.1252 0.0129 0.0846
+unit L_Extensor_Digitorum_Longus3
+attach L_Tibia 0.1300 0.4931 -0.0117
+attach L_Tibia 0.1315 0.4070 -0.0331
+attach L_Tibia 0.1037 0.0824 -0.0175
+attach L_Talus 0.1142 0.0594 0.0009
+attach L_Talus 0.1307 0.0283 0.0395
+attach L_Talus 0.1371 0.0093 0.0745
+unit L_Extensor_Digitorum
+attach L_Humerus 0.5151 1.4855 -0.0019
+attach L_Radius 0.7478 1.4868 0.0123
+attach L_Radius 0.7813 1.4836 0.0072
+attach L_Hand 0.8226 1.4898 0.0341
+attach L_Hand 0.8922 1.4828 0.0584
+attach L_Hand 0.9519 1.4539 0.0691
+unit L_Extensor_Digitorum1
+attach L_Humerus 0.5193 1.4879 -0.0016
+attach L_Radius 0.7458 1.4826 0.0055
+attach L_Radius 0.7821 1.4784 0.0023
+attach L_Hand 0.8247 1.4917 0.0263
+attach L_Hand 0.8957 1.4814 0.0340
+attach L_Hand 0.9606 1.4418 0.0442
+unit L_Extensor_Digitorum2
+attach L_Humerus 0.5168 1.4824 -0.0044
+attach L_Radius 0.7430 1.4747 -0.0024
+attach L_Radius 0.7833 1.4697 -0.0021
+attach L_Hand 0.8230 1.4888 0.0114
+attach L_Hand 0.8945 1.4721 0.0129
+attach L_Hand 0.9510 1.4410 0.0182
+unit L_Extensor_Hallucis_Longus
+attach L_Tibia 0.1151 0.3806 -0.0283
+attach L_Tibia 0.0970 0.1199 -0.0230
+attach L_Talus 0.0834 0.0825 -0.0151
+attach L_Talus 0.0724 0.0635 0.0274
+attach L_Talus 0.0656 0.0318 0.0717
+attach L_Talus 0.0606 0.0129 0.1128
+unit L_Extensor_Indicis
+attach L_Radius 0.7230 1.4672 0.0017
+attach L_Radius 0.7892 1.4761 0.0036
+attach L_Hand 0.8237 1.4903 0.0340
+attach L_Hand 0.9293 1.4672 0.0659
+unit L_Extensor_Pollicis_Brevis
+attach L_Radius 0.7007 1.4705 0.0087
+attach L_Radius 0.7919 1.4909 0.0199
+attach L_Hand 0.8167 1.4820 0.0542
+attach L_Hand 0.8559 1.4575 0.0796
+unit L_Extensor_Pollicis_Longus
+attach L_Radius 0.6718 1.4695 -0.0073
+attach L_Radius 0.7709 1.4796 0.0055
+attach L_Hand 0.8151 1.4903 0.0395
+attach L_Hand 0.8474 1.4660 0.0755
+attach L_Hand 0.8770 1.4460 0.0878
+unit L_Flexor_Carpi_Radialis
+attach L_Humerus 0.5184 1.4262 -0.0162
+attach L_Radius 0.7412 1.4586 0.0270
+attach L_Radius 0.7846 1.4653 0.0287
+attach L_Hand 0.8324 1.4741 0.0391
+unit L_Flexor_Carpi_Ulnaris
+attach L_Humerus 0.5255 1.4256 -0.0220
+attach L_Radius 0.5819 1.4361 -0.0347
+attach L_Radius 0.7594 1.4501 0.0068
+attach L_Hand 0.8053 1.4671 0.0099
+unit L_Flexor_Digiti_Minimi_Brevis_Foot
+attach L_Talus 0.1364 0.0112 0.0496
+attach L_Talus 0.1201 0.0236 -0.0092
+unit L_Flexor_Digitorum_Longus
+attach L_Tibia 0.0895 0.3986 -0.0204
+attach L_Tibia 0.0627 0.1112 -0.0555
+attach L_Talus 0.0637 0.0404 -0.0222
+attach L_Talus 0.0831 0.0322 -0.0014
+attach L_Talus 0.0867 0.0094 0.0591
+attach L_Talus 0.0927 0.0088 0.1084
+unit L_Flexor_Digitorum_Longus1
+attach L_Tibia 0.0895 0.3986 -0.0204
+attach L_Tibia 0.0657 0.1110 -0.0562
+attach L_Talus 0.0649 0.0403 -0.0239
+attach L_Talus 0.0850 0.0317 -0.0089
+attach L_Talus 0.1016 0.0070 0.0530
+attach L_Talus 0.1102 0.0092 0.0997
+unit L_Flexor_Digitorum_Longus2
+attach L_Tibia 0.0896 0.3893 -0.0231
+attach L_Tibia 0.0666 0.1159 -0.0562
+attach L_Talus 0.0634 0.0430 -0.0257
+attach L_Talus 0.0912 0.0302 -0.0064
+attach L_Talus 0.1151 0.0089 0.0421
+attach L_Talus 0.1241 0.0095 0.0831
+unit L_Flexor_Digitorum_Longus3
+attach L_Tibia 0.0839 0.3881 -0.0188
+attach L_Tibia 0.0682 0.1207 -0.0564
+attach L_Talus 0.0598 0.0510 -0.0273
+attach L_Talus 0.1068 0.0260 -0.0011
+attach L_Talus 0.1309 0.0088 0.0390
+attach L_Talus 0.1364 0.0071 0.0705
+unit L_Flexor_Digitorum_Profundus
+attach L_Radius 0.5503 1.4587 -0.0298
+attach L_Radius 0.6284 1.4467 -0.0268
+attach L_Radius 0.7869 1.4536 0.0184
+attach L_Hand 0.8266 1.4702 0.0161
+attach L_Hand 0.9255 1.4407 -0.0037
+unit L_Flexor_Digitorum_Profundus1
+attach L_Radius 0.5655 1.4542 -0.0166
+attach L_Radius 0.6362 1.4466 -0.0149
+attach L_Radius 0.7876 1.4576 0.0225
+attach L_Hand 0.8291 1.4699 0.0212
+attach L_Hand 0.9482 1.4399 0.0178
+unit L_Flexor_Digitorum_Profundus2
+attach L_Radius 0.5942 1.4653 -0.0091
+attach L_Radius 0.6518 1.4566 0.0004
+attach L_Radius 0.7831 1.4595 0.0238
+attach L_Hand 0.8283 1.4709 0.0284
+attach L_Hand 0.9555 1.4421 0.0433
+unit L_Flexor_Digitorum_Profundus3
+attach L_Radius 0.6112 1.4686 -0.0067
+attach L_Radius 0.7887 1.4633 0.0263
+attach L_Hand 0.8163 1.4691 0.0321
+attach L_Hand 0.9482 1.4533 0.0682
+unit L_Flexor_Digitorum_Superficialis
+attach L_Radius 0.6916 1.4709 0.0222
+attach L_Radius 0.7751 1.4623 0.0263
+attach L_Hand 0.8226 1.4672 0.0357
+attach L_Hand 0.9320 1.4618 0.0671
+unit L_Flexor_Digitorum_Superficialis1
+attach L_Radius 0.6014 1.4663 0.0081
+attach L_Radius 0.7777 1.4580 0.0257
+attach L_Hand 0.8289 1.4694 0.0291
+attach L_Hand 0.9394 1.4530 0.0399
+unit L_Flexor_Digitorum_Superficialis2
+attach L_Radius 0.5544 1.4463 -0.0137
+attach L_Radius 0.7775 1.4533 0.0223
+attach L_Hand 0.8299 1.4682 0.0208
+attach L_Hand 0.9308 1.4490 0.0130
+unit L_Flexor_Digitorum_Superficialis3
+attach L_Humerus 0.5219 1.4302 -0.0154
+attach L_Radius 0.5999 1.4342 -0.0265
+attach L_Radius 0.7771 1.4509 0.0175
+attach L_Hand 0.8268 1.4688 0.0165
+attach L_Hand 0.9126 1.4458 -0.0049
+unit L_Flexor_Hallucis
+attach L_Tibia 0.1197 0.3930 -0.0389
+attach L_Tibia 0.0746 0.1076 -0.0580
+attach L_Talus 0.0614 0.0671 -0.0635
+attach L_Talus 0.0678 0.0467 -0.0428
+attach L_Talus 0.0649 0.0114 0.0577
+attach L_Talus 0.0617 0.0080 0.1072
+unit L_Flexor_Pollicis_Longus
+attach L_Radius 0.6772 1.4713 0.0224
+attach L_Radius 0.7846 1.4659 0.0281
+attach L_Hand 0.8139 1.4696 0.0308
+attach L_Hand 0.8305 1.4666 0.0571
+attach L_Hand 0.8789 1.4456 0.0837
+unit L_Gastrocnemius_Lateral_Head
+attach L_Femur 0.1264 0.5620 -0.0059
+attach L_Femur 0.1219 0.5547 -0.0383
+attach L_Tibia 0.1262 0.5059 -0.0662
+attach L_Tibia 0.1120 0.3024 -0.0917
+unit L_Gastrocnemius_Medial_Head
+attach L_Femur 0.0750 0.5673 -0.0144
+attach L_Femur 0.0952 0.5507 -0.0466
+attach L_Tibia 0.0924 0.5058 -0.0691
+attach L_Tibia 0.0603 0.2732 -0.0592
+unit L_Gluteus_Maximus
+attach Pelvis 0.0539 1.0358 -0.0962
+attach Pelvis 0.1115 1.0133 -0.0893
+attach L_Femur 0.1531 0.9397 -0.0466
+attach L_Femur 0.1482 0.8726 -0.0169
+unit L_Gluteus_Maximus1
+attach Pelvis 0.0382 0.9886 -0.0993
+attach Pelvis 0.1038 0.9688 -0.1108
+attach L_Femur 0.1553 0.9001 -0.0493
+attach L_Femur 0.1416 0.8459 -0.0113
+unit L_Gluteus_Maximus2
+attach Pelvis 0.0297 0.9498 -0.0943
+attach Pelvis 0.0517 0.9422 -0.1201
+attach Pelvis 0.1221 0.9069 -0.0970
+attach L_Femur 0.1493 0.8401 -0.0361
+attach L_Femur 0.1342 0.8182 -0.0089
+unit L_Gluteus_Maximus3
+attach Pelvis 0.0352 0.9192 -0.0807
+attach Pelvis 0.0665 0.8808 -0.1117
+attach L_Femur 0.1244 0.8512 -0.0762
+attach L_Femur 0.1302 0.7893 -0.0012
+unit L_Gluteus_Maximus4
+attach Pelvis 0.0450 0.8960 -0.0648
+attach Pelvis 0.0645 0.8487 -0.0730
+attach L_Femur 0.1156 0.8091 -0.0402
+attach L_Femur 0.1291 0.7723 0.0028
+unit L_Gluteus_Medius
+attach Pelvis 0.1295 1.0138 0.0287
+attach L_Femur 0.1572 0.9456 -0.0053
+attach L_Femur 0.1574 0.9234 -0.0067
+unit L_Gluteus_Medius1
+attach Pelvis 0.1282 1.0673 -0.0299
+attach L_Femur 0.1555 0.9509 -0.0265
+attach L_Femur 0.1656 0.8914 -0.0088
+unit L_Gluteus_Medius2
+attach Pelvis 0.0792 1.0645 -0.0696
+attach Pelvis 0.1222 1.0284 -0.0736
+attach L_Femur 0.1590 0.9186 -0.0299
+attach L_Femur 0.1597 0.8912 -0.0210
+unit L_Gluteus_Medius3
+attach Pelvis 0.0611 1.0087 -0.0875
+attach Pelvis 0.0883 0.9884 -0.0829
+attach L_Femur 0.1397 0.9363 -0.0482
+attach L_Femur 0.1474 0.8994 -0.0331
+unit L_Gluteus_Minimus
+attach Pelvis 0.0686 0.9926 -0.0668
+attach Pelvis 0.0978 0.9715 -0.0592
+attach L_Femur 0.1523 0.9321 -0.0115
+attach L_Femur 0.1607 0.9054 -0.0049
+unit L_Gluteus_Minimus1
+attach Pelvis 0.0982 1.0460 -0.0417
+attach Pelvis 0.1257 1.0159 -0.0400
+attach L_Femur 0.1564 0.9331 -0.0017
+attach L_Femur 0.1583 0.8930 0.0022
+unit L_Gluteus_Minimus2
+attach Pelvis 0.1334 1.0373 0.0090
+attach L_Femur 0.1548 0.9330 0.0059
+attach L_Femur 0.1516 0.8974 0.0046
+unit L_Gracilis
+attach Pelvis 0.0113 0.9031 0.0307
+attach L_Femur 0.0489 0.5297 -0.0426
+attach L_Tibia 0.0616 0.4798 -0.0217
+attach L_Tibia 0.0776 0.4657 -0.0033
+unit L_Inferior_Gemellus
+attach Pelvis 0.0662 0.8857 -0.0621
+attach L_Femur 0.1243 0.9083 -0.0469
+attach L_Femur 0.1357 0.9089 -0.0332
+unit L_Infraspinatus
+attach L_Shoulder 0.0924 1.4212 -0.1143
+attach L_Shoulder 0.1845 1.4372 -0.0739
+attach L_Shoulder 0.1962 1.4568 -0.0478
+attach L_Shoulder 0.1944 1.4598 -0.0262
+unit L_Infraspinatus1
+attach L_Shoulder 0.0916 1.3688 -0.1271
+attach L_Shoulder 0.1870 1.4238 -0.0757
+attach L_Shoulder 0.2038 1.4581 -0.0469
+attach L_Shoulder 0.1980 1.4615 -0.0270
+unit L_Latissimus_Dorsi
+attach Torso 0.0000 1.3114 -0.1266
+attach L_Shoulder 0.1158 1.3278 -0.1293
+attach L_Shoulder 0.1525 1.3534 -0.0946
+attach L_Humerus 0.2448 1.4154 -0.0398
+attach L_Humerus 0.2244 1.4320 -0.0168
+unit L_Latissimus_Dorsi1
+attach Torso 0.0026 1.2539 -0.1152
+attach Torso 0.1280 1.3112 -0.1233
+attach Torso 0.1624 1.3444 -0.0831
+attach L_Humerus 0.2533 1.4165 -0.0388
+attach L_Humerus 0.2336 1.4333 -0.0167
+unit L_Latissimus_Dorsi2
+attach Torso 0.0004 1.1863 -0.0987
+attach Torso 0.0669 1.2555 -0.1358
+attach Torso 0.1340 1.3000 -0.1186
+attach Torso 0.1669 1.3341 -0.0769
+attach L_Humerus 0.2645 1.4173 -0.0362
+attach L_Humerus 0.2427 1.4346 -0.0164
+unit L_Latissimus_Dorsi3
+attach Spine 0.0006 1.1035 -0.0920
+attach Torso 0.1012 1.2332 -0.1190
+attach Torso 0.1537 1.3007 -0.0988
+attach L_Humerus 0.2795 1.4207 -0.0459
+attach L_Humerus 0.2643 1.4226 -0.0248
+attach L_Humerus 0.2504 1.4356 -0.0162
+unit L_Latissimus_Dorsi4
+attach Pelvis 0.0058 0.9761 -0.1091
+attach Torso 0.1084 1.2104 -0.1053
+attach Torso 0.1595 1.2856 -0.0810
+attach L_Humerus 0.2899 1.4182 -0.0458
+attach L_Humerus 0.2589 1.4300 -0.0171
+attach L_Humerus 0.2563 1.4358 -0.0167
+unit L_Latissimus_Dorsi5
+attach Pelvis 0.0774 1.0636 -0.0760
+attach Torso 0.1179 1.1784 -0.0775
+attach Torso 0.1692 1.2986 -0.0600
+attach L_Humerus 0.2827 1.4168 -0.0327
+attach L_Humerus 0.2592 1.4355 -0.0174
+unit L_Levator_Scapulae
+attach L_Shoulder 0.1036 1.4697 -0.0646
+attach Torso 0.0799 1.4827 -0.0538
+attach Neck 0.0395 1.5276 -0.0204
+attach Neck 0.0254 1.5376 -0.0121
+unit L_Levator_Scapulae1
+attach L_Shoulder 0.0994 1.4736 -0.0700
+attach Torso 0.0782 1.4873 -0.0591
+attach Torso 0.0557 1.5089 -0.0401
+attach Neck 0.0450 1.5341 -0.0272
+attach Neck 0.0265 1.5556 -0.0087
+unit L_Levator_Scapulae2
+attach L_Shoulder 0.0897 1.4663 -0.0860
+attach Torso 0.0647 1.5004 -0.0637
+attach Neck 0.0429 1.5501 -0.0254
+attach Neck 0.0284 1.5714 -0.0067
+unit L_Levator_Scapulae3
+attach L_Shoulder 0.0853 1.4466 -0.1065
+attach Torso 0.0523 1.4974 -0.0758
+attach Neck 0.0420 1.5548 -0.0341
+attach Neck 0.0381 1.5918 -0.0072
+unit L_Longissimus_Capitis
+attach Neck 0.0275 1.5268 -0.0216
+attach Neck 0.0330 1.5516 -0.0289
+attach Skull 0.0569 1.6044 -0.0074
+unit L_Longissimus_Capitis1
+attach Neck 0.0340 1.5005 -0.0409
+attach Neck 0.0311 1.5338 -0.0433
+attach Skull 0.0595 1.6080 -0.0093
+unit L_Longissimus_Capitis2
+attach Torso 0.0316 1.4777 -0.0717
+attach Neck 0.0320 1.5351 -0.0494
+attach Skull 0.0584 1.6097 -0.0114
+unit L_Longissimus_Capitis3
+attach Torso 0.0262 1.4287 -0.1023
+attach Torso 0.0305 1.5002 -0.0748
+attach Neck 0.0311 1.5653 -0.0390
+attach Skull 0.0570 1.6088 -0.0173
+unit L_Longissimus_Cervicis
+attach Torso 0.0285 1.4286 -0.1004
+attach Torso 0.0357 1.4660 -0.0881
+attach Torso 0.0388 1.4964 -0.0595
+attach Neck 0.0350 1.5260 -0.0292
+attach Neck 0.0269 1.5725 -0.0080
+unit L_Longissimus_Thoracis
+attach Pelvis 0.0036 0.8988 -0.0726
+attach Pelvis 0.0201 1.0038 -0.1040
+attach Spine 0.0208 1.0923 -0.0803
+attach Torso 0.0292 1.1986 -0.0954
+attach Torso 0.0345 1.2740 -0.1196
+attach Torso 0.0364 1.3937 -0.1152
+attach Torso 0.0343 1.4540 -0.0938
+attach Neck 0.0320 1.5011 -0.0404
+unit L_Longus_Capitis
+attach Neck 0.0222 1.5612 -0.0010
+attach Neck 0.0147 1.5937 0.0071
+attach Skull 0.0097 1.6236 0.0100
+unit L_Longus_Capitis1
+attach Neck 0.0198 1.5425 -0.0065
+attach Neck 0.0126 1.5929 0.0116
+attach Skull 0.0060 1.6230 0.0104
+unit L_Longus_Capitis2
+attach Neck 0.0191 1.5269 -0.0125
+attach Neck 0.0104 1.5881 0.0113
+attach Skull 0.0021 1.6227 0.0103
+unit L_Longus_Colli
+attach Torso 0.0070 1.4334 -0.0513
+attach Neck 0.0169 1.4852 -0.0298
+attach Neck 0.0131 1.5367 -0.0042
+attach Neck 0.0024 1.5942 0.0099
+unit L_Multifidus
+attach Pelvis 0.0091 0.9236 -0.0917
+attach Pelvis 0.0111 0.9748 -0.1106
+attach Pelvis 0.0117 1.0133 -0.1001
+attach Spine 0.0093 1.1072 -0.0777
+attach Torso 0.0056 1.1795 -0.0852
+attach Torso 0.0005 1.2846 -0.1207
+unit L_Obliquus_Superior_Capitis
+attach Neck 0.0352 1.5931 -0.0081
+attach Skull 0.0221 1.6048 -0.0526
+attach Skull 0.0247 1.6175 -0.0653
+unit L_Obturator_Externus
+attach Pelvis 0.0212 0.9114 0.0247
+attach Pelvis 0.0684 0.8945 -0.0285
+attach L_Femur 0.1380 0.9098 -0.0265
+unit L_Obturator_Internus
+attach Pelvis 0.0185 0.9058 0.0139
+attach Pelvis 0.0516 0.9053 -0.0588
+attach Pelvis 0.0740 0.9046 -0.0705
+attach L_Femur 0.1386 0.9140 -0.0306
+unit L_Omohyoid
+attach L_Shoulder 0.1254 1.4568 -0.0620
+attach L_Shoulder 0.1110 1.4795 -0.0323
+attach Torso 0.0466 1.4913 0.0000
+attach L_Shoulder 0.0183 1.5062 0.0252
+attach Skull 0.0132 1.5601 0.0431
+unit L_Palatopharyngeal
+attach Neck 0.0051 1.5429 0.0045
+attach Neck 0.0193 1.5875 0.0231
+attach Skull 0.0145 1.6011 0.0273
+attach Skull 0.0000 1.6085 0.0365
+unit L_Palmaris_Longus
+attach L_Humerus 0.5221 1.4244 -0.0188
+attach L_Radius 0.6438 1.4335 0.0000
+attach L_Radius 0.7842 1.4591 0.0254
+attach L_Hand 0.8863 1.4618 0.0330
+unit L_Pectineus
+attach Pelvis 0.0404 0.9278 0.0327
+attach Pelvis 0.0572 0.9179 0.0469
+attach L_Femur 0.1011 0.8368 -0.0077
+attach L_Femur 0.1122 0.8303 -0.0042
+unit L_Pectoralis_Major
+attach L_Shoulder 0.0548 1.4628 0.0202
+attach Torso 0.1021 1.4361 0.0434
+attach Torso 0.1518 1.4057 0.0276
+attach L_Humerus 0.2449 1.4012 0.0032
+attach L_Humerus 0.2742 1.4468 -0.0098
+unit L_Pectoralis_Major1
+attach Torso 0.0083 1.4167 0.0550
+attach Torso 0.0779 1.4073 0.0611
+attach Torso 0.1471 1.3941 0.0378
+attach L_Humerus 0.2479 1.3979 0.0043
+attach L_Humerus 0.2606 1.4450 -0.0085
+unit L_Pectoralis_Major2
+attach Torso 0.0043 1.3677 0.0773
+attach Torso 0.0766 1.3719 0.0843
+attach Torso 0.1460 1.3742 0.0505
+attach L_Humerus 0.2483 1.4096 -0.0025
+attach L_Humerus 0.2477 1.4439 -0.0116
+unit L_Pectoralis_Major3
+attach Torso 0.0341 1.2914 0.0989
+attach Torso 0.0874 1.3107 0.1092
+attach Torso 0.1518 1.3481 0.0534
+attach L_Humerus 0.2404 1.4105 -0.0031
+attach L_Humerus 0.2313 1.4422 -0.0118
+unit L_Pectoralis_Minor
+attach Torso 0.0760 1.3800 0.0636
+attach Torso 0.1045 1.3987 0.0458
+attach L_Shoulder 0.1521 1.4498 -0.0252
+unit L_Pectoralis_Minor1
+attach Torso 0.0855 1.3474 0.0799
+attach Torso 0.1144 1.3736 0.0597
+attach L_Shoulder 0.1592 1.4481 -0.0177
+unit L_Pectoralis_Minor2
+attach Torso 0.1007 1.3050 0.0889
+attach Torso 0.1317 1.3622 0.0548
+attach L_Shoulder 0.1637 1.4416 -0.0097
+unit L_Peroneus_Brevis
+attach L_Tibia 0.1179 0.2839 -0.0449
+attach L_Tibia 0.1122 0.1097 -0.0678
+attach L_Tibia 0.1019 0.0677 -0.0690
+attach L_Talus 0.1169 0.0243 -0.0151
+unit L_Peroneus_Longus
+attach L_Tibia 0.1405 0.4795 -0.0263
+attach L_Tibia 0.1527 0.3660 -0.0379
+attach L_Tibia 0.1156 0.1037 -0.0636
+attach L_Talus 0.1049 0.0590 -0.0687
+attach L_Talus 0.1118 0.0399 -0.0412
+attach L_Talus 0.0850 0.0377 -0.0114
+attach L_Talus 0.0721 0.0366 0.0250
+unit L_Peroneus_Tertius
+attach L_Tibia 0.1075 0.1332 -0.0523
+attach L_Tibia 0.1120 0.0819 -0.0260
+attach L_Talus 0.1189 0.0348 0.0025
+unit L_Piriformis
+attach Pelvis 0.0316 0.9814 -0.0898
+attach L_Femur 0.1372 0.9309 -0.0257
+unit L_Piriformis1
+attach Pelvis 0.0160 0.9363 -0.0881
+attach L_Femur 0.1397 0.9205 -0.0228
+unit L_Plantaris
+attach L_Femur 0.1193 0.5658 -0.0132
+attach L_Femur 0.1115 0.5494 -0.0370
+attach L_Tibia 0.1068 0.4980 -0.0494
+attach L_Tibia 0.0737 0.1028 -0.0796
+attach L_Talus 0.0751 0.0373 -0.0980
+unit L_Platysma
+attach L_Shoulder 0.0372 1.4500 0.0381
+attach L_Shoulder 0.0228 1.4738 0.0309
+attach Neck 0.0154 1.5329 0.0339
+attach Skull 0.0143 1.5479 0.0528
+attach Skull 0.0088 1.5531 0.1001
+unit L_Platysma1
+attach L_Shoulder 0.0893 1.4510 0.0330
+attach L_Shoulder 0.0474 1.4758 0.0187
+attach Neck 0.0308 1.5425 0.0227
+attach Skull 0.0284 1.5554 0.0372
+attach Skull 0.0335 1.5621 0.0684
+unit L_Platysma2
+attach L_Shoulder 0.1329 1.4544 0.0032
+attach L_Shoulder 0.0813 1.4783 -0.0013
+attach Skull 0.0477 1.5694 0.0176
+attach Skull 0.0544 1.5807 0.0334
+unit L_Popliteus
+attach L_Femur 0.1373 0.5403 -0.0129
+attach L_Femur 0.1363 0.5269 -0.0333
+attach L_Tibia 0.1165 0.5009 -0.0429
+attach L_Tibia 0.0805 0.4550 -0.0188
+unit L_Pronator_Teres
+attach L_Humerus 0.5091 1.4301 -0.0202
+attach L_Radius 0.6144 1.4585 0.0178
+attach L_Radius 0.6532 1.4762 0.0182
+unit L_Psoas_Major
+attach Torso 0.0146 1.2227 -0.0481
+attach Pelvis 0.0920 1.0734 -0.0311
+attach Pelvis 0.0871 0.9311 0.0449
+attach L_Femur 0.0945 0.8815 0.0013
+attach L_Femur 0.1096 0.8505 -0.0156
+unit L_Psoas_Major1
+attach Spine 0.0214 1.1324 -0.0372
+attach Pelvis 0.0683 1.0333 -0.0209
+attach Pelvis 0.0744 0.9304 0.0439
+attach L_Femur 0.0924 0.8774 -0.0073
+attach L_Femur 0.1098 0.8567 -0.0092
+unit L_Psoas_Major2
+attach Spine 0.0184 1.0485 -0.0374
+attach Pelvis 0.0536 1.0104 -0.0329
+attach Pelvis 0.0685 0.9295 0.0366
+attach L_Femur 0.0924 0.8794 0.0015
+attach L_Femur 0.1085 0.8563 -0.0148
+unit L_Psoas_Minor
+attach Torso 0.0113 1.2214 -0.0456
+attach Spine 0.0553 1.1201 -0.0116
+attach Pelvis 0.0633 0.9992 -0.0054
+attach Pelvis 0.0578 0.9387 0.0198
+unit L_Quadratus_Femoris
+attach Pelvis 0.0859 0.9176 -0.0433
+attach Pelvis 0.1087 0.8979 -0.0490
+attach L_Femur 0.1361 0.8797 -0.0286
+unit L_Quadratus_Lumborum
+attach Spine 0.0377 1.0566 -0.0690
+attach Torso 0.0365 1.1984 -0.0831
+unit L_Quadratus_Lumborum1
+attach Pelvis 0.0773 1.0686 -0.0693
+attach Torso 0.0479 1.1847 -0.0837
+unit L_Rectus_Capitis_Anterior
+attach Neck 0.0370 1.5926 -0.0034
+attach Skull 0.0078 1.6212 0.0084
+unit L_Rectus_Capitis_Lateralis
+attach Neck 0.0356 1.5930 -0.0037
+attach Skull 0.0361 1.6172 -0.0072
+unit L_Rectus_Capitis_Posterior_Major
+attach Neck 0.0019 1.5804 -0.0413
+attach Skull 0.0095 1.6044 -0.0568
+attach Skull 0.0130 1.6171 -0.0675
+unit L_Rectus_Capitis_Posterior_Minor
+attach Neck 0.0027 1.5994 -0.0316
+attach Skull 0.0055 1.6069 -0.0670
+attach Skull 0.0047 1.6128 -0.0706
+unit L_Rectus_Femoris
+attach Pelvis 0.1075 0.9803 0.0144
+attach L_Femur 0.1165 0.9416 0.0310
+attach L_Femur 0.1045 0.6028 0.0432
+attach L_Tibia 0.1108 0.5422 0.0349
+unit L_Rectus_Femoris1
+attach Pelvis 0.1059 0.9735 0.0165
+attach L_Femur 0.1065 0.9263 0.0318
+attach L_Femur 0.0816 0.6066 0.0431
+attach L_Tibia 0.0757 0.5399 0.0320
+unit L_Rhomboid_Major
+attach Torso 0.0000 1.4858 -0.1012
+attach Torso 0.0400 1.4661 -0.1041
+attach L_Shoulder 0.0922 1.4435 -0.1096
+unit L_Rhomboid_Major1
+attach Torso 0.0000 1.3855 -0.1269
+attach Torso 0.0353 1.3699 -0.1331
+attach L_Shoulder 0.1046 1.3314 -0.1278
+unit L_Rhomboid_Major2
+attach Torso 0.0000 1.4261 -0.1194
+attach Torso 0.0404 1.4085 -0.1286
+attach L_Shoulder 0.0868 1.3912 -0.1234
+unit L_Rhomboid_Minor
+attach Neck 0.0000 1.5078 -0.0874
+attach Torso 0.0229 1.4944 -0.0881
+attach L_Shoulder 0.0907 1.4611 -0.0899
+unit L_Sartorius
+attach Pelvis 0.1241 1.0098 0.0314
+attach L_Femur 0.0352 0.7073 0.0260
+attach L_Tibia 0.0544 0.4965 -0.0224
+attach L_Tibia 0.0907 0.4539 0.0092
+unit L_Scalene_Anterior
+attach Torso 0.0570 1.4671 -0.0058
+attach Neck 0.0378 1.4959 -0.0115
+attach Neck 0.0250 1.5065 -0.0187
+unit L_Scalene_Anterior1
+attach Torso 0.0584 1.4670 -0.0058
+attach Neck 0.0350 1.5040 -0.0095
+attach Neck 0.0183 1.5236 -0.0173
+unit L_Scalene_Anterior2
+attach Torso 0.0587 1.4669 -0.0060
+attach Neck 0.0205 1.5399 -0.0109
+unit L_Scalene_Anterior3
+attach Torso 0.0619 1.4669 -0.0082
+attach Neck 0.0214 1.5579 -0.0068
+unit L_Scalene_Middle
+attach Torso 0.0402 1.4844 -0.0435
+attach Neck 0.0334 1.5002 -0.0417
+unit L_Scalene_Middle1
+attach Torso 0.0418 1.4811 -0.0405
+attach Neck 0.0306 1.5115 -0.0335
+unit L_Scalene_Middle2
+attach Torso 0.0431 1.4803 -0.0391
+attach Neck 0.0257 1.5272 -0.0210
+unit L_Scalene_Middle3
+attach Torso 0.0479 1.4801 -0.0341
+attach Neck 0.0342 1.5339 -0.0138
+attach Neck 0.0252 1.5553 -0.0071
+unit L_Scalene_Middle4
+attach Torso 0.0556 1.4811 -0.0344
+attach Neck 0.0399 1.5484 -0.0108
+attach Neck 0.0267 1.5712 -0.0060
+unit L_Scalene_Posterior
+attach Neck 0.0307 1.5123 -0.0334
+attach Torso 0.0458 1.4963 -0.0410
+attach Torso 0.0699 1.4690 -0.0573
+unit L_Scalene_Posterior1
+attach Torso 0.0724 1.4681 -0.0560
+attach Neck 0.0267 1.5266 -0.0228
+unit L_Scalene_Posterior2
+attach Torso 0.0751 1.4667 -0.0521
+attach Neck 0.0249 1.5382 -0.0138
+unit L_Semimembranosus
+attach Pelvis 0.0751 0.9017 -0.0574
+attach Pelvis 0.0701 0.8462 -0.0391
+attach L_Femur 0.0534 0.5443 -0.0496
+attach L_Tibia 0.0567 0.5119 -0.0420
+attach L_Tibia 0.0621 0.4903 -0.0297
+unit L_Semimembranosus1
+attach Pelvis 0.0784 0.9053 -0.0533
+attach L_Femur 0.0937 0.8623 -0.0343
+attach L_Femur 0.1044 0.5602 -0.0479
+attach L_Femur 0.0812 0.5272 -0.0562
+attach L_Tibia 0.0820 0.4950 -0.0422
+unit L_Semispinalis_Capitis
+attach Torso 0.0243 1.3802 -0.1126
+attach Neck 0.0076 1.5135 -0.0761
+attach Neck 0.0031 1.5735 -0.0567
+attach Skull 0.0033 1.6115 -0.0700
+unit L_Semispinalis_Capitis1
+attach Torso 0.0260 1.4311 -0.1004
+attach Neck 0.0146 1.5125 -0.0663
+attach Neck 0.0109 1.5662 -0.0547
+attach Skull 0.0087 1.6147 -0.0698
+unit L_Semispinalis_Capitis2
+attach Torso 0.0310 1.4770 -0.0777
+attach Neck 0.0178 1.5690 -0.0503
+attach Skull 0.0152 1.6165 -0.0694
+unit L_Semispinalis_Capitis3
+attach Torso 0.0338 1.4926 -0.0615
+attach Neck 0.0217 1.5627 -0.0461
+attach Skull 0.0222 1.6187 -0.0686
+unit L_Semispinalis_Thoracis
+attach Torso 0.0322 1.4940 -0.0543
+attach Neck 0.0050 1.5632 -0.0361
+unit L_Semispinalis_Thoracis1
+attach Torso 0.0304 1.4786 -0.0699
+attach Neck 0.0079 1.5433 -0.0440
+unit L_Semispinalis_Thoracis2
+attach Torso 0.0292 1.4578 -0.0867
+attach Neck 0.0051 1.5344 -0.0496
+unit L_Semispinalis_Thoracis3
+attach Torso 0.0271 1.4297 -0.0998
+attach Neck 0.0059 1.5201 -0.0659
+unit L_Semitendinosus
+attach Pelvis 0.0680 0.8941 -0.0652
+attach Pelvis 0.0881 0.8533 -0.0463
+attach L_Femur 0.0856 0.5653 -0.0611
+attach L_Tibia 0.0704 0.4946 -0.0475
+attach L_Tibia 0.0655 0.4716 -0.0264
+attach L_Tibia 0.0798 0.4484 -0.0038
+unit L_Serratus_Anterior
+attach L_Shoulder 0.0928 1.4662 -0.0778
+attach Torso 0.0850 1.4666 -0.0569
+attach Torso 0.0815 1.4715 -0.0188
+attach Torso 0.0661 1.4668 -0.0073
+unit L_Serratus_Anterior1
+attach L_Shoulder 0.0890 1.4499 -0.0983
+attach Torso 0.0985 1.4475 -0.0738
+attach Torso 0.1071 1.4458 -0.0376
+attach Torso 0.0952 1.4459 -0.0121
+unit L_Serratus_Anterior2
+attach L_Shoulder 0.0901 1.4102 -0.1177
+attach L_Shoulder 0.1046 1.4100 -0.1000
+attach Torso 0.1312 1.4046 -0.0433
+attach Torso 0.1206 1.4120 -0.0239
+unit L_Serratus_Anterior3
+attach L_Shoulder 0.0905 1.3756 -0.1260
+attach Torso 0.1081 1.3759 -0.1054
+attach Torso 0.1469 1.3619 -0.0124
+attach Torso 0.1263 1.3516 0.0312
+unit L_Serratus_Anterior4
+attach L_Shoulder 0.0939 1.3482 -0.1283
+attach Torso 0.1153 1.3547 -0.0956
+attach Torso 0.1426 1.3284 -0.0119
+attach Torso 0.1264 1.3128 0.0476
+unit L_Serratus_Anterior5
+attach L_Shoulder 0.1159 1.3393 -0.1165
+attach Torso 0.1262 1.3367 -0.0948
+attach Torso 0.1492 1.3018 0.0096
+attach Torso 0.1269 1.2815 0.0484
+unit L_Serratus_Anterior6
+attach L_Shoulder 0.1069 1.3326 -0.1218
+attach Torso 0.1417 1.3110 -0.0773
+attach Torso 0.1513 1.2706 -0.0120
+attach Torso 0.1307 1.2550 0.0333
+unit L_Serratus_Anterior7
+attach L_Shoulder 0.0955 1.3385 -0.1282
+attach Torso 0.1197 1.3183 -0.1064
+attach Torso 0.1520 1.2680 -0.0464
+attach Torso 0.1417 1.2423 -0.0013
+attach Torso 0.1305 1.2205 0.0119
+unit L_Serratus_Anterior8
+attach L_Shoulder 0.0963 1.3357 -0.1289
+attach Torso 0.1079 1.3193 -0.1185
+attach Torso 0.1279 1.2887 -0.1049
+attach Torso 0.1441 1.2122 -0.0345
+attach Torso 0.1298 1.1910 -0.0090
+unit L_Soleus
+attach L_Tibia 0.0875 0.4685 -0.0237
+attach L_Tibia 0.0870 0.4190 -0.0592
+attach L_Tibia 0.0711 0.1507 -0.0608
+attach L_Tibia 0.0734 0.0983 -0.0775
+attach L_Talus 0.0729 0.0299 -0.0952
+unit L_Soleus1
+attach L_Tibia 0.1366 0.4909 -0.0455
+attach L_Tibia 0.1308 0.3930 -0.0757
+attach L_Talus 0.0853 0.0863 -0.0855
+attach L_Talus 0.0876 0.0298 -0.0982
+unit L_Spinalis_Cervicis
+attach Neck 0.0035 1.5046 -0.0806
+attach Neck 0.0154 1.5403 -0.0478
+attach Neck 0.0031 1.5782 -0.0409
+unit L_Spinalis_Thoracis
+attach Spine 0.0001 1.1245 -0.0880
+attach Torso 0.0161 1.2581 -0.1163
+attach Torso 0.0154 1.3969 -0.1194
+attach Torso 0.0007 1.4829 -0.0938
+unit L_Splenius_Capitis
+attach Neck 0.0000 1.5401 -0.0648
+attach Skull 0.0226 1.5960 -0.0544
+attach Skull 0.0416 1.6345 -0.0674
+unit L_Splenius_Capitis1
+attach Neck 0.0000 1.5021 -0.0862
+attach Neck 0.0224 1.5557 -0.0567
+attach Skull 0.0391 1.5955 -0.0486
+attach Skull 0.0606 1.6390 -0.0456
+unit L_Splenius_Capitis2
+attach Torso 0.0000 1.4425 -0.1101
+attach Neck 0.0319 1.5227 -0.0644
+attach Neck 0.0496 1.5797 -0.0240
+attach Skull 0.0648 1.6149 -0.0116
+unit L_Splenius_Cervicis
+attach Torso 0.0000 1.4067 -0.1201
+attach Torso 0.0357 1.4963 -0.0795
+attach Neck 0.0398 1.5463 -0.0392
+attach Neck 0.0375 1.5918 -0.0056
+unit L_Splenius_Cervicis1
+attach Torso 0.0000 1.3446 -0.1258
+attach Torso 0.0330 1.4155 -0.1129
+attach Torso 0.0487 1.4927 -0.0706
+attach Neck 0.0420 1.5406 -0.0287
+attach Neck 0.0270 1.5710 -0.0063
+unit L_Sternocleidomastoid
+attach Torso 0.0027 1.4529 0.0312
+attach Neck 0.0442 1.5672 0.0086
+attach Skull 0.0555 1.6042 0.0016
+unit L_Sternocleidomastoid1
+attach L_Shoulder 0.0568 1.4650 0.0175
+attach Neck 0.0546 1.5728 -0.0309
+attach Skull 0.0490 1.6385 -0.0608
+unit L_Sternocleidomastoid2
+attach L_Shoulder 0.0254 1.4635 0.0305
+attach Neck 0.0428 1.5031 0.0115
+attach Skull 0.0620 1.5899 -0.0111
+attach Skull 0.0680 1.6369 -0.0280
+unit L_Sternohyoid
+attach Torso 0.0137 1.4428 0.0227
+attach Torso 0.0083 1.4585 0.0164
+attach Skull 0.0066 1.5566 0.0457
+unit L_Sternothyroid
+attach Torso 0.0116 1.4357 0.0285
+attach Torso 0.0098 1.4537 0.0147
+attach Neck 0.0142 1.5136 0.0247
+attach Neck 0.0214 1.5483 0.0202
+unit L_Stylopharyngeous
+attach Neck 0.0041 1.5360 0.0019
+attach Neck 0.0203 1.5852 0.0176
+attach Skull 0.0407 1.6107 0.0087
+unit L_Subclavian
+attach Torso 0.0530 1.4489 0.0219
+attach L_Shoulder 0.1368 1.4606 -0.0242
+unit L_Subscapularis
+attach L_Shoulder 0.0928 1.4425 -0.1049
+attach L_Shoulder 0.1544 1.4339 -0.0352
+attach L_Shoulder 0.1751 1.4413 -0.0143
+attach L_Humerus 0.1886 1.4187 -0.0216
+unit L_Subscapularis1
+attach L_Shoulder 0.0944 1.3848 -0.1194
+attach L_Shoulder 0.1533 1.4192 -0.0409
+attach L_Humerus 0.2032 1.4066 -0.0163
+attach L_Humerus 0.2013 1.4133 -0.0177
+unit L_Superior_Gemellus
+attach Pelvis 0.0613 0.9187 -0.0592
+attach Pelvis 0.0904 0.9224 -0.0613
+attach L_Femur 0.1402 0.9213 -0.0248
+unit L_Supinator
+attach L_Radius 0.5346 1.4767 -0.0117
+attach L_Radius 0.5725 1.4866 0.0008
+attach L_Radius 0.5797 1.4807 0.0099
+attach L_Radius 0.5922 1.4661 0.0069
+unit L_Supraspinatus
+attach L_Shoulder 0.0933 1.4676 -0.0814
+attach L_Shoulder 0.1692 1.4601 -0.0447
+attach L_Humerus 0.1773 1.4346 -0.0277
+attach L_Humerus 0.1827 1.4401 -0.0221
+unit L_Supraspinatus1
+attach L_Shoulder 0.1280 1.4552 -0.0993
+attach L_Shoulder 0.1798 1.4584 -0.0520
+attach L_Humerus 0.1825 1.4466 -0.0377
+attach L_Humerus 0.1896 1.4550 -0.0250
+unit L_Tensor_Fascia_Lata
+attach Pelvis 0.1373 1.0628 -0.0239
+attach L_Femur 0.1628 0.9237 -0.0246
+attach L_Femur 0.1599 0.8119 -0.0045
+attach L_Femur 0.1417 0.5558 0.0056
+attach L_Tibia 0.1322 0.4820 -0.0079
+unit L_Tensor_Fascia_Lata1
+attach Pelvis 0.1354 1.0307 0.0192
+attach L_Femur 0.1154 0.9208 0.0551
+attach L_Femur 0.1443 0.6070 0.0250
+attach L_Tibia 0.1106 0.5423 0.0342
+unit L_Tensor_Fascia_Lata2
+attach Pelvis 0.1429 1.0492 0.0032
+attach L_Femur 0.1590 0.9177 0.0219
+attach L_Femur 0.1346 0.5571 0.0156
+attach L_Tibia 0.1216 0.4774 0.0049
+unit L_Teres_Major
+attach L_Shoulder 0.1000 1.3369 -0.1311
+attach L_Shoulder 0.1590 1.3743 -0.1013
+attach L_Humerus 0.2506 1.4310 -0.0522
+attach L_Humerus 0.2435 1.4301 -0.0212
+unit L_Teres_Minor
+attach L_Shoulder 0.1341 1.3797 -0.0989
+attach L_Shoulder 0.1723 1.4002 -0.0833
+attach L_Humerus 0.2224 1.4448 -0.0637
+attach L_Humerus 0.2071 1.4583 -0.0408
+unit L_Tibialis_Anterior
+attach L_Tibia 0.1303 0.4885 -0.0101
+attach L_Tibia 0.0722 0.1031 -0.0140
+attach L_Talus 0.0559 0.0613 -0.0091
+attach L_Talus 0.0661 0.0373 0.0242
+unit L_Tibialis_Posterior
+attach L_Tibia 0.1048 0.4725 -0.0236
+attach L_Tibia 0.0847 0.1378 -0.0504
+attach L_Tibia 0.0537 0.0910 -0.0523
+attach L_Talus 0.0590 0.0488 -0.0213
+attach L_Talus 0.0899 0.0392 0.0100
+unit L_Triceps_Lateral_Head
+attach L_Humerus 0.2439 1.4524 -0.0329
+attach L_Humerus 0.3192 1.4847 -0.0461
+attach L_Humerus 0.4887 1.4779 -0.0242
+attach L_Radius 0.5235 1.4670 -0.0270
+unit L_Triceps_Long_Head
+attach L_Shoulder 0.1742 1.4115 -0.0633
+attach L_Humerus 0.2560 1.4433 -0.0603
+attach L_Humerus 0.3419 1.4647 -0.0756
+attach L_Humerus 0.4759 1.4628 -0.0482
+attach L_Radius 0.5172 1.4627 -0.0334
+unit L_Triceps_Long_Head1
+attach L_Shoulder 0.1666 1.4097 -0.0713
+attach L_Humerus 0.2593 1.4321 -0.0614
+attach L_Humerus 0.3429 1.4253 -0.0578
+attach L_Humerus 0.4310 1.4228 -0.0529
+attach L_Humerus 0.4922 1.4520 -0.0444
+attach L_Radius 0.5231 1.4567 -0.0320
+unit L_Triceps_Medial_Head
+attach L_Humerus 0.2921 1.4426 -0.0338
+attach L_Humerus 0.4359 1.4282 -0.0365
+attach L_Radius 0.5183 1.4544 -0.0283
+unit L_Triceps_Medial_Head1
+attach L_Humerus 0.2928 1.4459 -0.0342
+attach L_Humerus 0.3762 1.4708 -0.0302
+attach L_Radius 0.5170 1.4640 -0.0273
+unit L_Vastus_Intermedius
+attach L_Femur 0.1145 0.8711 0.0009
+attach L_Femur 0.0969 0.8116 0.0336
+attach L_Femur 0.0822 0.6043 0.0363
+attach L_Tibia 0.0795 0.5450 0.0268
+unit L_Vastus_Intermedius1
+attach L_Femur 0.1240 0.8714 0.0026
+attach L_Femur 0.1306 0.7901 0.0329
+attach L_Femur 0.1182 0.6507 0.0367
+attach L_Tibia 0.0950 0.5575 0.0323
+unit L_Vastus_Lateralis
+attach L_Femur 0.1489 0.9150 0.0010
+attach L_Femur 0.1339 0.8826 0.0169
+attach L_Femur 0.1053 0.5880 0.0393
+attach L_Tibia 0.0886 0.5495 0.0350
+unit L_Vastus_Lateralis1
+attach L_Femur 0.1595 0.9052 -0.0022
+attach L_Femur 0.1532 0.8592 -0.0000
+attach L_Femur 0.1363 0.5974 0.0086
+attach L_Tibia 0.1023 0.5405 0.0359
+unit L_Vastus_Medialis
+attach L_Femur 0.1186 0.8712 0.0029
+attach L_Femur 0.0390 0.6802 0.0132
+attach L_Femur 0.0432 0.6041 0.0041
+attach L_Tibia 0.0747 0.5414 0.0241
+unit L_Vastus_Medialis1
+attach L_Femur 0.1191 0.8670 0.0035
+attach L_Femur 0.0807 0.6696 0.0488
+attach L_Tibia 0.0876 0.5513 0.0358
+unit L_Vastus_Medialis2
+attach L_Femur 0.1186 0.8712 0.0029
+attach L_Femur 0.0578 0.6474 0.0372
+attach L_Tibia 0.0768 0.5469 0.0312
+unit L_iliacus
+attach Pelvis 0.0680 1.0471 -0.0611
+attach Pelvis 0.0776 0.9421 0.0180
+attach L_Femur 0.0940 0.8805 -0.0150
+attach L_Femur 0.1112 0.8534 -0.0209
+unit L_iliacus1
+attach Pelvis 0.1169 1.0697 -0.0324
+attach Pelvis 0.0841 0.9730 0.0130
+attach Pelvis 0.0868 0.9171 0.0297
+attach L_Femur 0.0996 0.8771 -0.0092
+attach L_Femur 0.1187 0.8677 -0.0228
+unit L_iliacus2
+attach Pelvis 0.1285 1.0335 0.0224
+attach Pelvis 0.0999 0.9730 0.0313
+attach L_Femur 0.1020 0.9088 0.0147
+attach L_Femur 0.1092 0.8637 -0.0133
+unit L_iliocostalis
+attach Pelvis 0.0036 0.8989 -0.0736
+attach Pelvis 0.0252 1.0267 -0.1010
+attach Spine 0.0528 1.1109 -0.0790
+attach Torso 0.0582 1.1744 -0.0934
+attach Torso 0.0639 1.2392 -0.1262
+attach Torso 0.0501 1.4334 -0.1048
+attach Torso 0.0411 1.4916 -0.0624
+attach Neck 0.0224 1.5380 -0.0107
+unit L_Pharyngeal_raphe
+attach Neck -0.0001 1.5287 -0.0007
+attach Neck -0.0001 1.5532 0.0083
+attach Neck -0.0001 1.6084 0.0143
+attach Skull -0.0001 1.6231 0.0120
+unit L_Rectus_Abdominis
+attach Pelvis 0.0073 0.9219 0.0523
+attach Pelvis 0.0183 1.0305 0.0914
+attach Torso 0.0271 1.1212 0.0971
+attach Torso 0.0282 1.1814 0.1047
+attach Torso 0.0367 1.3254 0.0890
+unit L_Rectus_Abdominis1
+attach Pelvis 0.0221 0.9226 0.0508
+attach Pelvis 0.0402 1.0292 0.0861
+attach Torso 0.0601 1.1109 0.0894
+attach Torso 0.0635 1.1708 0.0923
+attach Torso 0.0762 1.3042 0.0929
+unit L_Serratus_Posterior_Inferior
+attach Spine 0.0000 1.1394 -0.0920
+attach Torso 0.0723 1.1568 -0.0840
+attach Torso 0.0805 1.1628 -0.0757
+unit L_Serratus_Posterior_Inferior1
+attach Spine 0.0000 1.1602 -0.0953
+attach Torso 0.0521 1.1781 -0.1008
+attach Torso 0.0856 1.1927 -0.1006
+unit L_Serratus_Posterior_Inferior2
+attach Torso 0.0000 1.1821 -0.0975
+attach Torso 0.0731 1.2136 -0.1196
+attach Torso 0.0886 1.2251 -0.1161
+unit L_Serratus_Posterior_Inferior3
+attach Torso 0.0000 1.2068 -0.1004
+attach Torso 0.0655 1.2515 -0.1316
+attach Torso 0.0909 1.2841 -0.1222
+unit L_Transversus_Abdominis
+attach Pelvis 0.0541 1.0432 -0.0928
+attach Torso 0.0632 1.1726 -0.0793
+unit L_Transversus_Abdominis1
+attach Pelvis 0.1064 1.0736 -0.0509
+attach Torso 0.0917 1.1490 -0.0573
+unit L_Transversus_Abdominis2
+attach Pelvis 0.1356 1.0407 0.0178
+attach Torso 0.1112 1.1379 -0.0118
+unit L_Transversus_Abdominis3
+attach Pelvis 0.0843 0.9842 0.0492
+attach Torso 0.1001 1.1501 0.0363
+unit L_Transversus_Abdominis4
+attach Pelvis 0.0160 0.9277 0.0535
+attach Torso 0.0389 1.1810 0.0930
+attach Torso 0.0210 1.2978 0.0933
+unit L_Trapezius
+attach Torso 0.0000 1.1799 -0.0968
+attach Torso 0.0348 1.2794 -0.1280
+attach Torso 0.0805 1.3452 -0.1356
+attach L_Shoulder 0.1314 1.4476 -0.1024
+unit L_Trapezius1
+attach Torso 0.0000 1.2823 -0.1242
+attach L_Shoulder 0.0921 1.4298 -0.1270
+attach L_Shoulder 0.1207 1.4467 -0.1050
+unit L_Trapezius2
+attach Torso 0.0000 1.3616 -0.1304
+attach L_Shoulder 0.0675 1.4494 -0.1251
+attach L_Shoulder 0.1079 1.4648 -0.1027
+attach L_Shoulder 0.1326 1.4546 -0.0970
+unit L_Trapezius3
+attach Torso 0.0000 1.4373 -0.1193
+attach L_Shoulder 0.0859 1.4761 -0.1032
+attach L_Shoulder 0.1227 1.4728 -0.0925
+attach L_Shoulder 0.1455 1.4556 -0.0919
+unit L_Trapezius4
+attach Neck 0.0000 1.5143 -0.0878
+attach L_Shoulder 0.0855 1.4946 -0.0845
+attach L_Shoulder 0.1499 1.4678 -0.0826
+attach L_Shoulder 0.1688 1.4600 -0.0791
+unit L_Trapezius5
+attach Neck 0.0000 1.5630 -0.0636
+attach Neck 0.0393 1.5495 -0.0624
+attach L_Shoulder 0.1133 1.4967 -0.0649
+attach L_Shoulder 0.1989 1.4608 -0.0569
+unit L_Trapezius6
+attach Skull 0.0172 1.6177 -0.0702
+attach Neck 0.0211 1.5738 -0.0535
+attach Neck 0.0401 1.5491 -0.0529
+attach L_Shoulder 0.0978 1.4910 -0.0469
+attach L_Shoulder 0.1328 1.4702 -0.0301
+unit R_Abductor_Pollicis_Longus
+attach R_Radius -0.6294 1.471 -0.014
+attach R_Radius -0.7323 1.4884 0.018
+attach R_Radius -0.7863 1.4916 0.0248
+attach R_Hand -0.8227 1.4729 0.0619
+unit R_Adductor_Brevis
+attach Pelvis -0.0319 0.9196 0.0416
+attach R_Femur -0.0831 0.8338 0.0049
+attach R_Femur -0.1104 0.8262 -0.0084
+unit R_Adductor_Brevis1
+attach Pelvis -0.0141 0.9116 0.0427
+attach R_Femur -0.0767 0.7565 -0.0007
+attach R_Femur -0.104 0.7305 0.0025
+unit R_Adductor_Longus
+attach Pelvis -0.0302 0.9216 0.0427
+attach R_Femur -0.1003 0.7386 0.0027
+attach R_Femur -0.1096 0.701 0.0014
+unit R_Adductor_Longus1
+attach Pelvis -0.014 0.9148 0.0489
+attach R_Femur -0.0505 0.7298 0.0051
+attach R_Femur -0.0991 0.6343 0.0014
+unit R_Adductor_Magnus
+attach Pelvis -0.0223 0.8913 0.0134
+attach R_Femur -0.1064 0.8375 -0.0172
+attach R_Femur -0.1338 0.8339 -0.0176
+unit R_Adductor_Magnus1
+attach Pelvis -0.0235 0.8813 0.013
+attach R_Femur -0.0977 0.8006 -0.0233
+attach R_Femur -0.1244 0.7596 -0.002
+unit R_Adductor_Magnus2
+attach Pelvis -0.0356 0.8704 -0.0258
+attach R_Femur -0.0699 0.8091 -0.0242
+attach R_Femur -0.1026 0.7451 -0.0248
+attach R_Femur -0.1166 0.7196 0.0012
+unit R_Adductor_Magnus3
+attach Pelvis -0.0475 0.8697 -0.0436
+attach R_Femur -0.0744 0.7819 -0.034
+attach R_Femur -0.1024 0.704 -0.0225
+attach R_Femur -0.1054 0.6418 -0.0022
+unit R_Adductor_Magnus4
+attach Pelvis -0.0687 0.8772 -0.056
+attach Pelvis -0.063 0.8443 -0.0482
+attach R_Femur -0.0637 0.6412 -0.0314
+attach R_Femur -0.0653 0.5555 -0.0289
+unit R_Anconeous
+attach R_Humerus -0.5064 1.4824 -0.0095
+attach R_Radius -0.5371 1.4797 -0.0263
+attach R_Radius -0.5712 1.4688 -0.0295
+unit R_Bicep_Brachii_Long_Head
+attach R_Shoulder -0.1693 1.4437 -0.0369
+attach R_Humerus -0.1779 1.4217 -0.033
+attach R_Humerus -0.181 1.432 -0.0183
+attach R_Humerus -0.1911 1.4343 -0.0084
+attach R_Humerus -0.2145 1.4348 -0.0071
+attach R_Humerus -0.2591 1.4341 -0.0024
+attach R_Radius -0.529 1.4483 0.025
+attach R_Radius -0.5832 1.4625 0.0019
+unit R_Bicep_Brachii_Short_Head
+attach R_Shoulder -0.1684 1.4347 -0.0074
+attach R_Humerus -0.252 1.4113 -0.0077
+attach R_Humerus -0.489 1.4253 0.0234
+attach R_Radius -0.5854 1.4614 -0.0013
+unit R_Bicep_Femoris_Longus
+attach Pelvis -0.0709 0.9002 -0.0636
+attach R_Femur -0.0965 0.8548 -0.0463
+attach R_Femur -0.1399 0.5743 -0.0292
+attach R_Femur -0.1441 0.5416 -0.0328
+attach R_Tibia -0.1382 0.4888 -0.0388
+unit R_Bicep_Femoris_Short
+attach R_Femur -0.1182 0.7298 0.0002
+attach R_Femur -0.1435 0.545 -0.0297
+attach R_Tibia -0.1398 0.4891 -0.0341
+unit R_Bicep_Femoris_Short1
+attach R_Femur -0.1118 0.6184 0.0019
+attach R_Femur -0.1416 0.532 -0.0199
+attach R_Tibia -0.1379 0.4885 -0.0307
+unit R_Brachialis
+attach R_Humerus -0.3321 1.4604 -0.019
+attach R_Humerus -0.35 1.4718 -0.0081
+attach R_Humerus -0.4963 1.4606 0.0175
+attach R_Radius -0.5572 1.4619 -0.011
+unit R_Brachialis1
+attach R_Humerus -0.322 1.4441 -0.0102
+attach R_Humerus -0.3532 1.4363 -0.0023
+attach R_Humerus -0.4968 1.4356 0.0085
+attach R_Radius -0.5541 1.4552 -0.0115
+unit R_Brachioradialis
+attach R_Humerus -0.4428 1.4652 -0.0209
+attach R_Humerus -0.4651 1.4903 -0.0082
+attach R_Humerus -0.4997 1.4789 0.0251
+attach R_Radius -0.5618 1.4609 0.0377
+attach R_Radius -0.7086 1.4743 0.0362
+attach R_Radius -0.7867 1.488 0.0302
+unit R_Coracobrachialis
+attach R_Shoulder -0.1681 1.4326 -0.0083
+attach R_Humerus -0.2289 1.4071 -0.0192
+attach R_Humerus -0.3121 1.4291 -0.0194
+attach R_Humerus -0.3386 1.4418 -0.0167
+unit R_Deltoid
+attach R_Shoulder -0.1432 1.4662 -0.019
+attach R_Shoulder -0.1607 1.4476 0.0015
+attach R_Humerus -0.2213 1.4119 0.0137
+attach R_Humerus -0.2687 1.4431 0.0141
+attach R_Humerus -0.2996 1.4462 -0.0107
+unit R_Deltoid1
+attach R_Shoulder -0.1977 1.4659 -0.0257
+attach R_Humerus -0.1866 1.4505 -0.0086
+attach R_Humerus -0.2277 1.4677 0.0064
+attach R_Humerus -0.2786 1.4698 0.0074
+attach R_Humerus -0.3183 1.4529 -0.0081
+unit R_Deltoid2
+attach R_Shoulder -0.2037 1.4593 -0.052
+attach R_Shoulder -0.1933 1.4669 -0.0386
+attach R_Humerus -0.2367 1.4858 -0.0262
+attach R_Humerus -0.2951 1.4776 -0.0162
+attach R_Humerus -0.3241 1.4569 -0.0112
+unit R_Deltoid3
+attach R_Shoulder -0.1591 1.4562 -0.0904
+attach R_Shoulder -0.1867 1.4411 -0.0933
+attach R_Humerus -0.2152 1.4101 -0.1008
+attach R_Humerus -0.2715 1.4766 -0.0725
+attach R_Humerus -0.3189 1.458 -0.0152
+unit R_Extensor_Carpi_Radialis_Brevis
+attach R_Humerus -0.5079 1.4807 -0.0032
+attach R_Radius -0.5438 1.4962 0.0105
+attach R_Radius -0.7296 1.4869 0.0226
+attach R_Radius -0.7803 1.4863 0.0105
+attach R_Hand -0.8296 1.4867 0.024
+unit R_Extensor_Carpi_Radialis_Longus
+attach R_Humerus -0.4789 1.4705 -0.0173
+attach R_Humerus -0.5011 1.4897 -0.001
+attach R_Radius -0.5525 1.49 0.0299
+attach R_Radius -0.7206 1.483 0.0279
+attach R_Radius -0.7821 1.4882 0.0133
+attach R_Hand -0.8293 1.4854 0.0385
+unit R_Extensor_Carpi_Ulnaris
+attach R_Humerus -0.5186 1.4831 -0.0067
+attach R_Radius -0.5593 1.4907 -0.0171
+attach R_Radius -0.6523 1.4707 -0.0297
+attach R_Radius -0.7855 1.4494 0.0009
+attach R_Hand -0.8255 1.4777 0.001
+unit R_Extensor_Digiti_Minimi
+attach R_Humerus -0.5204 1.4837 -0.0054
+attach R_Radius -0.5483 1.49 -0.0076
+attach R_Radius -0.7832 1.4632 -0.0036
+attach R_Hand -0.8216 1.4821 0.0014
+attach R_Hand -0.8847 1.4621 -0.0052
+attach R_Hand -0.9278 1.4431 -0.0025
+unit R_Extensor_Digitorum_Longus
+attach R_Tibia -0.1233 0.4828 -0.0128
+attach R_Tibia -0.1249 0.4474 -0.0255
+attach R_Tibia -0.0944 0.1128 -0.0255
+attach R_Talus -0.0919 0.0844 -0.0153
+attach R_Talus -0.09 0.0277 0.0676
+attach R_Talus -0.092 0.0212 0.0961
+attach R_Talus -0.0938 0.013 0.1121
+unit R_Extensor_Digitorum_Longus1
+attach R_Tibia -0.1286 0.4919 -0.01
+attach R_Tibia -0.1336 0.407 -0.02
+attach R_Tibia -0.0973 0.1139 -0.0239
+attach R_Talus -0.0984 0.0807 -0.0115
+attach R_Talus -0.1047 0.0245 0.0616
+attach R_Talus -0.1074 0.0195 0.0796
+attach R_Talus -0.112 0.0106 0.1032
+unit R_Extensor_Digitorum_Longus2
+attach R_Tibia -0.1271 0.4884 -0.0095
+attach R_Tibia -0.1408 0.4067 -0.0144
+attach R_Tibia -0.0985 0.1137 -0.0245
+attach R_Talus -0.1013 0.0775 -0.0106
+attach R_Talus -0.118 0.026 0.0543
+attach R_Talus -0.1214 0.0224 0.0687
+attach R_Talus -0.1252 0.0129 0.0846
+unit R_Extensor_Digitorum_Longus3
+attach R_Tibia -0.13 0.4931 -0.0117
+attach R_Tibia -0.1315 0.407 -0.0331
+attach R_Tibia -0.1037 0.0824 -0.0175
+attach R_Talus -0.1142 0.0594 0.0009
+attach R_Talus -0.1307 0.0283 0.0395
+attach R_Talus -0.1371 0.0093 0.0745
+unit R_Extensor_Digitorum
+attach R_Humerus -0.5151 1.4855 -0.0019
+attach R_Radius -0.7478 1.4868 0.0123
+attach R_Radius -0.7813 1.4836 0.0072
+attach R_Hand -0.8226 1.4898 0.0341
+attach R_Hand -0.8922 1.4828 0.0584
+attach R_Hand -0.9519 1.4539 0.0691
+unit R_Extensor_Digitorum1
+attach R_Humerus -0.5193 1.4879 -0.0016
+attach R_Radius -0.7458 1.4826 0.0055
+attach R_Radius -0.7821 1.4784 0.0023
+attach R_Hand -0.8247 1.4917 0.0263
+attach R_Hand -0.8957 1.4814 0.034
+attach R_Hand -0.9606 1.4418 0.0442
+unit R_Extensor_Digitorum2
+attach R_Humerus -0.5168 1.4824 -0.0044
+attach R_Radius -0.743 1.4747 -0.0024
+attach R_Radius -0.7833 1.4697 -0.0021
+attach R_Hand -0.823 1.4888 0.0114
+attach R_Hand -0.8945 1.4721 0.0129
+attach R_Hand -0.951 1.441 0.0182
+unit R_Extensor_Hallucis_Longus
+attach R_Tibia -0.1151 0.3806 -0.0283
+attach R_Tibia -0.097 0.1199 -0.023
+attach R_Talus -0.0834 0.0825 -0.0151
+attach R_Talus -0.0724 0.0635 0.0274
+attach R_Talus -0.0656 0.0318 0.0717
+attach R_Talus -0.0606 0.0129 0.1128
+unit R_Extensor_Indicis
+attach R_Radius -0.723 1.4672 0.0017
+attach R_Radius -0.7892 1.4761 0.0036
+attach R_Hand -0.8237 1.4903 0.034
+attach R_Hand -0.9293 1.4672 0.0659
+unit R_Extensor_Pollicis_Brevis
+attach R_Radius -0.7007 1.4705 0.0087
+attach R_Radius -0.7919 1.4909 0.0199
+attach R_Hand -0.8167 1.482 0.0542
+attach R_Hand -0.8559 1.4575 0.0796
+unit R_Extensor_Pollicis_Longus
+attach R_Radius -0.6718 1.4695 -0.0073
+attach R_Radius -0.7709 1.4796 0.0055
+attach R_Hand -0.8151 1.4903 0.0395
+attach R_Hand -0.8474 1.466 0.0755
+attach R_Hand -0.877 1.446 0.0878
+unit R_Flexor_Carpi_Radialis
+attach R_Humerus -0.5184 1.4262 -0.0162
+attach R_Radius -0.7412 1.4586 0.027
+attach R_Radius -0.7846 1.4653 0.0287
+attach R_Hand -0.8324 1.4741 0.0391
+unit R_Flexor_Carpi_Ulnaris
+attach R_Humerus -0.5255 1.4256 -0.022
+attach R_Radius -0.5819 1.4361 -0.0347
+attach R_Radius -0.7594 1.4501 0.0068
+attach R_Hand -0.8053 1.4671 0.0099
+unit R_Flexor_Digiti_Minimi_Brevis_Foot
+attach R_Talus -0.1364 0.0112 0.0496
+attach R_Talus -0.1201 0.0236 -0.0092
+unit R_Flexor_Digitorum_Longus
+attach R_Tibia -0.0895 0.3986 -0.0204
+attach R_Tibia -0.0627 0.1112 -0.0555
+attach R_Talus -0.0637 0.0404 -0.0222
+attach R_Talus -0.0831 0.0322 -0.0014
+attach R_Talus -0.0867 0.0094 0.0591
+attach R_Talus -0.0927 0.0088 0.1084
+unit R_Flexor_Digitorum_Longus1
+attach R_Tibia -0.0895 0.3986 -0.0204
+attach R_Tibia -0.0657 0.111 -0.0562
+attach R_Talus -0.0649 0.0403 -0.0239
+attach R_Talus -0.085 0.0317 -0.0089
+attach R_Talus -0.1016 0.007 0.053
+attach R_Talus -0.1102 0.0092 0.0997
+unit R_Flexor_Digitorum_Longus2
+attach R_Tibia -0.0896 0.3893 -0.0231
+attach R_Tibia -0.0666 0.1159 -0.0562
+attach R_Talus -0.0634 0.043 -0.0257
+attach R_Talus -0.0912 0.0302 -0.0064
+attach R_Talus -0.1151 0.0089 0.0421
+attach R_Talus -0.1241 0.0095 0.0831
+unit R_Flexor_Digitorum_Longus3
+attach R_Tibia -0.0839 0.3881 -0.0188
+attach R_Tibia -0.0682 0.1207 -0.0564
+attach R_Talus -0.0598 0.051 -0.0273
+attach R_Talus -0.1068 0.026 -0.0011
+attach R_Talus -0.1309 0.0088 0.039
+attach R_Talus -0.1364 0.0071 0.0705
+unit R_Flexor_Digitorum_Profundus
+attach R_Radius -0.5503 1.4587 -0.0298
+attach R_Radius -0.6284 1.4467 -0.0268
+attach R_Radius -0.7869 1.4536 0.0184
+attach R_Hand -0.8266 1.4702 0.0161
+attach R_Hand -0.9255 1.4407 -0.0037
+unit R_Flexor_Digitorum_Profundus1
+attach R_Radius -0.5655 1.4542 -0.0166
+attach R_Radius -0.6362 1.4466 -0.0149
+attach R_Radius -0.7876 1.4576 0.0225
+attach R_Hand -0.8291 1.4699 0.0212
+attach R_Hand -0.9482 1.4399 0.0178
+unit R_Flexor_Digitorum_Profundus2
+attach R_Radius -0.5942 1.4653 -0.0091
+attach R_Radius -0.6518 1.4566 0.0004
+attach R_Radius -0.7831 1.4595 0.0238
+attach R_Hand -0.8283 1.4709 0.0284
+attach R_Hand -0.9555 1.4421 0.0433
+unit R_Flexor_Digitorum_Profundus3
+attach R_Radius -0.6112 1.4686 -0.0067
+attach R_Radius -0.7887 1.4633 0.0263
+attach R_Hand -0.8163 1.4691 0.0321
+attach R_Hand -0.9482 1.4533 0.0682
+unit R_Flexor_Digitorum_Superficialis
+attach R_Radius -0.6916 1.4709 0.0222
+attach R_Radius -0.7751 1.4623 0.0263
+attach R_Hand -0.8226 1.4672 0.0357
+attach R_Hand -0.932 1.4618 0.0671
+unit R_Flexor_Digitorum_Superficialis1
+attach R_Radius -0.6014 1.4663 0.0081
+attach R_Radius -0.7777 1.458 0.0257
+attach R_Hand -0.8289 1.4694 0.0291
+attach R_Hand -0.9394 1.453 0.0399
+unit R_Flexor_Digitorum_Superficialis2
+attach R_Radius -0.5544 1.4463 -0.0137
+attach R_Radius -0.7775 1.4533 0.0223
+attach R_Hand -0.8299 1.4682 0.0208
+attach R_Hand -0.9308 1.449 0.013
+unit R_Flexor_Digitorum_Superficialis3
+attach R_Humerus -0.5219 1.4302 -0.0154
+attach R_Radius -0.5999 1.4342 -0.0265
+attach R_Radius -0.7771 1.4509 0.0175
+attach R_Hand -0.8268 1.4688 0.0165
+attach R_Hand -0.9126 1.4458 -0.0049
+unit R_Flexor_Hallucis
+attach R_Tibia -0.1197 0.393 -0.0389
+attach R_Tibia -0.0746 0.1076 -0.058
+attach R_Talus -0.0614 0.0671 -0.0635
+attach R_Talus -0.0678 0.0467 -0.0428
+attach R_Talus -0.0649 0.0114 0.0577
+attach R_Talus -0.0617 0.008 0.1072
+unit R_Flexor_Pollicis_Longus
+attach R_Radius -0.6772 1.4713 0.0224
+attach R_Radius -0.7846 1.4659 0.0281
+attach R_Hand -0.8139 1.4696 0.0308
+attach R_Hand -0.8305 1.4666 0.0571
+attach R_Hand -0.8789 1.4456 0.0837
+unit R_Gastrocnemius_Lateral_Head
+attach R_Femur -0.1264 0.562 -0.0059
+attach R_Femur -0.1219 0.5547 -0.0383
+attach R_Tibia -0.1262 0.5059 -0.0662
+attach R_Tibia -0.112 0.3024 -0.0917
+unit R_Gastrocnemius_Medial_Head
+attach R_Femur -0.075 0.5673 -0.0144
+attach R_Femur -0.0952 0.5507 -0.0466
+attach R_Tibia -0.0924 0.5058 -0.0691
+attach R_Tibia -0.0603 0.2732 -0.0592
+unit R_Gluteus_Maximus
+attach Pelvis -0.0539 1.0358 -0.0962
+attach Pelvis -0.1115 1.0133 -0.0893
+attach R_Femur -0.1531 0.9397 -0.0466
+attach R_Femur -0.1482 0.8726 -0.0169
+unit R_Gluteus_Maximus1
+attach Pelvis -0.0382 0.9886 -0.0993
+attach Pelvis -0.1038 0.9688 -0.1108
+attach R_Femur -0.1553 0.9001 -0.0493
+attach R_Femur -0.1416 0.8459 -0.0113
+unit R_Gluteus_Maximus2
+attach Pelvis -0.0297 0.9498 -0.0943
+attach Pelvis -0.0517 0.9422 -0.1201
+attach Pelvis -0.1221 0.9069 -0.097
+attach R_Femur -0.1493 0.8401 -0.0361
+attach R_Femur -0.1342 0.8182 -0.0089
+unit R_Gluteus_Maximus3
+attach Pelvis -0.0352 0.9192 -0.0807
+attach Pelvis -0.0665 0.8808 -0.1117
+attach R_Femur -0.1244 0.8512 -0.0762
+attach R_Femur -0.1302 0.7893 -0.0012
+unit R_Gluteus_Maximus4
+attach Pelvis -0.045 0.896 -0.0648
+attach Pelvis -0.0645 0.8487 -0.073
+attach R_Femur -0.1156 0.8091 -0.0402
+attach R_Femur -0.1291 0.7723 0.0028
+unit R_Gluteus_Medius
+attach Pelvis -0.1295 1.0138 0.0287
+attach R_Femur -0.1572 0.9456 -0.0053
+attach R_Femur -0.1574 0.9234 -0.0067
+unit R_Gluteus_Medius1
+attach Pelvis -0.1282 1.0673 -0.0299
+attach R_Femur -0.1555 0.9509 -0.0265
+attach R_Femur -0.1656 0.8914 -0.0088
+unit R_Gluteus_Medius2
+attach Pelvis -0.0792 1.0645 -0.0696
+attach Pelvis -0.1222 1.0284 -0.0736
+attach R_Femur -0.159 0.9186 -0.0299
+attach R_Femur -0.1597 0.8912 -0.021
+unit R_Gluteus_Medius3
+attach Pelvis -0.0611 1.0087 -0.0875
+attach Pelvis -0.0883 0.9884 -0.0829
+attach R_Femur -0.1397 0.9363 -0.0482
+attach R_Femur -0.1474 0.8994 -0.0331
+unit R_Gluteus_Minimus
+attach Pelvis -0.0686 0.9926 -0.0668
+attach Pelvis -0.0978 0.9715 -0.0592
+attach R_Femur -0.1523 0.9321 -0.0115
+attach R_Femur -0.1607 0.9054 -0.0049
+unit R_Gluteus_Minimus1
+attach Pelvis -0.0982 1.046 -0.0417
+attach Pelvis -0.1257 1.0159 -0.04
+attach R_Femur -0.1564 0.9331 -0.0017
+attach R_Femur -0.1583 0.893 0.0022
+unit R_Gluteus_Minimus2
+attach Pelvis -0.1334 1.0373 0.009
+attach R_Femur -0.1548 0.933 0.0059
+attach R_Femur -0.1516 0.8974 0.0046
+unit R_Gracilis
+attach Pelvis -0.0113 0.9031 0.0307
+attach R_Femur -0.0489 0.5297 -0.0426
+attach R_Tibia -0.0616 0.4798 -0.0217
+attach R_Tibia -0.0776 0.4657 -0.0033
+unit R_Inferior_Gemellus
+attach Pelvis -0.0662 0.8857 -0.0621
+attach R_Femur -0.1243 0.9083 -0.0469
+attach R_Femur -0.1357 0.9089 -0.0332
+unit R_Infraspinatus
+attach R_Shoulder -0.0924 1.4212 -0.1143
+attach R_Shoulder -0.1845 1.4372 -0.0739
+attach R_Shoulder -0.1962 1.4568 -0.0478
+attach R_Shoulder -0.1944 1.4598 -0.0262
+unit R_Infraspinatus1
+attach R_Shoulder -0.0916 1.3688 -0.1271
+attach R_Shoulder -0.187 1.4238 -0.0757
+attach R_Shoulder -0.2038 1.4581 -0.0469
+attach R_Shoulder -0.198 1.4615 -0.027
+unit R_Latissimus_Dorsi
+attach Torso -0 1.3114 -0.1266
+attach R_Shoulder -0.1158 1.3278 -0.1293
+attach R_Shoulder -0.1525 1.3534 -0.0946
+attach R_Humerus -0.2448 1.4154 -0.0398
+attach R_Humerus -0.2244 1.432 -0.0168
+unit R_Latissimus_Dorsi1
+attach Torso -0.0026 1.2539 -0.1152
+attach Torso -0.128 1.3112 -0.1233
+attach Torso -0.1624 1.3444 -0.0831
+attach R_Humerus -0.2533 1.4165 -0.0388
+attach R_Humerus -0.2336 1.4333 -0.0167
+unit R_Latissimus_Dorsi2
+attach Torso -0.0004 1.1863 -0.0987
+attach Torso -0.0669 1.2555 -0.1358
+attach Torso -0.134 1.3 -0.1186
+attach Torso -0.1669 1.3341 -0.0769
+attach R_Humerus -0.2645 1.4173 -0.0362
+attach R_Humerus -0.2427 1.4346 -0.0164
+unit R_Latissimus_Dorsi3
+attach Spine -0.0006 1.1035 -0.092
+attach Torso -0.1012 1.2332 -0.119
+attach Torso -0.1537 1.3007 -0.0988
+attach R_Humerus -0.2795 1.4207 -0.0459
+attach R_Humerus -0.2643 1.4226 -0.0248
+attach R_Humerus -0.2504 1.4356 -0.0162
+unit R_Latissimus_Dorsi4
+attach Pelvis -0.0058 0.9761 -0.1091
+attach Torso -0.1084 1.2104 -0.1053
+attach Torso -0.1595 1.2856 -0.081
+attach R_Humerus -0.2899 1.4182 -0.0458
+attach R_Humerus -0.2589 1.43 -0.0171
+attach R_Humerus -0.2563 1.4358 -0.0167
+unit R_Latissimus_Dorsi5
+attach Pelvis -0.0774 1.0636 -0.076
+attach Torso -0.1179 1.1784 -0.0775
+attach Torso -0.1692 1.2986 -0.06
+attach R_Humerus -0.2827 1.4168 -0.0327
+attach R_Humerus -0.2592 1.4355 -0.0174
+unit R_Levator_Scapulae
+attach R_Shoulder -0.1036 1.4697 -0.0646
+attach Torso -0.0799 1.4827 -0.0538
+attach Neck -0.0395 1.5276 -0.0204
+attach Neck -0.0254 1.5376 -0.0121
+unit R_Levator_Scapulae1
+attach R_Shoulder -0.0994 1.4736 -0.07
+attach Torso -0.0782 1.4873 -0.0591
+attach Torso -0.0557 1.5089 -0.0401
+attach Neck -0.045 1.5341 -0.0272
+attach Neck -0.0265 1.5556 -0.0087
+unit R_Levator_Scapulae2
+attach R_Shoulder -0.0897 1.4663 -0.086
+attach Torso -0.0647 1.5004 -0.0637
+attach Neck -0.0429 1.5501 -0.0254
+attach Neck -0.0284 1.5714 -0.0067
+unit R_Levator_Scapulae3
+attach R_Shoulder -0.0853 1.4466 -0.1065
+attach Torso -0.0523 1.4974 -0.0758
+attach Neck -0.042 1.5548 -0.0341
+attach Neck -0.0381 1.5918 -0.0072
+unit R_Longissimus_Capitis
+attach Neck -0.0275 1.5268 -0.0216
+attach Neck -0.033 1.5516 -0.0289
+attach Skull -0.0569 1.6044 -0.0074
+unit R_Longissimus_Capitis1
+attach Neck -0.034 1.5005 -0.0409
+attach Neck -0.0311 1.5338 -0.0433
+attach Skull -0.0595 1.608 -0.0093
+unit R_Longissimus_Capitis2
+attach Torso -0.0316 1.4777 -0.0717
+attach Neck -0.032 1.5351 -0.0494
+attach Skull -0.0584 1.6097 -0.0114
+unit R_Longissimus_Capitis3
+attach Torso -0.0262 1.4287 -0.1023
+attach Torso -0.0305 1.5002 -0.0748
+attach Neck -0.0311 1.5653 -0.039
+attach Skull -0.057 1.6088 -0.0173
+unit R_Longissimus_Cervicis
+attach Torso -0.0285 1.4286 -0.1004
+attach Torso -0.0357 1.466 -0.0881
+attach Torso -0.0388 1.4964 -0.0595
+attach Neck -0.035 1.526 -0.0292
+attach Neck -0.0269 1.5725 -0.008
+unit R_Longissimus_Thoracis
+attach Pelvis -0.0036 0.8988 -0.0726
+attach Pelvis -0.0201 1.0038 -0.104
+attach Spine -0.0208 1.0923 -0.0803
+attach Torso -0.0292 1.1986 -0.0954
+attach Torso -0.0345 1.274 -0.1196
+attach Torso -0.0364 1.3937 -0.1152
+attach Torso -0.0343 1.454 -0.0938
+attach Neck -0.032 1.5011 -0.0404
+unit R_Longus_Capitis
+attach Neck -0.0222 1.5612 -0.001
+attach Neck -0.0147 1.5937 0.0071
+attach Skull -0.0097 1.6236 0.01
+unit R_Longus_Capitis1
+attach Neck -0.0198 1.5425 -0.0065
+attach Neck -0.0126 1.5929 0.0116
+attach Skull -0.006 1.623 0.0104
+unit R_Longus_Capitis2
+attach Neck -0.0191 1.5269 -0.0125
+attach Neck -0.0104 1.5881 0.0113
+attach Skull -0.0021 1.6227 0.0103
+unit R_Longus_Colli
+attach Torso -0.007 1.4334 -0.0513
+attach Neck -0.0169 1.4852 -0.0298
+attach Neck -0.0131 1.5367 -0.0042
+attach Neck -0.0024 1.5942 0.0099
+unit R_Multifidus
+attach Pelvis -0.0091 0.9236 -0.0917
+attach Pelvis -0.0111 0.9748 -0.1106
+attach Pelvis -0.0117 1.0133 -0.1001
+attach Spine -0.0093 1.1072 -0.0777
+attach Torso -0.0056 1.1795 -0.0852
+attach Torso -0.0005 1.2846 -0.1207
+unit R_Obliquus_Superior_Capitis
+attach Neck -0.0352 1.5931 -0.0081
+attach Skull -0.0221 1.6048 -0.0526
+attach Skull -0.0247 1.6175 -0.0653
+unit R_Obturator_Externus
+attach Pelvis -0.0212 0.9114 0.0247
+attach Pelvis -0.0684 0.8945 -0.0285
+attach R_Femur -0.138 0.9098 -0.0265
+unit R_Obturator_Internus
+attach Pelvis -0.0185 0.9058 0.0139
+attach Pelvis -0.0516 0.9053 -0.0588
+attach Pelvis -0.074 0.9046 -0.0705
+attach R_Femur -0.1386 0.914 -0.0306
+unit R_Omohyoid
+attach R_Shoulder -0.1254 1.4568 -0.062
+attach R_Shoulder -0.111 1.4795 -0.0323
+attach Torso -0.0466 1.4913 0
+attach R_Shoulder -0.0183 1.5062 0.0252
+attach Skull -0.0132 1.5601 0.0431
+unit R_Palatopharyngeal
+attach Neck -0.0051 1.5429 0.0045
+attach Neck -0.0193 1.5875 0.0231
+attach Skull -0.0145 1.6011 0.0273
+attach Skull -0 1.6085 0.0365
+unit R_Palmaris_Longus
+attach R_Humerus -0.5221 1.4244 -0.0188
+attach R_Radius -0.6438 1.4335 0
+attach R_Radius -0.7842 1.4591 0.0254
+attach R_Hand -0.8863 1.4618 0.033
+unit R_Pectineus
+attach Pelvis -0.0404 0.9278 0.0327
+attach Pelvis -0.0572 0.9179 0.0469
+attach R_Femur -0.1011 0.8368 -0.0077
+attach R_Femur -0.1122 0.8303 -0.0042
+unit R_Pectoralis_Major
+attach R_Shoulder -0.0548 1.4628 0.0202
+attach Torso -0.1021 1.4361 0.0434
+attach Torso -0.1518 1.4057 0.0276
+attach R_Humerus -0.2449 1.4012 0.0032
+attach R_Humerus -0.2742 1.4468 -0.0098
+unit R_Pectoralis_Major1
+attach Torso -0.0083 1.4167 0.055
+attach Torso -0.0779 1.4073 0.0611
+attach Torso -0.1471 1.3941 0.0378
+attach R_Humerus -0.2479 1.3979 0.0043
+attach R_Humerus -0.2606 1.445 -0.0085
+unit R_Pectoralis_Major2
+attach Torso -0.0043 1.3677 0.0773
+attach Torso -0.0766 1.3719 0.0843
+attach Torso -0.146 1.3742 0.0505
+attach R_Humerus -0.2483 1.4096 -0.0025
+attach R_Humerus -0.2477 1.4439 -0.0116
+unit R_Pectoralis_Major3
+attach Torso -0.0341 1.2914 0.0989
+attach Torso -0.0874 1.3107 0.1092
+attach Torso -0.1518 1.3481 0.0534
+attach R_Humerus -0.2404 1.4105 -0.0031
+attach R_Humerus -0.2313 1.4422 -0.0118
+unit R_Pectoralis_Minor
+attach Torso -0.076 1.38 0.0636
+attach Torso -0.1045 1.3987 0.0458
+attach R_Shoulder -0.1521 1.4498 -0.0252
+unit R_Pectoralis_Minor1
+attach Torso -0.0855 1.3474 0.0799
+attach Torso -0.1144 1.3736 0.0597
+attach R_Shoulder -0.1592 1.4481 -0.0177
+unit R_Pectoralis_Minor2
+attach Torso -0.1007 1.305 0.0889
+attach Torso -0.1317 1.3622 0.0548
+attach R_Shoulder -0.1637 1.4416 -0.0097
+unit R_Peroneus_Brevis
+attach R_Tibia -0.1179 0.2839 -0.0449
+attach R_Tibia -0.1122 0.1097 -0.0678
+attach R_Tibia -0.1019 0.0677 -0.069
+attach R_Talus -0.1169 0.0243 -0.0151
+unit R_Peroneus_Longus
+attach R_Tibia -0.1405 0.4795 -0.0263
+attach R_Tibia -0.1527 0.366 -0.0379
+attach R_Tibia -0.1156 0.1037 -0.0636
+attach R_Talus -0.1049 0.059 -0.0687
+attach R_Talus -0.1118 0.0399 -0.0412
+attach R_Talus -0.085 0.0377 -0.0114
+attach R_Talus -0.0721 0.0366 0.025
+unit R_Peroneus_Tertius
+attach R_Tibia -0.1075 0.1332 -0.0523
+attach R_Tibia -0.112 0.0819 -0.026
+attach R_Talus -0.1189 0.0348 0.0025
+unit R_Piriformis
+attach Pelvis -0.0316 0.9814 -0.0898
+attach R_Femur -0.1372 0.9309 -0.0257
+unit R_Piriformis1
+attach Pelvis -0.016 0.9363 -0.0881
+attach R_Femur -0.1397 0.9205 -0.0228
+unit R_Plantaris
+attach R_Femur -0.1193 0.5658 -0.0132
+attach R_Femur -0.1115 0.5494 -0.037
+attach R_Tibia -0.1068 0.498 -0.0494
+attach R_Tibia -0.0737 0.1028 -0.0796
+attach R_Talus -0.0751 0.0373 -0.098
+unit R_Platysma
+attach R_Shoulder -0.0372 1.45 0.0381
+attach R_Shoulder -0.0228 1.4738 0.0309
+attach Neck -0.0154 1.5329 0.0339
+attach Skull -0.0143 1.5479 0.0528
+attach Skull -0.0088 1.5531 0.1001
+unit R_Platysma1
+attach R_Shoulder -0.0893 1.451 0.033
+attach R_Shoulder -0.0474 1.4758 0.0187
+attach Neck -0.0308 1.5425 0.0227
+attach Skull -0.0284 1.5554 0.0372
+attach Skull -0.0335 1.5621 0.0684
+unit R_Platysma2
+attach R_Shoulder -0.1329 1.4544 0.0032
+attach R_Shoulder -0.0813 1.4783 -0.0013
+attach Skull -0.0477 1.5694 0.0176
+attach Skull -0.0544 1.5807 0.0334
+unit R_Popliteus
+attach R_Femur -0.1373 0.5403 -0.0129
+attach R_Femur -0.1363 0.5269 -0.0333
+attach R_Tibia -0.1165 0.5009 -0.0429
+attach R_Tibia -0.0805 0.455 -0.0188
+unit R_Pronator_Teres
+attach R_Humerus -0.5091 1.4301 -0.0202
+attach R_Radius -0.6144 1.4585 0.0178
+attach R_Radius -0.6532 1.4762 0.0182
+unit R_Psoas_Major
+attach Torso -0.0146 1.2227 -0.0481
+attach Pelvis -0.092 1.0734 -0.0311
+attach Pelvis -0.0871 0.9311 0.0449
+attach R_Femur -0.0945 0.8815 0.0013
+attach R_Femur -0.1096 0.8505 -0.0156
+unit R_Psoas_Major1
+attach Spine -0.0214 1.1324 -0.0372
+attach Pelvis -0.0683 1.0333 -0.0209
+attach Pelvis -0.0744 0.9304 0.0439
+attach R_Femur -0.0924 0.8774 -0.0073
+attach R_Femur -0.1098 0.8567 -0.0092
+unit R_Psoas_Major2
+attach Spine -0.0184 1.0485 -0.0374
+attach Pelvis -0.0536 1.0104 -0.0329
+attach Pelvis -0.0685 0.9295 0.0366
+attach R_Femur -0.0924 0.8794 0.0015
+attach R_Femur -0.1085 0.8563 -0.0148
+unit R_Psoas_Minor
+attach Torso -0.0113 1.2214 -0.0456
+attach Spine -0.0553 1.1201 -0.0116
+attach Pelvis -0.0633 0.9992 -0.0054
+attach Pelvis -0.0578 0.9387 0.0198
+unit R_Quadratus_Femoris
+attach Pelvis -0.0859 0.9176 -0.0433
+attach Pelvis -0.1087 0.8979 -0.049
+attach R_Femur -0.1361 0.8797 -0.0286
+unit R_Quadratus_Lumborum
+attach Spine -0.0377 1.0566 -0.069
+attach Torso -0.0365 1.1984 -0.0831
+unit R_Quadratus_Lumborum1
+attach Pelvis -0.0773 1.0686 -0.0693
+attach Torso -0.0479 1.1847 -0.0837
+unit R_Rectus_Capitis_Anterior
+attach Neck -0.037 1.5926 -0.0034
+attach Skull -0.0078 1.6212 0.0084
+unit R_Rectus_Capitis_Lateralis
+attach Neck -0.0356 1.593 -0.0037
+attach Skull -0.0361 1.6172 -0.0072
+unit R_Rectus_Capitis_Posterior_Major
+attach Neck -0.0019 1.5804 -0.0413
+attach Skull -0.0095 1.6044 -0.0568
+attach Skull -0.013 1.6171 -0.0675
+unit R_Rectus_Capitis_Posterior_Minor
+attach Neck -0.0027 1.5994 -0.0316
+attach Skull -0.0055 1.6069 -0.067
+attach Skull -0.0047 1.6128 -0.0706
+unit R_Rectus_Femoris
+attach Pelvis -0.1075 0.9803 0.0144
+attach R_Femur -0.1165 0.9416 0.031
+attach R_Femur -0.1045 0.6028 0.0432
+attach R_Tibia -0.1108 0.5422 0.0349
+unit R_Rectus_Femoris1
+attach Pelvis -0.1059 0.9735 0.0165
+attach R_Femur -0.1065 0.9263 0.0318
+attach R_Femur -0.0816 0.6066 0.0431
+attach R_Tibia -0.0757 0.5399 0.032
+unit R_Rhomboid_Major
+attach Torso -0 1.4858 -0.1012
+attach Torso -0.04 1.4661 -0.1041
+attach R_Shoulder -0.0922 1.4435 -0.1096
+unit R_Rhomboid_Major1
+attach Torso -0 1.3855 -0.1269
+attach Torso -0.0353 1.3699 -0.1331
+attach R_Shoulder -0.1046 1.3314 -0.1278
+unit R_Rhomboid_Major2
+attach Torso -0 1.4261 -0.1194
+attach Torso -0.0404 1.4085 -0.1286
+attach R_Shoulder -0.0868 1.3912 -0.1234
+unit R_Rhomboid_Minor
+attach Neck -0 1.5078 -0.0874
+attach Torso -0.0229 1.4944 -0.0881
+attach R_Shoulder -0.0907 1.4611 -0.0899
+unit R_Sartorius
+attach Pelvis -0.1241 1.0098 0.0314
+attach R_Femur -0.0352 0.7073 0.026
+attach R_Tibia -0.0544 0.4965 -0.0224
+attach R_Tibia -0.0907 0.4539 0.0092
+unit R_Scalene_Anterior
+attach Torso -0.057 1.4671 -0.0058
+attach Neck -0.0378 1.4959 -0.0115
+attach Neck -0.025 1.5065 -0.0187
+unit R_Scalene_Anterior1
+attach Torso -0.0584 1.467 -0.0058
+attach Neck -0.035 1.504 -0.0095
+attach Neck -0.0183 1.5236 -0.0173
+unit R_Scalene_Anterior2
+attach Torso -0.0587 1.4669 -0.006
+attach Neck -0.0205 1.5399 -0.0109
+unit R_Scalene_Anterior3
+attach Torso -0.0619 1.4669 -0.0082
+attach Neck -0.0214 1.5579 -0.0068
+unit R_Scalene_Middle
+attach Torso -0.0402 1.4844 -0.0435
+attach Neck -0.0334 1.5002 -0.0417
+unit R_Scalene_Middle1
+attach Torso -0.0418 1.4811 -0.0405
+attach Neck -0.0306 1.5115 -0.0335
+unit R_Scalene_Middle2
+attach Torso -0.0431 1.4803 -0.0391
+attach Neck -0.0257 1.5272 -0.021
+unit R_Scalene_Middle3
+attach Torso -0.0479 1.4801 -0.0341
+attach Neck -0.0342 1.5339 -0.0138
+attach Neck -0.0252 1.5553 -0.0071
+unit R_Scalene_Middle4
+attach Torso -0.0556 1.4811 -0.0344
+attach Neck -0.0399 1.5484 -0.0108
+attach Neck -0.0267 1.5712 -0.006
+unit R_Scalene_Posterior
+attach Neck -0.0307 1.5123 -0.0334
+attach Torso -0.0458 1.4963 -0.041
+attach Torso -0.0699 1.469 -0.0573
+unit R_Scalene_Posterior1
+attach Torso -0.0724 1.4681 -0.056
+attach Neck -0.0267 1.5266 -0.0228
+unit R_Scalene_Posterior2
+attach Torso -0.0751 1.4667 -0.0521
+attach Neck -0.0249 1.5382 -0.0138
+unit R_Semimembranosus
+attach Pelvis -0.0751 0.9017 -0.0574
+attach Pelvis -0.0701 0.8462 -0.0391
+attach R_Femur -0.0534 0.5443 -0.0496
+attach R_Tibia -0.0567 0.5119 -0.042
+attach R_Tibia -0.0621 0.4903 -0.0297
+unit R_Semimembranosus1
+attach Pelvis -0.0784 0.9053 -0.0533
+attach R_Femur -0.0937 0.8623 -0.0343
+attach R_Femur -0.1044 0.5602 -0.0479
+attach R_Femur -0.0812 0.5272 -0.0562
+attach R_Tibia -0.082 0.495 -0.0422
+unit R_Semispinalis_Capitis
+attach Torso -0.0243 1.3802 -0.1126
+attach Neck -0.0076 1.5135 -0.0761
+attach Neck -0.0031 1.5735 -0.0567
+attach Skull -0.0033 1.6115 -0.07
+unit R_Semispinalis_Capitis1
+attach Torso -0.026 1.4311 -0.1004
+attach Neck -0.0146 1.5125 -0.0663
+attach Neck -0.0109 1.5662 -0.0547
+attach Skull -0.0087 1.6147 -0.0698
+unit R_Semispinalis_Capitis2
+attach Torso -0.031 1.477 -0.0777
+attach Neck -0.0178 1.569 -0.0503
+attach Skull -0.0152 1.6165 -0.0694
+unit R_Semispinalis_Capitis3
+attach Torso -0.0338 1.4926 -0.0615
+attach Neck -0.0217 1.5627 -0.0461
+attach Skull -0.0222 1.6187 -0.0686
+unit R_Semispinalis_Thoracis
+attach Torso -0.0322 1.494 -0.0543
+attach Neck -0.005 1.5632 -0.0361
+unit R_Semispinalis_Thoracis1
+attach Torso -0.0304 1.4786 -0.0699
+attach Neck -0.0079 1.5433 -0.044
+unit R_Semispinalis_Thoracis2
+attach Torso -0.0292 1.4578 -0.0867
+attach Neck -0.0051 1.5344 -0.0496
+unit R_Semispinalis_Thoracis3
+attach Torso -0.0271 1.4297 -0.0998
+attach Neck -0.0059 1.5201 -0.0659
+unit R_Semitendinosus
+attach Pelvis -0.068 0.8941 -0.0652
+attach Pelvis -0.0881 0.8533 -0.0463
+attach R_Femur -0.0856 0.5653 -0.0611
+attach R_Tibia -0.0704 0.4946 -0.0475
+attach R_Tibia -0.0655 0.4716 -0.0264
+attach R_Tibia -0.0798 0.4484 -0.0038
+unit R_Serratus_Anterior
+attach R_Shoulder -0.0928 1.4662 -0.0778
+attach Torso -0.085 1.4666 -0.0569
+attach Torso -0.0815 1.4715 -0.0188
+attach Torso -0.0661 1.4668 -0.0073
+unit R_Serratus_Anterior1
+attach R_Shoulder -0.089 1.4499 -0.0983
+attach Torso -0.0985 1.4475 -0.0738
+attach Torso -0.1071 1.4458 -0.0376
+attach Torso -0.0952 1.4459 -0.0121
+unit R_Serratus_Anterior2
+attach R_Shoulder -0.0901 1.4102 -0.1177
+attach R_Shoulder -0.1046 1.41 -0.1
+attach Torso -0.1312 1.4046 -0.0433
+attach Torso -0.1206 1.412 -0.0239
+unit R_Serratus_Anterior3
+attach R_Shoulder -0.0905 1.3756 -0.126
+attach Torso -0.1081 1.3759 -0.1054
+attach Torso -0.1469 1.3619 -0.0124
+attach Torso -0.1263 1.3516 0.0312
+unit R_Serratus_Anterior4
+attach R_Shoulder -0.0939 1.3482 -0.1283
+attach Torso -0.1153 1.3547 -0.0956
+attach Torso -0.1426 1.3284 -0.0119
+attach Torso -0.1264 1.3128 0.0476
+unit R_Serratus_Anterior5
+attach R_Shoulder -0.1159 1.3393 -0.1165
+attach Torso -0.1262 1.3367 -0.0948
+attach Torso -0.1492 1.3018 0.0096
+attach Torso -0.1269 1.2815 0.0484
+unit R_Serratus_Anterior6
+attach R_Shoulder -0.1069 1.3326 -0.1218
+attach Torso -0.1417 1.311 -0.0773
+attach Torso -0.1513 1.2706 -0.012
+attach Torso -0.1307 1.255 0.0333
+unit R_Serratus_Anterior7
+attach R_Shoulder -0.0955 1.3385 -0.1282
+attach Torso -0.1197 1.3183 -0.1064
+attach Torso -0.152 1.268 -0.0464
+attach Torso -0.1417 1.2423 -0.0013
+attach Torso -0.1305 1.2205 0.0119
+unit R_Serratus_Anterior8
+attach R_Shoulder -0.0963 1.3357 -0.1289
+attach Torso -0.1079 1.3193 -0.1185
+attach Torso -0.1279 1.2887 -0.1049
+attach Torso -0.1441 1.2122 -0.0345
+attach Torso -0.1298 1.191 -0.009
+unit R_Soleus
+attach R_Tibia -0.0875 0.4685 -0.0237
+attach R_Tibia -0.087 0.419 -0.0592
+attach R_Tibia -0.0711 0.1507 -0.0608
+attach R_Tibia -0.0734 0.0983 -0.0775
+attach R_Talus -0.0729 0.0299 -0.0952
+unit R_Soleus1
+attach R_Tibia -0.1366 0.4909 -0.0455
+attach R_Tibia -0.1308 0.393 -0.0757
+attach R_Talus -0.0853 0.0863 -0.0855
+attach R_Talus -0.0876 0.0298 -0.0982
+unit R_Spinalis_Cervicis
+attach Neck -0.0035 1.5046 -0.0806
+attach Neck -0.0154 1.5403 -0.0478
+attach Neck -0.0031 1.5782 -0.0409
+unit R_Spinalis_Thoracis
+attach Spine -0.0001 1.1245 -0.088
+attach Torso -0.0161 1.2581 -0.1163
+attach Torso -0.0154 1.3969 -0.1194
+attach Torso -0.0007 1.4829 -0.0938
+unit R_Splenius_Capitis
+attach Neck -0 1.5401 -0.0648
+attach Skull -0.0226 1.596 -0.0544
+attach Skull -0.0416 1.6345 -0.0674
+unit R_Splenius_Capitis1
+attach Neck -0 1.5021 -0.0862
+attach Neck -0.0224 1.5557 -0.0567
+attach Skull -0.0391 1.5955 -0.0486
+attach Skull -0.0606 1.639 -0.0456
+unit R_Splenius_Capitis2
+attach Torso -0 1.4425 -0.1101
+attach Neck -0.0319 1.5227 -0.0644
+attach Neck -0.0496 1.5797 -0.024
+attach Skull -0.0648 1.6149 -0.0116
+unit R_Splenius_Cervicis
+attach Torso -0 1.4067 -0.1201
+attach Torso -0.0357 1.4963 -0.0795
+attach Neck -0.0398 1.5463 -0.0392
+attach Neck -0.0375 1.5918 -0.0056
+unit R_Splenius_Cervicis1
+attach Torso -0 1.3446 -0.1258
+attach Torso -0.033 1.4155 -0.1129
+attach Torso -0.0487 1.4927 -0.0706
+attach Neck -0.042 1.5406 -0.0287
+attach Neck -0.027 1.571 -0.0063
+unit R_Sternocleidomastoid
+attach Torso -0.0027 1.4529 0.0312
+attach Neck -0.0442 1.5672 0.0086
+attach Skull -0.0555 1.6042 0.0016
+unit R_Sternocleidomastoid1
+attach R_Shoulder -0.0568 1.465 0.0175
+attach Neck -0.0546 1.5728 -0.0309
+attach Skull -0.049 1.6385 -0.0608
+unit R_Sternocleidomastoid2
+attach R_Shoulder -0.0254 1.4635 0.0305
+attach Neck -0.0428 1.5031 0.0115
+attach Skull -0.062 1.5899 -0.0111
+attach Skull -0.068 1.6369 -0.028
+unit R_Sternohyoid
+attach Torso -0.0137 1.4428 0.0227
+attach Torso -0.0083 1.4585 0.0164
+attach Skull -0.0066 1.5566 0.0457
+unit R_Sternothyroid
+attach Torso -0.0116 1.4357 0.0285
+attach Torso -0.0098 1.4537 0.0147
+attach Neck -0.0142 1.5136 0.0247
+attach Neck -0.0214 1.5483 0.0202
+unit R_Stylopharyngeous
+attach Neck -0.0041 1.536 0.0019
+attach Neck -0.0203 1.5852 0.0176
+attach Skull -0.0407 1.6107 0.0087
+unit R_Subclavian
+attach Torso -0.053 1.4489 0.0219
+attach R_Shoulder -0.1368 1.4606 -0.0242
+unit R_Subscapularis
+attach R_Shoulder -0.0928 1.4425 -0.1049
+attach R_Shoulder -0.1544 1.4339 -0.0352
+attach R_Shoulder -0.1751 1.4413 -0.0143
+attach R_Humerus -0.1886 1.4187 -0.0216
+unit R_Subscapularis1
+attach R_Shoulder -0.0944 1.3848 -0.1194
+attach R_Shoulder -0.1533 1.4192 -0.0409
+attach R_Humerus -0.2032 1.4066 -0.0163
+attach R_Humerus -0.2013 1.4133 -0.0177
+unit R_Superior_Gemellus
+attach Pelvis -0.0613 0.9187 -0.0592
+attach Pelvis -0.0904 0.9224 -0.0613
+attach R_Femur -0.1402 0.9213 -0.0248
+unit R_Supinator
+attach R_Radius -0.5346 1.4767 -0.0117
+attach R_Radius -0.5725 1.4866 0.0008
+attach R_Radius -0.5797 1.4807 0.0099
+attach R_Radius -0.5922 1.4661 0.0069
+unit R_Supraspinatus
+attach R_Shoulder -0.0933 1.4676 -0.0814
+attach R_Shoulder -0.1692 1.4601 -0.0447
+attach R_Humerus -0.1773 1.4346 -0.0277
+attach R_Humerus -0.1827 1.4401 -0.0221
+unit R_Supraspinatus1
+attach R_Shoulder -0.128 1.4552 -0.0993
+attach R_Shoulder -0.1798 1.4584 -0.052
+attach R_Humerus -0.1825 1.4466 -0.0377
+attach R_Humerus -0.1896 1.455 -0.025
+unit R_Tensor_Fascia_Lata
+attach Pelvis -0.1373 1.0628 -0.0239
+attach R_Femur -0.1628 0.9237 -0.0246
+attach R_Femur -0.1599 0.8119 -0.0045
+attach R_Femur -0.1417 0.5558 0.0056
+attach R_Tibia -0.1322 0.482 -0.0079
+unit R_Tensor_Fascia_Lata1
+attach Pelvis -0.1354 1.0307 0.0192
+attach R_Femur -0.1154 0.9208 0.0551
+attach R_Femur -0.1443 0.607 0.025
+attach R_Tibia -0.1106 0.5423 0.0342
+unit R_Tensor_Fascia_Lata2
+attach Pelvis -0.1429 1.0492 0.0032
+attach R_Femur -0.159 0.9177 0.0219
+attach R_Femur -0.1346 0.5571 0.0156
+attach R_Tibia -0.1216 0.4774 0.0049
+unit R_Teres_Major
+attach R_Shoulder -0.1 1.3369 -0.1311
+attach R_Shoulder -0.159 1.3743 -0.1013
+attach R_Humerus -0.2506 1.431 -0.0522
+attach R_Humerus -0.2435 1.4301 -0.0212
+unit R_Teres_Minor
+attach R_Shoulder -0.1341 1.3797 -0.0989
+attach R_Shoulder -0.1723 1.4002 -0.0833
+attach R_Humerus -0.2224 1.4448 -0.0637
+attach R_Humerus -0.2071 1.4583 -0.0408
+unit R_Tibialis_Anterior
+attach R_Tibia -0.1303 0.4885 -0.0101
+attach R_Tibia -0.0722 0.1031 -0.014
+attach R_Talus -0.0559 0.0613 -0.0091
+attach R_Talus -0.0661 0.0373 0.0242
+unit R_Tibialis_Posterior
+attach R_Tibia -0.1048 0.4725 -0.0236
+attach R_Tibia -0.0847 0.1378 -0.0504
+attach R_Tibia -0.0537 0.091 -0.0523
+attach R_Talus -0.059 0.0488 -0.0213
+attach R_Talus -0.0899 0.0392 0.01
+unit R_Triceps_Lateral_Head
+attach R_Humerus -0.2439 1.4524 -0.0329
+attach R_Humerus -0.3192 1.4847 -0.0461
+attach R_Humerus -0.4887 1.4779 -0.0242
+attach R_Radius -0.5235 1.467 -0.027
+unit R_Triceps_Long_Head
+attach R_Shoulder -0.1742 1.4115 -0.0633
+attach R_Humerus -0.256 1.4433 -0.0603
+attach R_Humerus -0.3419 1.4647 -0.0756
+attach R_Humerus -0.4759 1.4628 -0.0482
+attach R_Radius -0.5172 1.4627 -0.0334
+unit R_Triceps_Long_Head1
+attach R_Shoulder -0.1666 1.4097 -0.0713
+attach R_Humerus -0.2593 1.4321 -0.0614
+attach R_Humerus -0.3429 1.4253 -0.0578
+attach R_Humerus -0.431 1.4228 -0.0529
+attach R_Humerus -0.4922 1.452 -0.0444
+attach R_Radius -0.5231 1.4567 -0.032
+unit R_Triceps_Medial_Head
+attach R_Humerus -0.2921 1.4426 -0.0338
+attach R_Humerus -0.4359 1.4282 -0.0365
+attach R_Radius -0.5183 1.4544 -0.0283
+unit R_Triceps_Medial_Head1
+attach R_Humerus -0.2928 1.4459 -0.0342
+attach R_Humerus -0.3762 1.4708 -0.0302
+attach R_Radius -0.517 1.464 -0.0273
+unit R_Vastus_Intermedius
+attach R_Femur -0.1145 0.8711 0.0009
+attach R_Femur -0.0969 0.8116 0.0336
+attach R_Femur -0.0822 0.6043 0.0363
+attach R_Tibia -0.0795 0.545 0.0268
+unit R_Vastus_Intermedius1
+attach R_Femur -0.124 0.8714 0.0026
+attach R_Femur -0.1306 0.7901 0.0329
+attach R_Femur -0.1182 0.6507 0.0367
+attach R_Tibia -0.095 0.5575 0.0323
+unit R_Vastus_Lateralis
+attach R_Femur -0.1489 0.915 0.001
+attach R_Femur -0.1339 0.8826 0.0169
+attach R_Femur -0.1053 0.588 0.0393
+attach R_Tibia -0.0886 0.5495 0.035
+unit R_Vastus_Lateralis1
+attach R_Femur -0.1595 0.9052 -0.0022
+attach R_Femur -0.1532 0.8592 -0
+attach R_Femur -0.1363 0.5974 0.0086
+attach R_Tibia -0.1023 0.5405 0.0359
+unit R_Vastus_Medialis
+attach R_Femur -0.1186 0.8712 0.0029
+attach R_Femur -0.039 0.6802 0.0132
+attach R_Femur -0.0432 0.6041 0.0041
+attach R_Tibia -0.0747 0.5414 0.0241
+unit R_Vastus_Medialis1
+attach R_Femur -0.1191 0.867 0.0035
+attach R_Femur -0.0807 0.6696 0.0488
+attach R_Tibia -0.0876 0.5513 0.0358
+unit R_Vastus_Medialis2
+attach R_Femur -0.1186 0.8712 0.0029
+attach R_Femur -0.0578 0.6474 0.0372
+attach R_Tibia -0.0768 0.5469 0.0312
+unit R_iliacus
+attach Pelvis -0.068 1.0471 -0.0611
+attach Pelvis -0.0776 0.9421 0.018
+attach R_Femur -0.094 0.8805 -0.015
+attach R_Femur -0.1112 0.8534 -0.0209
+unit R_iliacus1
+attach Pelvis -0.1169 1.0697 -0.0324
+attach Pelvis -0.0841 0.973 0.013
+attach Pelvis -0.0868 0.9171 0.0297
+attach R_Femur -0.0996 0.8771 -0.0092
+attach R_Femur -0.1187 0.8677 -0.0228
+unit R_iliacus2
+attach Pelvis -0.1285 1.0335 0.0224
+attach Pelvis -0.0999 0.973 0.0313
+attach R_Femur -0.102 0.9088 0.0147
+attach R_Femur -0.1092 0.8637 -0.0133
+unit R_iliocostalis
+attach Pelvis -0.0036 0.8989 -0.0736
+attach Pelvis -0.0252 1.0267 -0.101
+attach Spine -0.0528 1.1109 -0.079
+attach Torso -0.0582 1.1744 -0.0934
+attach Torso -0.0639 1.2392 -0.1262
+attach Torso -0.0501 1.4334 -0.1048
+attach Torso -0.0411 1.4916 -0.0624
+attach Neck -0.0224 1.538 -0.0107
+unit R_Pharyngeal_raphe
+attach Neck 0.0001 1.5287 -0.0007
+attach Neck 0.0001 1.5532 0.0083
+attach Neck 0.0001 1.6084 0.0143
+attach Skull 0.0001 1.6231 0.012
+unit R_Rectus_Abdominis
+attach Pelvis -0.0073 0.9219 0.0523
+attach Pelvis -0.0183 1.0305 0.0914
+attach Torso -0.0271 1.1212 0.0971
+attach Torso -0.0282 1.1814 0.1047
+attach Torso -0.0367 1.3254 0.089
+unit R_Rectus_Abdominis1
+attach Pelvis -0.0221 0.9226 0.0508
+attach Pelvis -0.0402 1.0292 0.0861
+attach Torso -0.0601 1.1109 0.0894
+attach Torso -0.0635 1.1708 0.0923
+attach Torso -0.0762 1.3042 0.0929
+unit R_Serratus_Posterior_Inferior
+attach Spine -0 1.1394 -0.092
+attach Torso -0.0723 1.1568 -0.084
+attach Torso -0.0805 1.1628 -0.0757
+unit R_Serratus_Posterior_Inferior1
+attach Spine -0 1.1602 -0.0953
+attach Torso -0.0521 1.1781 -0.1008
+attach Torso -0.0856 1.1927 -0.1006
+unit R_Serratus_Posterior_Inferior2
+attach Torso -0 1.1821 -0.0975
+attach Torso -0.0731 1.2136 -0.1196
+attach Torso -0.0886 1.2251 -0.1161
+unit R_Serratus_Posterior_Inferior3
+attach Torso -0 1.2068 -0.1004
+attach Torso -0.0655 1.2515 -0.1316
+attach Torso -0.0909 1.2841 -0.1222
+unit R_Transversus_Abdominis
+attach Pelvis -0.0541 1.0432 -0.0928
+attach Torso -0.0632 1.1726 -0.0793
+unit R_Transversus_Abdominis1
+attach Pelvis -0.1064 1.0736 -0.0509
+attach Torso -0.0917 1.149 -0.0573
+unit R_Transversus_Abdominis2
+attach Pelvis -0.1356 1.0407 0.0178
+attach Torso -0.1112 1.1379 -0.0118
+unit R_Transversus_Abdominis3
+attach Pelvis -0.0843 0.9842 0.0492
+attach Torso -0.1001 1.1501 0.0363
+unit R_Transversus_Abdominis4
+attach Pelvis -0.016 0.9277 0.0535
+attach Torso -0.0389 1.181 0.093
+attach Torso -0.021 1.2978 0.0933
+unit R_Trapezius
+attach Torso -0 1.1799 -0.0968
+attach Torso -0.0348 1.2794 -0.128
+attach Torso -0.0805 1.3452 -0.1356
+attach R_Shoulder -0.1314 1.4476 -0.1024
+unit R_Trapezius1
+attach Torso -0 1.2823 -0.1242
+attach R_Shoulder -0.0921 1.4298 -0.127
+attach R_Shoulder -0.1207 1.4467 -0.105
+unit R_Trapezius2
+attach Torso -0 1.3616 -0.1304
+attach R_Shoulder -0.0675 1.4494 -0.1251
+attach R_Shoulder -0.1079 1.4648 -0.1027
+attach R_Shoulder -0.1326 1.4546 -0.097
+unit R_Trapezius3
+attach Torso -0 1.4373 -0.1193
+attach R_Shoulder -0.0859 1.4761 -0.1032
+attach R_Shoulder -0.1227 1.4728 -0.0925
+attach R_Shoulder -0.1455 1.4556 -0.0919
+unit R_Trapezius4
+attach Neck -0 1.5143 -0.0878
+attach R_Shoulder -0.0855 1.4946 -0.0845
+attach R_Shoulder -0.1499 1.4678 -0.0826
+attach R_Shoulder -0.1688 1.46 -0.0791
+unit R_Trapezius5
+attach Neck -0 1.563 -0.0636
+attach Neck -0.0393 1.5495 -0.0624
+attach R_Shoulder -0.1133 1.4967 -0.0649
+attach R_Shoulder -0.1989 1.4608 -0.0569
+unit R_Trapezius6
+attach Skull -0.0172 1.6177 -0.0702
+attach Neck -0.0211 1.5738 -0.0535
+attach Neck -0.0401 1.5491 -0.0529
+attach R_Shoulder -0.0978 1.491 -0.0469
+attach R_Shoulder -0.1328 1.4702 -0.0301

@@ -44,6 +44,7 @@ public:
 	int GetControlHz(){return mControlHz;};
 	int GetSimulationHz(){return mSimulationHz;};
 	std::vector<Tuple>& GetTuples(){return mTuples;};
+	const Eigen::VectorXd& GetDesiredAcceleration(){mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);return mQddDesired;};
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;
