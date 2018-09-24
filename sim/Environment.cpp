@@ -22,7 +22,7 @@ Environment(int control_Hz,int simulation_Hz)
 	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/muscle.xml"));
 	std::cout<<"# muscles : "<<mCharacter->GetMuscles().size()<<std::endl;
 	//Hard-coded parameter
-	mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact_simple.txt"),0.035,mGround->getBodyNode(0));
+	// mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact_simple.txt"),0.035,mGround->getBodyNode(0));
 	
 	mCharacter->LoadMotionGraph(std::string(MSS_ROOT_DIR)+std::string("/motion/simple.graph"),std::vector<int>{0,0,0,0,0},1.0/(double)mControlHz);
 	mCharacter->AddInterestBodies(std::vector<std::string> {"R_Femur","R_Tibia","R_Talus"});

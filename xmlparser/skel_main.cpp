@@ -12,8 +12,8 @@ namespace Eigen
 };
 struct UserConstant
 {
-	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None")
-		:mParent(parent),mJointType(joint_type),mMass(mass),mJointLowerLimit(joint_lower_limit),mJointUpperLimit(joint_upper_limit),mAxis(axis),mBVHMap(bvh_map),mOBJMap(obj_map)
+	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None",bool con = false)
+		:mParent(parent),mJointType(joint_type),mMass(mass),mJointLowerLimit(joint_lower_limit),mJointUpperLimit(joint_upper_limit),mAxis(axis),mBVHMap(bvh_map),mOBJMap(obj_map),collision_on(con)
 	{
 
 	}
@@ -25,6 +25,7 @@ struct UserConstant
 	Eigen::VectorXd mJointLowerLimit;
 	Eigen::VectorXd mJointUpperLimit;
 	Eigen::Vector3d mAxis;
+	bool collision_on;
 };
 struct MayaConstant
 {
@@ -145,8 +146,8 @@ int main(int argc,char** argv)
 	ucs.insert(std::make_pair("R_Tibia",UserConstant("R_Femur","RevoluteJoint",2.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_RightLeg","R_Tibia_mesh.obj")));
 
 #ifndef DETAIL
-	ucs.insert(std::make_pair("L_Talus",UserConstant("L_Tibia","BallJoint",1.5,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_merge_mesh.obj")));
-	ucs.insert(std::make_pair("R_Talus",UserConstant("R_Tibia","BallJoint",1.5,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_merge_mesh.obj")));
+	ucs.insert(std::make_pair("L_Talus",UserConstant("L_Tibia","BallJoint",1.5,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_merge_mesh.obj",true)));
+	ucs.insert(std::make_pair("R_Talus",UserConstant("R_Tibia","BallJoint",1.5,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_merge_mesh.obj",true)));
 #else
 	//Left
 	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_mesh.obj")));
@@ -230,6 +231,10 @@ int main(int argc,char** argv)
 		if(uc.mAxis.norm()>1E-4)
 		{
 			joint_elem->SetAttribute("axis",toString(uc.mAxis));
+		}
+		if(uc.collision_on==true)
+		{
+			joint_elem->SetAttribute("contact","On");	
 		}
 		TiXmlElement* body_position_elem = new TiXmlElement("BodyPosition");
 		body_position_elem->SetAttribute("linear",toString(mcs[i].mBodyR));

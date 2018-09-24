@@ -89,11 +89,11 @@ BuildFromFile(const std::string& filename){
 		
 		bool contact = false;
 		
-		// if(body->Attribute("contact")!=nullptr)
-		// {
-		// 	if(std::string(body->Attribute("contact"))=="On")
-		// 		contact = true;
-		// }
+		if(body->Attribute("contact")!=nullptr)
+		{
+			if(std::string(body->Attribute("contact"))=="On")
+				contact = true;
+		}
 		if(!jointType.compare("FreeJoint") ){
 			SkeletonBuilder::MakeFreeJointBody(
 				name,
