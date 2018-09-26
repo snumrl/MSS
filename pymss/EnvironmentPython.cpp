@@ -10,7 +10,7 @@ EnvironmentPython(int num_slaves)
 	dart::math::seedRand();
 	omp_set_num_threads(num_slaves);
 	for(int i =0;i<mNumSlaves;i++){
-		mSlaves.push_back(new MSS::Environment(30,600));
+		mSlaves.push_back(new MSS::Environment(30,900));
 	}
 	mNumState = mSlaves[0]->GetNumState();
 	mNumAction = mSlaves[0]->GetNumAction();

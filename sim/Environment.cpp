@@ -22,19 +22,19 @@ Environment(int control_Hz,int simulation_Hz)
 	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/muscle.xml"));
 	std::cout<<"# muscles : "<<mCharacter->GetMuscles().size()<<std::endl;
 	//Hard-coded parameter
-	// mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact_simple.txt"),0.035,mGround->getBodyNode(0));
+	// mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact.txt"),0.035,mGround->getBodyNode(0));
 	
 	mCharacter->LoadMotionGraph(std::string(MSS_ROOT_DIR)+std::string("/motion/simple.graph"),std::vector<int>{0,0,0,0,0},1.0/(double)mControlHz);
-	mCharacter->AddInterestBodies(std::vector<std::string> {"R_Femur","R_Tibia","R_Talus"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"L_Femur","L_Tibia","L_Talus"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"Spine","Torso","Neck","Skull"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"R_Shoulder","R_Humerus","R_Radius","R_Hand"});
-	mCharacter->AddInterestBodies(std::vector<std::string> {"L_Shoulder","L_Humerus","L_Radius","L_Hand"});
-	mCharacter->AddEndEffector("R_Talus");
-	mCharacter->AddEndEffector("L_Talus");
-	mCharacter->AddEndEffector("R_Hand");
-	mCharacter->AddEndEffector("L_Hand");
-	mCharacter->AddEndEffector("Skull");
+	mCharacter->AddInterestBodies(std::vector<std::string> {"FemurR","TibiaR","TalusR"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"FemurL","TibiaL","TalusL"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"Spine","Torso","Neck","Head"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"ShoulderR","ArmR","ForeArmR","HandR"});
+	mCharacter->AddInterestBodies(std::vector<std::string> {"ShoulderL","ArmL","ForeArmL","HandL"});
+	mCharacter->AddEndEffector("TalusR");
+	mCharacter->AddEndEffector("TalusL");
+	mCharacter->AddEndEffector("HandR");
+	mCharacter->AddEndEffector("HandL");
+	mCharacter->AddEndEffector("Head");
 
 	Eigen::VectorXd zeros = Eigen::VectorXd::Zero(mCharacter->GetSkeleton()->getNumDofs());
 	
@@ -53,7 +53,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#0,#1,#2
 	{
-		std::string name = "R_Femur";
+		std::string name = "FemurR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -71,7 +71,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#3,#4,#5
 	{
-		std::string name = "L_Femur";
+		std::string name = "FemurL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -89,7 +89,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#6
 	{
-		std::string name = "R_Tibia";
+		std::string name = "TibiaR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -104,7 +104,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#7
 	{
-		std::string name = "L_Tibia";
+		std::string name = "TibiaL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -119,7 +119,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#8,#9,#10
 	{
-		std::string name = "R_Talus";
+		std::string name = "TalusR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -137,7 +137,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#11,#12,#13
 	{
-		std::string name = "L_Talus";
+		std::string name = "TalusL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -203,7 +203,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#19,#20,#21
 	{
-		std::string name = "Skull";
+		std::string name = "Head";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -221,7 +221,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#22
 	{
-		std::string name = "R_Shoulder";
+		std::string name = "ShoulderR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -236,7 +236,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#23
 	{
-		std::string name = "L_Shoulder";
+		std::string name = "ShoulderL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -251,7 +251,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#24,#25,#26
 	{
-		std::string name = "R_Humerus";
+		std::string name = "ArmR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -269,7 +269,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#27,#28,#29
 	{
-		std::string name = "L_Humerus";
+		std::string name = "ArmL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -287,7 +287,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#30
 	{
-		std::string name = "R_Radius";
+		std::string name = "ForeArmR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -302,7 +302,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#31
 	{
-		std::string name = "L_Radius";
+		std::string name = "ForeArmL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		Eigen::VectorXd p_lower = zeros;
@@ -317,7 +317,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#32,#33,#34
 	{
-		std::string name = "R_Hand";
+		std::string name = "HandR";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -335,7 +335,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 	//#35,#36,#37
 	{
-		std::string name = "L_Hand";
+		std::string name = "HandL";
 		Eigen::VectorXd kp_upper = zeros;
 		Eigen::VectorXd kp_lower = zeros;
 		for(int i =0;i<3;i++)
@@ -561,28 +561,30 @@ Step(const Eigen::VectorXd& activation)
 	// 	muscle->ApplyForceToBody();
 	// }
 	//For Joint Torque
-	Eigen::VectorXd tau = mCharacter->GetSkeleton()->getMassMatrix()*mQddDesired+mCharacter->GetSkeleton()->getCoriolisAndGravityForces();
+	// Eigen::VectorXd tau = mCharacter->GetSkeleton()->getMassMatrix()*mQddDesired+mCharacter->GetSkeleton()->getCoriolisAndGravityForces();
+	Eigen::VectorXd tau = mQddDesired;
+	tau.head(6).setZero();
 	mCharacter->GetSkeleton()->setForces(tau);
-	Eigen::MatrixXd M_inv = mCharacter->GetSkeleton()->getInvMassMatrix();
-	Tuple tp;
-	tp.s = GetState();
-	tp.qdd_des = mQddDesired;
-	tp.activation = activation;
-	tp.A = M_inv*mQP->GetJtA();
-	tp.b = M_inv*mQP->GetJtp_minus_c();
+	// Eigen::MatrixXd M_inv = mCharacter->GetSkeleton()->getInvMassMatrix();
+	// Tuple tp;
+	// tp.s = GetState();
+	// tp.qdd_des = mQddDesired;
+	// tp.activation = activation;
+	// tp.A = M_inv*mQP->GetJtA();
+	// tp.b = M_inv*mQP->GetJtp_minus_c();
 
-	mTuples.push_back(tp);
-	auto contact_points = mCharacter->GetContactPoints();
-	for(auto cp : contact_points)
-	{
-		cp->CheckColliding();
-		if(cp->IsColliding()){
-			cp->Add(mWorld);
-		}
-	}
+	// mTuples.push_back(tp);
+	// auto contact_points = mCharacter->GetContactPoints();
+	// for(auto cp : contact_points)
+	// {
+	// 	cp->CheckColliding();
+	// 	if(cp->IsColliding()){
+	// 		cp->Add(mWorld);
+	// 	}
+	// }
 	mWorld->step();
-	for(auto cp : contact_points)
-		cp->Remove(mWorld);
+	// for(auto cp : contact_points)
+	// 	cp->Remove(mWorld);
 }
 Eigen::VectorXd
 Environment::
@@ -590,7 +592,8 @@ ComputeActivationQP()
 {
 	// for(auto muscle : mCharacter->GetMuscles())
 		// muscle->Update(mWorld->getTimeStep());
-	mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
+	// mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
+	mQddDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
 	// mQP->Minimize(mQddDesired);
 
 	Eigen::VectorXd solution = mQP->GetSolution();
@@ -634,11 +637,11 @@ IsTerminalState()
 	//ET
 	if(root_y<0.7 || root_y > 2.0)
 		isTerminal = true;
-	if(dart::math::isNan(v))
+	if(dart::math::isNan(v)||v.array().abs().maxCoeff()>1E3)
 		isTerminal = true;
 	if(dart::math::isNan(p))
 		isTerminal = true;
-	if(mTimeElapsed>mCharacter->GetMotionGraph()->GetMaxTime())
+	if(mTimeElapsed>20.0)
 		isTerminal = true;
 	return isTerminal;
 }

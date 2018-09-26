@@ -99,8 +99,9 @@ int main(int argc,char** argv)
 	std::map<std::string,UserConstant> ucs;
 	std::vector<MayaConstant> mcs;
 	ReadMayaConstant(mcs,argv[1]);
+	// exit(0);
 	for(int i =0;i<mcs.size();i++)
-		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(1000.0,1.0,0.2,0.0)));
+		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(2000.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Adductor_Longus1",UserConstant(300.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Bicep_Femoris_Longus",UserConstant(500.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Bicep_Femoris_Short",UserConstant(500.0,1.0,0.2,0.0)));

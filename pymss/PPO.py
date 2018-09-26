@@ -83,8 +83,8 @@ class PPO(object):
 		self.lb = 0.95
 		self.clip_ratio = 0.2
 		
-		self.buffer_size = 2048
-		self.batch_size = 128
+		self.buffer_size = 4096
+		self.batch_size = 256
 		self.muscle_batch_size = 128
 		self.replay_buffer = ReplayBuffer(10000)
 		self.muscle_buffer = MuscleBuffer(150000)
@@ -98,7 +98,7 @@ class PPO(object):
 			self.muscle_model.cuda()
 			self.discriminator_model.cuda()
 
-		self.optimizer = optim.Adam(self.model.parameters(),lr=7E-4)
+		self.optimizer = optim.Adam(self.model.parameters(),lr=1E-4)
 		self.optimizer_muscle = optim.Adam(self.muscle_model.parameters(),lr=2E-4)
 		self.optimizer_discrim = optim.Adam(self.discriminator_model.parameters(),lr=2E-4)
 
@@ -170,8 +170,11 @@ class PPO(object):
 		local_step = 0
 		terminated = [False]*self.num_slaves
 
+		counter = 0
 		while True:
-			print('SIM : {}'.format(local_step),end='\r')
+			counter += 1
+			if counter%10 == 0:
+				print('SIM : {}'.format(local_step),end='\r')
 			a_dist,v = self.model(Tensor(states))
 			actions = a_dist.sample().cpu().detach().numpy()
 			logprobs = a_dist.log_prob(Tensor(actions)).cpu().detach().numpy().reshape(-1)
@@ -190,14 +193,16 @@ class PPO(object):
 					continue
 
 				nan_occur = False
+				terminated_state = True
 				if np.any(np.isnan(states[j])) or np.any(np.isnan(actions[j])) or np.any(np.isnan(values[j])) or np.any(np.isnan(logprobs[j])):
 					nan_occur = True
-				else:
+				elif self.env.IsTerminalState(j) is False:
+					terminated_state = False
 					rewards[j] = self.env.GetReward(j)
 					episodes[j].Push(states[j], actions[j], rewards[j], values[j], logprobs[j])
 					local_step += 1
 				# if episode is terminated
-				if self.env.IsTerminalState(j) or (nan_occur is True):
+				if terminated_state or (nan_occur is True):
 					# push episodes
 					self.total_episodes.append(episodes[j])
 
@@ -241,8 +246,9 @@ class PPO(object):
 				'''Actor Loss'''
 				ratio = torch.exp(a_dist.log_prob(Tensor(stack_a))-Tensor(stack_lp))
 				stack_gae = (stack_gae-stack_gae.mean())/(stack_gae.std()+ 1E-5)
-				surrogate1 = ratio * Tensor(stack_gae)
-				surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * Tensor(stack_gae)
+				stack_gae = Tensor(stack_gae)
+				surrogate1 = ratio * stack_gae
+				surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * stack_gae
 				loss_actor = - torch.min(surrogate1,surrogate2).mean()
 				'''Entropy Loss'''
 				loss_entropy = - self.w_entropy * a_dist.entropy().mean()
