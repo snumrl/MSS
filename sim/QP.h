@@ -15,6 +15,7 @@ public:
 	Eigen::VectorXd GetSolution(){return mSolution;}
 	void Update(const Eigen::VectorXd& qdd_desired);
 	Eigen::MatrixXd GetJtA();
+	Eigen::VectorXd GetJtP();
 	Eigen::VectorXd GetJtp_minus_c();
 private:
 	void Initialize();

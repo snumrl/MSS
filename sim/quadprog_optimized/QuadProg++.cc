@@ -85,7 +85,7 @@ double solve_quadprog(Matrix<double>& G, Vector<double>& g0,
   register int i, j, k, l; /* indices */
   int ip; // this is the index of the constraint to be added to the active set
   Matrix<double> R(n, n), J(n, n);
-  Vector<double> s(m + p), z(n), r(m + p), d(n), np(n), u(m + p), x_old(n), u_old(m + p);
+  Vector<double> s(m + p), z(n), r(m + p), d(n), np(n), u(m + p), x_old(n), u_old(m + p),Gx(n);
   double f_value, psi, c1, c2, sum, ss, R_norm;
   double inf;
   if (std::numeric_limits<double>::has_infinity)
@@ -162,6 +162,11 @@ double solve_quadprog(Matrix<double>& G, Vector<double>& g0,
     x[i] = -x[i];
   /* and compute the current solution value */ 
   f_value = 0.5 * scalar_product(g0, x);
+
+  // Compute Gx
+  // for(i=0;i<n;i++)
+  //   Gx[i] = G[i][i]*x[i];
+  // f_value = 0.5*scalar_product(Gx,x)+scalar_product(g0, x);
 #ifdef TRACE_SOLVER
   std::cout << "Unconstrained solution: " << f_value << std::endl;
   print_vector("x", x);

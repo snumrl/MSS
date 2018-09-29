@@ -57,7 +57,7 @@ DrawMuscles(const std::vector<Muscle*>& muscles)
 		double a = muscle->activation;
 		// std::cout<<a<<std::endl;
 
-		Eigen::Vector3d color(a*2.0,0.0,1.0-a*2.0);
+		Eigen::Vector3d color(a,0.0,1.0-a);
 		
 		glColor3f(1.0,0.0,0.362);
 		for(int i=0;i<aps.size();i++)

@@ -18,13 +18,25 @@ AddAnchor(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& glob_pos)
 	int n =mAnchors.size();
 	if(n>1)
 		l_mt0 += (GetPoint(mAnchors[n-1])-GetPoint(mAnchors[n-2])).norm();
+
+	Update(0.1);
+	Eigen::MatrixXd Jt = GetJacobianTranspose();
+	auto Ap = GetForceJacobianAndPassive();
+	Eigen::VectorXd JtA = Jt*Ap.first;
+	num_related_dofs = 0;
+	related_dof_indices.clear();
+	for(int i =0;i<JtA.rows();i++)
+		if(std::abs(JtA[i])>1E-5){
+			num_related_dofs++;
+			related_dof_indices.push_back(i);
+		}
 }
 void
 Muscle::
 ApplyForceToBody()
 {
 	double f = GetForce();
-	// std::cout<<f<<std::endl;
+
 	std::vector<Eigen::Vector3d> point;
 	for(int i =0;i<mAnchors.size();i++)
 		point.push_back(GetPoint(mAnchors[i]));
@@ -82,6 +94,22 @@ Getl_mt()
 
 	return l_mt/l_mt0;
 }
+Eigen::VectorXd
+Muscle::
+GetRelatedJtA()
+{
+	Eigen::MatrixXd Jt = GetJacobianTranspose();
+	
+	Eigen::VectorXd A = GetForceJacobianAndPassive().first;
+
+	Eigen::VectorXd JtA = Jt*A;
+	
+	Eigen::VectorXd JtA_reduced = Eigen::VectorXd::Zero(num_related_dofs);
+	for(int i =0;i<num_related_dofs;i++){
+		JtA_reduced[i] = JtA[related_dof_indices[i]];
+	}
+	return JtA_reduced;
+}
 Eigen::MatrixXd
 Muscle::
 GetJacobianTranspose()
@@ -96,15 +124,14 @@ GetJacobianTranspose()
 	
 	return Jt;	
 }
+
 std::pair<Eigen::VectorXd,Eigen::VectorXd>
 Muscle::
 GetForceJacobianAndPassive()
 {
 	double f_a = Getf_A();
 	double f_p = Getf_p();
-	// std::cout<<name<<":"<<std::endl;
-	// std::cout<<f_a<<std::endl;
-	// std::cout<<f_p<<std::endl;
+
 	std::vector<Eigen::Vector3d> point,force_dir;
 	for(int i =0;i<mAnchors.size();i++){
 		point.push_back(GetPoint(mAnchors[i]));
@@ -116,7 +143,8 @@ GetForceJacobianAndPassive()
 		dir.normalize();
 		force_dir[i] += dir;
 	}
-
+	
+	
 	for(int i =1;i<mAnchors.size();i++)
 	{
 		Eigen::Vector3d dir = point[i-1]-point[i];
@@ -134,7 +162,6 @@ GetForceJacobianAndPassive()
 		A.segment<3>(i*3) = force_dir[i]*f_a;
 		p.segment<3>(i*3) = force_dir[i]*f_p;
 	}
-
 	return std::make_pair(A,p);
 }
 Eigen::Vector3d GetPoint(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& local_pos)
@@ -146,4 +173,3 @@ Eigen::Vector3d GetPoint(const std::pair<dart::dynamics::BodyNode*,Eigen::Vector
 	return bnpos.first->getTransform()*bnpos.second;
 }
 };
-

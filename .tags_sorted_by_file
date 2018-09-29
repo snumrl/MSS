@@ -3,52 +3,6 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
-GenerateTuple	Preprocess.cpp	/^GenerateTuple(int id)$/;"	f	class:Preprocess
-GenerateTuples	Preprocess.cpp	/^GenerateTuples(int num)$/;"	f	class:Preprocess
-Get	Preprocess.cpp	/^Get()$/;"	f	class:Preprocess
-Preprocess	Preprocess.cpp	/^Preprocess(int num_slaves)$/;"	f	class:Preprocess
-A	Preprocess.h	/^	Eigen::MatrixXd A;$/;"	m	struct:Tuple
-GetNumDofs	Preprocess.h	/^	int GetNumDofs(){return mNumDofs;}$/;"	f	class:Preprocess
-GetNumMuscles	Preprocess.h	/^	int GetNumMuscles(){return mNumMuscles;}$/;"	f	class:Preprocess
-GetNumStates	Preprocess.h	/^	int GetNumStates(){return mNumStates;}$/;"	f	class:Preprocess
-Preprocess	Preprocess.h	/^class Preprocess$/;"	c
-Tuple	Preprocess.h	/^struct Tuple$/;"	s
-__MSS_PREPROCESS_H__	Preprocess.h	2;"	d
-activation	Preprocess.h	/^	Eigen::VectorXd activation;$/;"	m	struct:Tuple
-b	Preprocess.h	/^	Eigen::VectorXd b;$/;"	m	struct:Tuple
-mEngines	Preprocess.h	/^	std::vector<std::default_random_engine> mEngines;$/;"	m	class:Preprocess
-mNumDofs	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
-mNumMuscles	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
-mNumSlaves	Preprocess.h	/^	int mNumSlaves;$/;"	m	class:Preprocess
-mNumStates	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
-mSlaves	Preprocess.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:Preprocess
-mX	Preprocess.h	/^	std::vector<Tuple> mX;$/;"	m	class:Preprocess
-mX_per_slave	Preprocess.h	/^	std::vector<std::vector<Tuple>> mX_per_slave;$/;"	m	class:Preprocess
-q	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
-q_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
-qdd_des	Preprocess.h	/^	Eigen::VectorXd qdd_des;$/;"	m	struct:Tuple
-s	Preprocess.h	/^	Eigen::VectorXd s;$/;"	m	struct:Tuple
-v	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
-v_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
-Buffer	Regression.py	/^class Buffer(object):$/;"	c
-ByteTensor	Regression.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
-Clear	Regression.py	/^	def Clear(self):$/;"	m	class:Buffer
-FloatTensor	Regression.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
-Full	Regression.py	/^	def Full(self):$/;"	m	class:Buffer
-GenerateTuples	Regression.py	/^	def GenerateTuples(self,num):$/;"	m	class:Regressor
-GetTuple	Regression.py	/^	def GetTuple(self,num):$/;"	m	class:Regressor
-LoadModel	Regression.py	/^	def LoadModel(self,model_path):$/;"	m	class:Regressor
-LongTensor	Regression.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
-OptimizeModel	Regression.py	/^	def OptimizeModel(self):$/;"	m	class:Regressor
-Plot	Regression.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
-Push	Regression.py	/^	def Push(self,*args):$/;"	m	class:Buffer
-Regressor	Regression.py	/^class Regressor(object):$/;"	c
-SaveModel	Regression.py	/^	def SaveModel(self):$/;"	m	class:Regressor
-Tensor	Regression.py	/^Tensor = FloatTensor$/;"	v
-Tuple	Regression.py	/^Tuple = namedtuple('Tuple',('s','qdd_des','a','A','b','q','q_d','v','v_d'))$/;"	v
-__init__	Regression.py	/^	def __init__(self,buff_size = 65536):$/;"	m	class:Buffer
-__init__	Regression.py	/^	def __init__(self,num_slaves):$/;"	m	class:Regressor
-use_cuda	Regression.py	/^use_cuda = torch.cuda.is_available()$/;"	v
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	440;"	d	file:
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	443;"	d	file:
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	446;"	d	file:
@@ -871,7 +825,10 @@ SHELL	build/xmlparser/Makefile	/^SHELL = \/bin\/sh$/;"	m
 SUFFIXES	build/xmlparser/Makefile	/^SUFFIXES =$/;"	m
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 BOOST_PYTHON_MODULE	pymss/EnvironmentPython.cpp	/^BOOST_PYTHON_MODULE(pymss)$/;"	f
+ComputeActivationsQP	pymss/EnvironmentPython.cpp	/^ComputeActivationsQP()$/;"	f	class:EnvironmentPython
 EnvironmentPython	pymss/EnvironmentPython.cpp	/^EnvironmentPython(int num_slaves)$/;"	f	class:EnvironmentPython
+GetDesiredTorques	pymss/EnvironmentPython.cpp	/^GetDesiredTorques()$/;"	f	class:EnvironmentPython
+GetMuscleTorques	pymss/EnvironmentPython.cpp	/^GetMuscleTorques()$/;"	f	class:EnvironmentPython
 GetNumAction	pymss/EnvironmentPython.cpp	/^GetNumAction()$/;"	f	class:EnvironmentPython
 GetNumDofs	pymss/EnvironmentPython.cpp	/^GetNumDofs()$/;"	f	class:EnvironmentPython
 GetNumMuscles	pymss/EnvironmentPython.cpp	/^GetNumMuscles()$/;"	f	class:EnvironmentPython
@@ -880,33 +837,44 @@ GetReward	pymss/EnvironmentPython.cpp	/^GetReward(int id)$/;"	f	class:Environmen
 GetRewards	pymss/EnvironmentPython.cpp	/^GetRewards()$/;"	f	class:EnvironmentPython
 GetState	pymss/EnvironmentPython.cpp	/^GetState(int id)$/;"	f	class:EnvironmentPython
 GetStates	pymss/EnvironmentPython.cpp	/^GetStates()$/;"	f	class:EnvironmentPython
+GetTuples	pymss/EnvironmentPython.cpp	/^GetTuples()$/;"	f	class:EnvironmentPython
 IsTerminalState	pymss/EnvironmentPython.cpp	/^IsTerminalState(int id)$/;"	f	class:EnvironmentPython
 IsTerminalStates	pymss/EnvironmentPython.cpp	/^IsTerminalStates()$/;"	f	class:EnvironmentPython
 Reset	pymss/EnvironmentPython.cpp	/^Reset(bool RSI,int id)$/;"	f	class:EnvironmentPython
 Resets	pymss/EnvironmentPython.cpp	/^Resets(bool RSI)$/;"	f	class:EnvironmentPython
 SetAction	pymss/EnvironmentPython.cpp	/^SetAction(np::ndarray np_array,int id)$/;"	f	class:EnvironmentPython
 SetActions	pymss/EnvironmentPython.cpp	/^SetActions(np::ndarray np_array)$/;"	f	class:EnvironmentPython
-Step	pymss/EnvironmentPython.cpp	/^Step(int id)$/;"	f	class:EnvironmentPython
-Steps	pymss/EnvironmentPython.cpp	/^Steps()$/;"	f	class:EnvironmentPython
+Step	pymss/EnvironmentPython.cpp	/^Step(const Eigen::VectorXd& activation,int id)$/;"	f	class:EnvironmentPython
+Steps	pymss/EnvironmentPython.cpp	/^Steps(np::ndarray np_array,p::list _terminated)$/;"	f	class:EnvironmentPython
 EnvironmentPython	pymss/EnvironmentPython.h	/^class EnvironmentPython$/;"	c
+GetControlHz	pymss/EnvironmentPython.h	/^	int GetControlHz(){return mSlaves[0]->GetControlHz();};$/;"	f	class:EnvironmentPython
+GetNumTotalMuscleRelatedDofs	pymss/EnvironmentPython.h	/^	int GetNumTotalMuscleRelatedDofs(){return mSlaves[0]->GetNumTotalRelatedDofs();};$/;"	f	class:EnvironmentPython
+GetSimulationHz	pymss/EnvironmentPython.h	/^	int GetSimulationHz(){return mSlaves[0]->GetSimulationHz();};$/;"	f	class:EnvironmentPython
 __MSS_ENVIRONMENT_PYTHON_H__	pymss/EnvironmentPython.h	2;"	d
 mNumAction	pymss/EnvironmentPython.h	/^	int mNumAction;$/;"	m	class:EnvironmentPython
 mNumSlaves	pymss/EnvironmentPython.h	/^	int mNumSlaves;$/;"	m	class:EnvironmentPython
 mNumState	pymss/EnvironmentPython.h	/^	int mNumState;$/;"	m	class:EnvironmentPython
 mSlaves	pymss/EnvironmentPython.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:EnvironmentPython
+ByteTensor	pymss/Model.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
 Container	pymss/Model.py	/^class Container(nn.Module):$/;"	c
+DiscriminatorNN	pymss/Model.py	/^class DiscriminatorNN(nn.Module):$/;"	c
+FloatTensor	pymss/Model.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
 Get	pymss/Model.py	/^	def Get(self):$/;"	m	class:Container
+LongTensor	pymss/Model.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
 MultiVariateNormal	pymss/Model.py	/^MultiVariateNormal = torch.distributions.Normal$/;"	v
 MuscleNN	pymss/Model.py	/^class MuscleNN(nn.Module):$/;"	c
 Push	pymss/Model.py	/^	def Push(self,val):$/;"	m	class:Container
 SimulationNN	pymss/Model.py	/^class SimulationNN(nn.Module):$/;"	c
+Tensor	pymss/Model.py	/^Tensor = FloatTensor$/;"	v
 __init__	pymss/Model.py	/^	def __init__(self,num):$/;"	m	class:Container
-__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions,num_dofs,num_muscles):$/;"	m	class:SimulationNN
-__init__	pymss/Model.py	/^	def __init__(self,num_states,num_dofs,num_muscles):$/;"	m	class:MuscleNN
-forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:MuscleNN
+__init__	pymss/Model.py	/^	def __init__(self,num_muscles):$/;"	m	class:DiscriminatorNN
+__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions):$/;"	m	class:SimulationNN
+__init__	pymss/Model.py	/^	def __init__(self,num_total_muscle_related_dofs,num_dofs,num_muscles):$/;"	m	class:MuscleNN
+forward	pymss/Model.py	/^	def forward(self,a):$/;"	m	class:DiscriminatorNN
+forward	pymss/Model.py	/^	def forward(self,muscle_tau,tau):$/;"	m	class:MuscleNN
 forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:SimulationNN
 get_action	pymss/Model.py	/^	def get_action(self,s):$/;"	m	class:SimulationNN
-get_activation	pymss/Model.py	/^	def get_activation(self,x):$/;"	m	class:MuscleNN
+get_activation	pymss/Model.py	/^	def get_activation(self,muscle_tau,tau):$/;"	m	class:MuscleNN
 get_random_action	pymss/Model.py	/^	def get_random_action(self,s):$/;"	m	class:SimulationNN
 load	pymss/Model.py	/^	def load(self,path):$/;"	m	class:MuscleNN
 load	pymss/Model.py	/^	def load(self,path):$/;"	m	class:SimulationNN
@@ -914,6 +882,8 @@ save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:MuscleNN
 save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:SimulationNN
 temp	pymss/Model.py	/^temp = MultiVariateNormal.log_prob$/;"	v
 temp2	pymss/Model.py	/^temp2 = MultiVariateNormal.entropy$/;"	v
+use_cuda	pymss/Model.py	/^use_cuda = torch.cuda.is_available()$/;"	v
+weights_init	pymss/Model.py	/^def weights_init(m):$/;"	f
 ByteTensor	pymss/PPO.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
 Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:MuscleBuffer
 Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:ReplayBuffer
@@ -927,7 +897,7 @@ GetData	pymss/PPO.py	/^	def GetData(self):$/;"	m	class:EpisodeBuffer
 LoadModel	pymss/PPO.py	/^	def LoadModel(self,model_number):$/;"	m	class:PPO
 LongTensor	pymss/PPO.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
 MuscleBuffer	pymss/PPO.py	/^class MuscleBuffer(object):$/;"	c
-MuscleTransition	pymss/PPO.py	/^MuscleTransition = namedtuple('MuscleTransition',('s','qdd_des','a','A','b'))$/;"	v
+MuscleTransition	pymss/PPO.py	/^MuscleTransition = namedtuple('MuscleTransition',('tau','tau_des','A','b'))$/;"	v
 OptimizeModel	pymss/PPO.py	/^	def OptimizeModel(self):$/;"	m	class:PPO
 PPO	pymss/PPO.py	/^class PPO(object):$/;"	c
 Plot	pymss/PPO.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
@@ -937,7 +907,7 @@ Push	pymss/PPO.py	/^	def Push(self,*args):$/;"	m	class:ReplayBuffer
 ReplayBuffer	pymss/PPO.py	/^class ReplayBuffer(object):$/;"	c
 SaveModel	pymss/PPO.py	/^	def SaveModel(self):$/;"	m	class:PPO
 Tensor	pymss/PPO.py	/^Tensor = FloatTensor$/;"	v
-Train	pymss/PPO.py	/^	def Train(self):		$/;"	m	class:PPO
+Train	pymss/PPO.py	/^	def Train(self):$/;"	m	class:PPO
 Transition	pymss/PPO.py	/^Transition = namedtuple('Transition',('s','a', 'logprob', 'TD', 'GAE'))$/;"	v
 __init__	pymss/PPO.py	/^	def __init__(self):$/;"	m	class:EpisodeBuffer
 __init__	pymss/PPO.py	/^	def __init__(self, buff_size = 10000):$/;"	m	class:MuscleBuffer
@@ -946,10 +916,10 @@ __init__	pymss/PPO.py	/^	def __init__(self,num_slaves):$/;"	m	class:PPO
 args	pymss/PPO.py	/^	args =parser.parse_args()$/;"	v
 parser	pymss/PPO.py	/^	parser = argparse.ArgumentParser()$/;"	v
 ppo	pymss/PPO.py	/^	ppo = PPO(16)$/;"	v
-rewards	pymss/PPO.py	/^	rewards = []$/;"	v
 use_cuda	pymss/PPO.py	/^use_cuda = torch.cuda.is_available()$/;"	v
 toEigenMatrix	pymss/WrapperFunctions.cpp	/^Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)$/;"	f
 toEigenVector	pymss/WrapperFunctions.cpp	/^Eigen::VectorXd toEigenVector(const np::ndarray& array)$/;"	f
+toEigenVectorVector	pymss/WrapperFunctions.cpp	/^std::vector<Eigen::VectorXd> toEigenVectorVector(const np::ndarray& array)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::Isometry3d& T)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::MatrixXd& matrix)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::VectorXd& vec)$/;"	f
@@ -960,6 +930,7 @@ toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::ve
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<float>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<std::vector<double>>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<std::vector<float>>& val)$/;"	f
+toStdVector	pymss/WrapperFunctions.cpp	/^std::vector<bool> toStdVector(const p::list& list)$/;"	f
 __WRAPPER_FUNCTIONS_H__	pymss/WrapperFunctions.h	2;"	d
 Apply	render/Camera.cpp	/^Apply()$/;"	f	class:Camera
 Camera	render/Camera.cpp	/^Camera()$/;"	f	class:Camera
@@ -1070,6 +1041,7 @@ v_d	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,
 v_next	render/PreprocessWindow.h	/^	Eigen::VectorXd q_next,v_next;$/;"	m	class:PreprocessWindow
 Display	render/SimWindow.cpp	/^Display() $/;"	f	class:SimWindow
 GetActionFromNN	render/SimWindow.cpp	/^GetActionFromNN()$/;"	f	class:SimWindow
+GetActivationFromNN	render/SimWindow.cpp	/^GetActivationFromNN()$/;"	f	class:SimWindow
 Keyboard	render/SimWindow.cpp	/^Keyboard(unsigned char key,int x,int y) $/;"	f	class:SimWindow
 Motion	render/SimWindow.cpp	/^Motion(int x, int y) $/;"	f	class:SimWindow
 Mouse	render/SimWindow.cpp	/^Mouse(int button, int state, int x, int y) $/;"	f	class:SimWindow
@@ -1077,7 +1049,10 @@ Reshape	render/SimWindow.cpp	/^Reshape(int w, int h) $/;"	f	class:SimWindow
 Screenshot	render/SimWindow.cpp	/^Screenshot() {$/;"	f	class:SimWindow
 SimWindow	render/SimWindow.cpp	/^SimWindow()$/;"	f	class:SimWindow
 SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path)$/;"	f	class:SimWindow
+SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)$/;"	f	class:SimWindow
+Step	render/SimWindow.cpp	/^Step()$/;"	f	class:SimWindow
 Timer	render/SimWindow.cpp	/^Timer(int value) $/;"	f	class:SimWindow
+toNumPyArray	render/SimWindow.cpp	/^np::ndarray toNumPyArray(const Eigen::VectorXd& vec)$/;"	f
 SimWindow	render/SimWindow.h	/^class SimWindow : public GUI::GLUTWindow$/;"	c
 __MSS_SIM_WINDOW_H__	render/SimWindow.h	2;"	d
 mAction	render/SimWindow.h	/^	Eigen::VectorXd mAction;$/;"	m	class:SimWindow
@@ -1086,20 +1061,22 @@ mFocusBodyNum	render/SimWindow.h	/^	int mFocusBodyNum;$/;"	m	class:SimWindow
 mIsAuto	render/SimWindow.h	/^	bool mIsAuto;$/;"	m	class:SimWindow
 mIsCapture	render/SimWindow.h	/^	bool mIsCapture;$/;"	m	class:SimWindow
 mIsFocusing	render/SimWindow.h	/^	bool mIsFocusing;$/;"	m	class:SimWindow
+mIsMuscleNNLoaded	render/SimWindow.h	/^	bool mIsMuscleNNLoaded;$/;"	m	class:SimWindow
 mIsNNLoaded	render/SimWindow.h	/^	bool mIsNNLoaded;$/;"	m	class:SimWindow
 mIsRotate	render/SimWindow.h	/^	bool mIsRotate;$/;"	m	class:SimWindow
 mRandomAction	render/SimWindow.h	/^	bool mRandomAction;$/;"	m	class:SimWindow
 mWorld	render/SimWindow.h	/^	MSS::Environment* mWorld;$/;"	m	class:SimWindow
-mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
-mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
-nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
+mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
+muscle_nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
+nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Display() override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Keyboard(unsigned char key,int x,int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Motion(int x, int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Mouse(int button, int state, int x, int y) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Reshape(int w, int h) override;$/;"	m	class:SimWindow
 override	render/SimWindow.h	/^	void Timer(int value) override;$/;"	m	class:SimWindow
-sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 main	render/main.cpp	/^int main(int argc,char** argv)$/;"	f
 IKAction	sim/Action.cpp	/^IKAction(const std::string& _name,const dart::dynamics::SkeletonPtr& skeleton,$/;"	f	class:MSS::IKAction
 KpAction	sim/Action.cpp	/^KpAction(const std::string& _name,const Eigen::VectorXd& upper,const Eigen::VectorXd& lower)$/;"	f	class:MSS::KpAction
@@ -1251,6 +1228,8 @@ neighbor	sim/ContactPoint.h	/^	std::vector<ContactPoint*> neighbor;$/;"	m	class:
 updateEngineData	sim/ContactPoint.h	/^	virtual void updateEngineData(){};$/;"	f	class:MSS::ContactPointCollisionObject
 ComputeActivationQP	sim/Environment.cpp	/^ComputeActivationQP()$/;"	f	class:MSS::Environment
 Environment	sim/Environment.cpp	/^Environment(int control_Hz,int simulation_Hz)$/;"	f	class:MSS::Environment
+GetDesiredTorques	sim/Environment.cpp	/^GetDesiredTorques()$/;"	f	class:MSS::Environment
+GetMuscleTorques	sim/Environment.cpp	/^GetMuscleTorques()$/;"	f	class:MSS::Environment
 GetReward	sim/Environment.cpp	/^GetReward()$/;"	f	class:MSS::Environment
 GetState	sim/Environment.cpp	/^GetState()$/;"	f	class:MSS::Environment
 IsTerminalState	sim/Environment.cpp	/^IsTerminalState()$/;"	f	class:MSS::Environment
@@ -1261,27 +1240,38 @@ Step	sim/Environment.cpp	/^Step(const Eigen::VectorXd& activation)$/;"	f	class:M
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(const Eigen::Vector3d& vec,double w = 1.0)$/;"	f	namespace:MSS
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(const Eigen::VectorXd& vec,double w = 1.0)$/;"	f	namespace:MSS
 exp_of_squared	sim/Environment.cpp	/^double exp_of_squared(double val,double w = 1.0)$/;"	f	namespace:MSS
+A	sim/Environment.h	/^	Eigen::MatrixXd A;$/;"	m	struct:MSS::Tuple
 Environment	sim/Environment.h	/^class Environment$/;"	c	namespace:MSS
 GetAction	sim/Environment.h	/^	Eigen::VectorXd GetAction(){return mAction;}$/;"	f	class:MSS::Environment
 GetCharacter	sim/Environment.h	/^	Character* GetCharacter(){return mCharacter;};$/;"	f	class:MSS::Environment
 GetControlHz	sim/Environment.h	/^	int GetControlHz(){return mControlHz;};$/;"	f	class:MSS::Environment
+GetElapsedTime	sim/Environment.h	/^	double GetElapsedTime(){return mTimeElapsed;}$/;"	f	class:MSS::Environment
 GetGround	sim/Environment.h	/^	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}	$/;"	f	class:MSS::Environment
 GetNumAction	sim/Environment.h	/^	int GetNumAction(){return mAction.rows();};$/;"	f	class:MSS::Environment
 GetNumState	sim/Environment.h	/^	int GetNumState(){return GetState().rows();};$/;"	f	class:MSS::Environment
+GetNumTotalRelatedDofs	sim/Environment.h	/^	int GetNumTotalRelatedDofs(){return mNumTotalRelatedDofs;};$/;"	f	class:MSS::Environment
 GetQP	sim/Environment.h	/^	QP*	GetQP(){return mQP;}$/;"	f	class:MSS::Environment
 GetSimulationHz	sim/Environment.h	/^	int GetSimulationHz(){return mSimulationHz;};$/;"	f	class:MSS::Environment
+GetTuples	sim/Environment.h	/^	std::vector<Tuple>& GetTuples(){return mTuples;};$/;"	f	class:MSS::Environment
 GetWorld	sim/Environment.h	/^	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};$/;"	f	class:MSS::Environment
 MSS	sim/Environment.h	/^namespace MSS$/;"	n
+Tuple	sim/Environment.h	/^struct Tuple$/;"	s	namespace:MSS
 __MSS_ENVIRONMENT_H__	sim/Environment.h	2;"	d
+b	sim/Environment.h	/^	Eigen::VectorXd b;$/;"	m	struct:MSS::Tuple
 mAction	sim/Environment.h	/^	Eigen::VectorXd mAction;$/;"	m	class:MSS::Environment
 mCharacter	sim/Environment.h	/^	Character* mCharacter;$/;"	m	class:MSS::Environment
 mControlHz	sim/Environment.h	/^	int mControlHz;$/;"	m	class:MSS::Environment
 mGround	sim/Environment.h	/^	dart::dynamics::SkeletonPtr mGround;$/;"	m	class:MSS::Environment
+mNumTotalRelatedDofs	sim/Environment.h	/^	int mNumTotalRelatedDofs;$/;"	m	class:MSS::Environment
 mQP	sim/Environment.h	/^	QP*	mQP;$/;"	m	class:MSS::Environment
 mSimulationHz	sim/Environment.h	/^	int mSimulationHz;$/;"	m	class:MSS::Environment
 mTarget	sim/Environment.h	/^	std::pair<Eigen::VectorXd,Eigen::VectorXd> mTarget;$/;"	m	class:MSS::Environment
 mTimeElapsed	sim/Environment.h	/^	double mTimeElapsed;$/;"	m	class:MSS::Environment
+mTorqueDesired	sim/Environment.h	/^	Eigen::VectorXd mTorqueDesired;$/;"	m	class:MSS::Environment
+mTuples	sim/Environment.h	/^	std::vector<Tuple> mTuples;$/;"	m	class:MSS::Environment
 mWorld	sim/Environment.h	/^	dart::simulation::WorldPtr mWorld;$/;"	m	class:MSS::Environment
+tau	sim/Environment.h	/^	Eigen::VectorXd tau;$/;"	m	struct:MSS::Tuple
+tau_des	sim/Environment.h	/^	Eigen::VectorXd tau_des;$/;"	m	struct:MSS::Tuple
 w_com	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_ee	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_p	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
@@ -1342,6 +1332,7 @@ GetForceJacobianAndPassive	sim/Muscle.cpp	/^GetForceJacobianAndPassive()$/;"	f	c
 GetJacobianTranspose	sim/Muscle.cpp	/^GetJacobianTranspose()$/;"	f	class:MSS::Muscle
 GetPoint	sim/Muscle.cpp	/^Eigen::Vector3d GetPoint(const std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>& bnpos)$/;"	f	namespace:MSS
 GetPoint	sim/Muscle.cpp	/^Eigen::Vector3d GetPoint(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& local_pos)$/;"	f	namespace:MSS
+GetRelatedJtA	sim/Muscle.cpp	/^GetRelatedJtA()$/;"	f	class:MSS::Muscle
 Getf_A	sim/Muscle.cpp	/^Getf_A()$/;"	f	class:MSS::Muscle
 Getf_p	sim/Muscle.cpp	/^Getf_p()$/;"	f	class:MSS::Muscle
 Getl_mt	sim/Muscle.cpp	/^Getl_mt()$/;"	f	class:MSS::Muscle
@@ -1349,6 +1340,7 @@ MSS	sim/Muscle.cpp	/^namespace MSS$/;"	n	file:
 Muscle	sim/Muscle.cpp	/^Muscle(std::string _name,double _f0,double _lm0,double _lt0,double _pen_angle)$/;"	f	class:MSS::Muscle
 Update	sim/Muscle.cpp	/^Update(double time_step)$/;"	f	class:MSS::Muscle
 GetAnchors	sim/Muscle.h	/^	const std::vector<std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>>& GetAnchors(){return mAnchors;}$/;"	f	class:MSS::Muscle
+GetNumRelatedDofs	sim/Muscle.h	/^	int GetNumRelatedDofs(){return num_related_dofs;};$/;"	f	class:MSS::Muscle
 MSS	sim/Muscle.h	/^namespace MSS$/;"	n
 Muscle	sim/Muscle.h	/^class Muscle$/;"	c	namespace:MSS
 __MSS_MUSCLE_H__	sim/Muscle.h	2;"	d
@@ -1358,7 +1350,10 @@ l_mt	sim/Muscle.h	/^	double l_mt;$/;"	m	class:MSS::Muscle
 l_mt0	sim/Muscle.h	/^	double l_mt0;$/;"	m	class:MSS::Muscle
 mAnchors	sim/Muscle.h	/^	std::vector<std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>> mAnchors;$/;"	m	class:MSS::Muscle
 name	sim/Muscle.h	/^	std::string name;$/;"	m	class:MSS::Muscle
+num_related_dofs	sim/Muscle.h	/^	int num_related_dofs;$/;"	m	class:MSS::Muscle
+related_dof_indices	sim/Muscle.h	/^	std::vector<int> related_dof_indices;$/;"	m	class:MSS::Muscle
 GetJtA	sim/QP.cpp	/^GetJtA()$/;"	f	class:QP
+GetJtP	sim/QP.cpp	/^GetJtP()$/;"	f	class:QP
 GetJtp_minus_c	sim/QP.cpp	/^GetJtp_minus_c()$/;"	f	class:QP
 Initialize	sim/QP.cpp	/^Initialize()$/;"	f	class:QP
 Minimize	sim/QP.cpp	/^Minimize(const Eigen::VectorXd& qdd_desired)$/;"	f	class:QP
@@ -1636,7 +1631,6 @@ main	xmlparser/muscle_main.cpp	/^int main(int argc,char** argv)$/;"	f
 pen_angle	xmlparser/muscle_main.cpp	/^	double pen_angle;$/;"	m	struct:UserConstant	file:
 toString	xmlparser/muscle_main.cpp	/^std::string toString(const Eigen::Vector3d& v)$/;"	f
 toString	xmlparser/muscle_main.cpp	/^std::string toString(const Eigen::VectorXd& v)$/;"	f
-DETAIL	xmlparser/skel_main.cpp	121;"	d	file:
 Eigen	xmlparser/skel_main.cpp	/^namespace Eigen$/;"	n	file:
 LARGE_VALUE	xmlparser/skel_main.cpp	6;"	d	file:
 MayaConstant	xmlparser/skel_main.cpp	/^	MayaConstant(std::string name, const Eigen::Vector3d& size,const Eigen::VectorXd& R,const Eigen::Vector3d& bt,const Eigen::Vector3d& jt)$/;"	f	struct:MayaConstant
@@ -1644,9 +1638,10 @@ MayaConstant	xmlparser/skel_main.cpp	/^struct MayaConstant$/;"	s	file:
 PROXIMAL_JOINT_LIMIT	xmlparser/skel_main.cpp	8;"	d	file:
 REVOLUTE_JOINT_LIMIT	xmlparser/skel_main.cpp	7;"	d	file:
 ReadMayaConstant	xmlparser/skel_main.cpp	/^void ReadMayaConstant(std::vector<MayaConstant>& mc,std::string path)$/;"	f
-UserConstant	xmlparser/skel_main.cpp	/^	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None")$/;"	f	struct:UserConstant
+UserConstant	xmlparser/skel_main.cpp	/^	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None",bool con = false)$/;"	f	struct:UserConstant
 UserConstant	xmlparser/skel_main.cpp	/^struct UserConstant$/;"	s	file:
 Vector1d	xmlparser/skel_main.cpp	/^	typedef Matrix<double,1,1> Vector1d;$/;"	t	namespace:Eigen	file:
+collision_on	xmlparser/skel_main.cpp	/^	bool collision_on;$/;"	m	struct:UserConstant	file:
 mAxis	xmlparser/skel_main.cpp	/^	Eigen::Vector3d mAxis;$/;"	m	struct:UserConstant	file:
 mBVHMap	xmlparser/skel_main.cpp	/^	std::string mBVHMap;$/;"	m	struct:UserConstant	file:
 mBodyR	xmlparser/skel_main.cpp	/^	Eigen::VectorXd mBodyR;$/;"	m	struct:MayaConstant	file:

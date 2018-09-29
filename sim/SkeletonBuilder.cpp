@@ -61,7 +61,7 @@ BuildFromFile(const std::string& filename){
 		std::string parentName = body->Attribute("parent_name");
 		std::string objName = "None";
 		// if(body->Attribute("obj")!=nullptr)
-		// 	objName = body->Attribute("obj");
+			// objName = body->Attribute("obj");
 		BodyNode *parent;
 		if(!parentName.compare("None"))
 			parent = nullptr;

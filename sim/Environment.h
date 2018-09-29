@@ -13,9 +13,8 @@ namespace MSS
 class Character;
 struct Tuple
 {
-	Eigen::VectorXd s;
-	Eigen::VectorXd qdd_des;
-	Eigen::VectorXd activation;
+	Eigen::VectorXd tau;
+	Eigen::VectorXd tau_des;
 	Eigen::MatrixXd A;
 	Eigen::VectorXd b;
 };
@@ -23,10 +22,11 @@ class Environment
 {
 public:
 	Environment(int control_Hz=30,int simulation_Hz=900);
-	
-	Eigen::VectorXd ComputeActivationQP();	
 	void Step(const Eigen::VectorXd& activation);
+
 	void Reset(bool random=true);
+	Eigen::VectorXd ComputeActivationQP();
+	Eigen::VectorXd GetMuscleTorques();
 	bool IsTerminalState();
 
 	//For Deep RL
@@ -34,9 +34,11 @@ public:
 	double GetReward();
 	Eigen::VectorXd GetAction(){return mAction;}
 	void SetAction(const Eigen::VectorXd& a);
+
+
 	int GetNumState(){return GetState().rows();};
 	int GetNumAction(){return mAction.rows();};
-
+	int GetNumTotalRelatedDofs(){return mNumTotalRelatedDofs;};
 	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};
 	Character* GetCharacter(){return mCharacter;};
 	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}	
@@ -44,12 +46,15 @@ public:
 	int GetControlHz(){return mControlHz;};
 	int GetSimulationHz(){return mSimulationHz;};
 	std::vector<Tuple>& GetTuples(){return mTuples;};
-	const Eigen::VectorXd& GetDesiredAcceleration(){mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);return mQddDesired;};
+	Eigen::VectorXd GetDesiredTorques();
+	// const Eigen::VectorXd& GetDesiredAcceleration(){mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);return mQddDesired;};
+	double GetElapsedTime(){return mTimeElapsed;}
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;
 	int mControlHz;
 	int mSimulationHz;
+	int mNumTotalRelatedDofs;
 
 	dart::dynamics::SkeletonPtr mGround;
 	Character* mCharacter;
@@ -59,7 +64,7 @@ public:
 
 	QP*	mQP;
 	std::pair<Eigen::VectorXd,Eigen::VectorXd> mTarget;
-	Eigen::VectorXd mQddDesired;
+	Eigen::VectorXd mTorqueDesired;
 
 	std::vector<Tuple> mTuples;
 };

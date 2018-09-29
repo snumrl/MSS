@@ -45,9 +45,9 @@ class Container(nn.Module):
 		return vec[0:int(self.counter.cpu().data[0].numpy().tolist())]
 
 class MuscleNN(nn.Module):
-	def __init__(self,num_states,num_dofs,num_muscles):
+	def __init__(self,num_total_muscle_related_dofs,num_dofs,num_muscles):
 		super(MuscleNN,self).__init__()
-		self.num_states = num_states
+		self.num_total_muscle_related_dofs = num_total_muscle_related_dofs
 		self.num_dofs = num_dofs
 		self.num_muscles = num_muscles
 
@@ -56,7 +56,7 @@ class MuscleNN(nn.Module):
 		num_h3 = 512
 		num_h4 = 256
 		self.fc = nn.Sequential(
-			nn.Linear(num_states+num_dofs,num_h1),
+			nn.Linear(num_total_muscle_related_dofs+num_dofs,num_h1),
 			nn.LeakyReLU(0.2, inplace=True),
 			nn.Linear(num_h1,num_h2),
 			nn.LeakyReLU(0.2, inplace=True),
@@ -69,15 +69,22 @@ class MuscleNN(nn.Module):
 		)
 		self.loss_container = Container(50000)
 
-		self.std_qdd = torch.zeros(self.num_dofs)
+		self.std_tau = torch.zeros(self.num_dofs)
+		self.std_muscle_tau = torch.zeros(self.num_total_muscle_related_dofs)
+
 		for i in range(self.num_dofs):
-			self.std_qdd[i] = 1000.0
+			self.std_tau[i] = 1000.0
+		for i in range(self.num_total_muscle_related_dofs):
+			self.std_muscle_tau[i] = 1000.0
+
 		if use_cuda:
-			self.std_qdd = self.std_qdd.cuda()
+			self.std_tau = self.std_tau.cuda()
+			self.std_muscle_tau = self.std_muscle_tau.cuda()
 		self.fc.apply(weights_init)
-	def forward(self,s,qdd):
-		qdd = qdd/self.std_qdd
-		out = self.fc.forward(torch.cat([s,qdd],dim=1))
+	def forward(self,muscle_tau,tau):
+		muscle_tau = muscle_tau/self.std_muscle_tau
+		tau = tau/self.std_tau
+		out = self.fc.forward(torch.cat([muscle_tau,tau],dim=1))
 		return out		
 
 	def load(self,path):
@@ -88,8 +95,8 @@ class MuscleNN(nn.Module):
 		print('save muscle nn {}'.format(path))
 		torch.save(self.state_dict(),path)
 		
-	def get_activation(self,s,qdd):
-		act = self.forward(Tensor(s.reshape(1,-1)),Tensor(qdd.reshape(1,-1)))
+	def get_activation(self,muscle_tau,tau):
+		act = self.forward(Tensor(muscle_tau.reshape(1,-1)),Tensor(tau.reshape(1,-1)))
 		return act.cpu().detach().numpy()
 
 class DiscriminatorNN(nn.Module):

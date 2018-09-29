@@ -17,6 +17,8 @@ public:
 	double Getf_p();
 	double Getl_mt();
 
+	int GetNumRelatedDofs(){return num_related_dofs;};
+	Eigen::VectorXd GetRelatedJtA();
 	Eigen::MatrixXd GetJacobianTranspose();
 	std::pair<Eigen::VectorXd,Eigen::VectorXd> GetForceJacobianAndPassive();
 public:
@@ -29,6 +31,8 @@ public:
 	double l_mt;
 	
 	double activation;
+	int num_related_dofs;
+	std::vector<int> related_dof_indices;
 };
 Eigen::Vector3d GetPoint(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& local_pos);
 Eigen::Vector3d GetPoint(const std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>& bnpos);

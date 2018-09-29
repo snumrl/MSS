@@ -20,7 +20,12 @@ Environment(int control_Hz,int simulation_Hz)
 	mWorld->addSkeleton(mCharacter->GetSkeleton());
 	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode(0)));
 	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/muscle.xml"));
+	mNumTotalRelatedDofs =0;
+	for(auto m : mCharacter->GetMuscles())
+		mNumTotalRelatedDofs += m->GetNumRelatedDofs();
+
 	std::cout<<"# muscles : "<<mCharacter->GetMuscles().size()<<std::endl;
+	std::cout<<"# muscles dofs : "<<mNumTotalRelatedDofs<<std::endl;
 	//Hard-coded parameter
 	// mCharacter->LoadContactPoints(std::string(MSS_ROOT_DIR)+std::string("/character/txt/contact.txt"),0.035,mGround->getBodyNode(0));
 	
@@ -537,70 +542,78 @@ void
 Environment::
 Step(const Eigen::VectorXd& activation)
 {
-	//For Kinematic Moves
-	// Eigen::VectorXd activation = GetActivationFromNN();
+	// For Kinematic Moves
 	// int count = 0;
 	// for(auto muscle : mCharacter->GetMuscles())
 	// {
 	// 	muscle->activation = activation[count++];
 	// 	muscle->Update(mWorld->getTimeStep());
 	// }
-	// mCharacter->GetSkeleton()->setPositions(target.first);
-	// mCharacter->GetSkeleton()->setVelocities(target.second);
+	// mCharacter->GetSkeleton()->setPositions(mTarget.first);
+	// mCharacter->GetSkeleton()->setVelocities(mTarget.second);
 	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// return;
 
 	//For Muscle Actuator
+	int count = 0;
+	for(auto muscle : mCharacter->GetMuscles())
+	{
+		muscle->activation = activation[count++];
+		muscle->Update(mWorld->getTimeStep());
+		muscle->ApplyForceToBody();
+	}
 
-	
-	// int count = 0;
-	// for(auto muscle : mCharacter->GetMuscles())
-	// {
-	// 	muscle->activation = activation[count++];
-	// 	muscle->Update(mWorld->getTimeStep());
-	// 	muscle->ApplyForceToBody();
-	// }
 	//For Joint Torque
-	// Eigen::VectorXd tau = mCharacter->GetSkeleton()->getMassMatrix()*mQddDesired+mCharacter->GetSkeleton()->getCoriolisAndGravityForces();
-	Eigen::VectorXd tau = mQddDesired;
-	tau.head(6).setZero();
-	mCharacter->GetSkeleton()->setForces(tau);
-	// Eigen::MatrixXd M_inv = mCharacter->GetSkeleton()->getInvMassMatrix();
-	// Tuple tp;
-	// tp.s = GetState();
-	// tp.qdd_des = mQddDesired;
-	// tp.activation = activation;
-	// tp.A = M_inv*mQP->GetJtA();
-	// tp.b = M_inv*mQP->GetJtp_minus_c();
+	// mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
+	// mTorqueDesired.head(6).setZero();
+	// mCharacter->GetSkeleton()->setForces(mTorqueDesired);
+	Tuple tp;
+	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
+	mQP->Update(qdd_desired);
+	tp.tau = GetMuscleTorques();
+	tp.tau_des = mTorqueDesired.tail(mTorqueDesired.rows()-6);
+	tp.A = mQP->GetJtA().block(6,0,mCharacter->GetSkeleton()->getNumDofs()-6,mCharacter->GetMuscles().size());
+	tp.b = mQP->GetJtP().segment(6,mCharacter->GetSkeleton()->getNumDofs()-6);
 
-	// mTuples.push_back(tp);
-	// auto contact_points = mCharacter->GetContactPoints();
-	// for(auto cp : contact_points)
-	// {
-	// 	cp->CheckColliding();
-	// 	if(cp->IsColliding()){
-	// 		cp->Add(mWorld);
-	// 	}
-	// }
+	mTuples.push_back(tp);
 	mWorld->step();
-	// for(auto cp : contact_points)
-	// 	cp->Remove(mWorld);
+}
+Eigen::VectorXd
+Environment::
+GetDesiredTorques()
+{
+	mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
+	return mTorqueDesired.tail(mTorqueDesired.rows()-6);
 }
 Eigen::VectorXd
 Environment::
 ComputeActivationQP()
 {
-	// for(auto muscle : mCharacter->GetMuscles())
-		// muscle->Update(mWorld->getTimeStep());
-	// mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
-	mQddDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
-	// mQP->Minimize(mQddDesired);
+	for(auto muscle : mCharacter->GetMuscles()){
+		muscle->Update(mWorld->getTimeStep());
+	}
+	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
+	mQP->Minimize(qdd_desired);
 
 	Eigen::VectorXd solution = mQP->GetSolution();
 
 	return solution.tail(mCharacter->GetMuscles().size());
 }
-
+Eigen::VectorXd
+Environment::
+GetMuscleTorques()
+{
+	int index = 0;
+	Eigen::VectorXd JtA = Eigen::VectorXd::Zero(mNumTotalRelatedDofs);
+	for(auto muscle : mCharacter->GetMuscles())
+	{
+		muscle->Update(mWorld->getTimeStep());
+		Eigen::VectorXd JtA_i = muscle->GetRelatedJtA();
+		JtA.segment(index,JtA_i.rows()) = JtA_i;
+		index+=JtA_i.rows();
+	}
+	return JtA;
+}
 void
 Environment::
 Reset(bool random)
@@ -641,7 +654,7 @@ IsTerminalState()
 		isTerminal = true;
 	if(dart::math::isNan(p))
 		isTerminal = true;
-	if(mTimeElapsed>20.0)
+	if(mTimeElapsed>40.0)
 		isTerminal = true;
 	return isTerminal;
 }

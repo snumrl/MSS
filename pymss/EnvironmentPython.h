@@ -16,8 +16,10 @@ public:
 	int GetNumAction();
 	int GetNumDofs();
 	int GetNumMuscles();
+	int GetNumTotalMuscleRelatedDofs(){return mSlaves[0]->GetNumTotalRelatedDofs();};
 	int GetSimulationHz(){return mSlaves[0]->GetSimulationHz();};
 	int GetControlHz(){return mSlaves[0]->GetControlHz();};
+	
 
 	//For each slave
 	void Step(const Eigen::VectorXd& activation,int id);
@@ -29,7 +31,8 @@ public:
 
 	//For all slaves
 	np::ndarray ComputeActivationsQP();
-	np::ndarray GetDesiredAccelerations();
+	np::ndarray GetMuscleTorques();
+	np::ndarray GetDesiredTorques();
 	void Steps(np::ndarray np_array,p::list terminated);
 	void Resets(bool RSI);
 	np::ndarray IsTerminalStates();

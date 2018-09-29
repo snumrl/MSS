@@ -114,6 +114,12 @@ GetJtA()
 }
 Eigen::VectorXd
 QP::
+GetJtP()
+{
+	return mJtp;
+}
+Eigen::VectorXd
+QP::
 GetJtp_minus_c()
 {
 	return mJtp_minus_c;
@@ -132,12 +138,13 @@ Update(const Eigen::VectorXd& qdd_desired)
 	for(int i =0;i<mNumMuscles;i++){
 		mJt[i] = muscles[i]->GetJacobianTranspose();
 		auto Ap_pair = muscles[i]->GetForceJacobianAndPassive();
+		
 		mA[i] = Ap_pair.first;
 		mP[i] = Ap_pair.second;
 		mJtA.block(0,i,mNumDofs,1) = mJt[i]*mA[i];
+		
 		mJtp += mJt[i]*mP[i];
 	}
-
 	mM_minus_JtA.setZero();
 	mM_minus_JtA.block(0,0,mNumDofs,mNumDofs)= mCharacter->GetSkeleton()->getMassMatrix();
 

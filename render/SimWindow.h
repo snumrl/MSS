@@ -43,7 +43,7 @@ protected:
 	void Step();
 	void Screenshot();
 	void GetActionFromNN();
-	Eigen::VectorXd GetActivationFromNN();
+	Eigen::VectorXd GetActivationFromNN(const Eigen::VectorXd& mt);
 	MSS::Environment* mWorld;
 
 	Eigen::VectorXd mAction;

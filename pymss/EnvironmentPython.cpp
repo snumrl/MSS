@@ -93,13 +93,25 @@ ComputeActivationsQP()
 }
 np::ndarray
 EnvironmentPython::
-GetDesiredAccelerations()
+GetMuscleTorques()
+{
+	std::vector<Eigen::VectorXd> mt(mNumSlaves);
+#pragma omp parallel for
+	for (int id = 0; id < mNumSlaves; ++id)
+	{
+		mt[id] = mSlaves[id]->GetMuscleTorques();
+	}
+	return toNumPyArray(mt);	
+}
+np::ndarray
+EnvironmentPython::
+GetDesiredTorques()
 {
 	std::vector<Eigen::VectorXd> qdd_des(mNumSlaves);
 #pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
 	{
-		qdd_des[id] = mSlaves[id]->GetDesiredAcceleration();
+		qdd_des[id] = mSlaves[id]->GetDesiredTorques();
 	}
 	return toNumPyArray(qdd_des);
 }
@@ -179,9 +191,8 @@ GetTuples()
 		for(int j=0;j<tps.size();j++)
 		{
 			p::list t;
-			t.append(toNumPyArray(tps[j].s));
-			t.append(toNumPyArray(tps[j].qdd_des));
-			t.append(toNumPyArray(tps[j].activation));
+			t.append(toNumPyArray(tps[j].tau));
+			t.append(toNumPyArray(tps[j].tau_des));
 			t.append(toNumPyArray(tps[j].A));
 			t.append(toNumPyArray(tps[j].b));
 			all.append(t);
@@ -198,12 +209,12 @@ BOOST_PYTHON_MODULE(pymss)
 	Py_Initialize();
 	np::initialize();
 
-
 	class_<EnvironmentPython>("Env",init<int>())
 		.def("GetNumState",&EnvironmentPython::GetNumState)
 		.def("GetNumAction",&EnvironmentPython::GetNumAction)
 		.def("GetNumDofs",&EnvironmentPython::GetNumDofs)
 		.def("GetNumMuscles",&EnvironmentPython::GetNumMuscles)
+		.def("GetNumTotalMuscleRelatedDofs",&EnvironmentPython::GetNumTotalMuscleRelatedDofs)
 		.def("GetSimulationHz",&EnvironmentPython::GetSimulationHz)
 		.def("GetControlHz",&EnvironmentPython::GetControlHz)
 		.def("Reset",&EnvironmentPython::Reset)
@@ -212,7 +223,8 @@ BOOST_PYTHON_MODULE(pymss)
 		.def("SetAction",&EnvironmentPython::SetAction)
 		.def("GetReward",&EnvironmentPython::GetReward)
 		.def("ComputeActivationsQP",&EnvironmentPython::ComputeActivationsQP)
-		.def("GetDesiredAccelerations",&EnvironmentPython::GetDesiredAccelerations)
+		.def("GetMuscleTorques",&EnvironmentPython::GetMuscleTorques)
+		.def("GetDesiredTorques",&EnvironmentPython::GetDesiredTorques)
 		.def("Steps",&EnvironmentPython::Steps)
 		.def("Resets",&EnvironmentPython::Resets)
 		.def("IsTerminalStates",&EnvironmentPython::IsTerminalStates)

@@ -4,8 +4,8 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-A	Preprocess.h	/^	Eigen::MatrixXd A;$/;"	m	struct:Tuple
 A	render/PreprocessWindow.h	/^	Eigen::MatrixXd A;$/;"	m	class:PreprocessWindow
+A	sim/Environment.h	/^	Eigen::MatrixXd A;$/;"	m	struct:MSS::Tuple
 A	sim/QP.h	/^	quadprogpp::Matrix<double> A;$/;"	m	class:MSS::QP
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	440;"	d	file:
 ARCHITECTURE_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	443;"	d	file:
@@ -85,9 +85,8 @@ BVH	sim/BVH.cpp	/^BVH()$/;"	f	class:MSS::BVH
 BVH	sim/BVH.h	/^class BVH$/;"	c	namespace:MSS
 BVHNode	sim/BVH.cpp	/^BVHNode(const std::string& name,BVHNode* parent)$/;"	f	class:MSS::BVHNode
 BVHNode	sim/BVH.h	/^class BVHNode$/;"	c	namespace:MSS
-Buffer	Regression.py	/^class Buffer(object):$/;"	c
 BuildFromFile	sim/SkeletonBuilder.cpp	/^BuildFromFile(const std::string& filename){$/;"	f	class:MSS::SkeletonBuilder
-ByteTensor	Regression.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
+ByteTensor	pymss/Model.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
 ByteTensor	pymss/PPO.py	/^ByteTensor = torch.cuda.ByteTensor if use_cuda else torch.ByteTensor$/;"	v
 CHANNEL	sim/BVH.h	/^	enum CHANNEL$/;"	g	class:MSS::BVHNode
 CHANNEL_NAME	sim/BVH.cpp	/^std::map<std::string,MSS::BVHNode::CHANNEL> BVHNode::CHANNEL_NAME =$/;"	m	class:MSS::BVHNode	file:
@@ -601,10 +600,10 @@ CanonicalBaseVector	sim/quadprog_optimized/Array.hh	/^class CanonicalBaseVector 
 Character	sim/Character.cpp	/^Character(const dart::simulation::WorldPtr& world,const std::string& path)$/;"	f	class:MSS::Character
 Character	sim/Character.h	/^class Character$/;"	c	namespace:MSS
 CheckColliding	sim/ContactPoint.cpp	/^CheckColliding()$/;"	f	class:MSS::ContactPoint
-Clear	Regression.py	/^	def Clear(self):$/;"	m	class:Buffer
 Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:MuscleBuffer
 Clear	pymss/PPO.py	/^	def Clear(self):$/;"	m	class:ReplayBuffer
 ComputeActivationQP	sim/Environment.cpp	/^ComputeActivationQP()$/;"	f	class:MSS::Environment
+ComputeActivationsQP	pymss/EnvironmentPython.cpp	/^ComputeActivationsQP()$/;"	f	class:EnvironmentPython
 ComputeDisplacementVector	sim/MotionGraph.cpp	/^ComputeDisplacementVector(int i,int j)$/;"	f	class:MSS::MotionGraph
 ComputeMotionVector	sim/MotionGraph.cpp	/^ComputeMotionVector(int i,double t)$/;"	f	class:MSS::MotionGraph
 ComputeTDandGAE	pymss/PPO.py	/^	def ComputeTDandGAE(self):$/;"	m	class:PPO
@@ -618,8 +617,8 @@ DEC	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	496;"	d
 DEC	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdCXX/CMakeCXXCompilerId.cpp	481;"	d	file:
 DEC	build/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	439;"	d	file:
 DEC	build/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	434;"	d	file:
-DETAIL	xmlparser/skel_main.cpp	121;"	d	file:
 DIAG	sim/quadprog_optimized/Array.hh	/^enum MType { DIAG };$/;"	e	enum:quadprogpp::MType
+DiscriminatorNN	pymss/Model.py	/^class DiscriminatorNN(nn.Module):$/;"	c
 Display	render/PreprocessWindow.cpp	/^Display() $/;"	f	class:PreprocessWindow
 Display	render/SimWindow.cpp	/^Display() $/;"	f	class:SimWindow
 DisplayEvent	render/GLUTWindow.cpp	/^DisplayEvent()$/;"	f	class:GLUTWindow
@@ -653,9 +652,8 @@ EnvironmentPython	pymss/EnvironmentPython.h	/^class EnvironmentPython$/;"	c
 Episode	pymss/PPO.py	/^Episode = namedtuple('Episode',('s','a','r', 'value', 'logprob'))$/;"	v
 EpisodeBuffer	pymss/PPO.py	/^class EpisodeBuffer(object):$/;"	c
 Evaluate	pymss/PPO.py	/^	def Evaluate(self):$/;"	m	class:PPO
-FloatTensor	Regression.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
+FloatTensor	pymss/Model.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
 FloatTensor	pymss/PPO.py	/^FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor$/;"	v
-Full	Regression.py	/^	def Full(self):$/;"	m	class:Buffer
 GLUTWindow	render/GLUTWindow.cpp	/^GLUTWindow()$/;"	f	class:GLUTWindow
 GLUTWindow	render/GLUTWindow.h	/^class GLUTWindow$/;"	c	namespace:GUI
 GUI	render/Camera.h	/^namespace GUI$/;"	n
@@ -663,22 +661,23 @@ GUI	render/GLUTWindow.h	/^namespace GUI$/;"	n
 GUI	render/GLfunctions.h	/^namespace GUI$/;"	n
 GUI	render/MSSInterface.h	/^namespace GUI$/;"	n
 GenerateTransitions	pymss/PPO.py	/^	def GenerateTransitions(self):$/;"	m	class:PPO
-GenerateTuple	Preprocess.cpp	/^GenerateTuple(int id)$/;"	f	class:Preprocess
-GenerateTuples	Preprocess.cpp	/^GenerateTuples(int num)$/;"	f	class:Preprocess
-GenerateTuples	Regression.py	/^	def GenerateTuples(self,num):$/;"	m	class:Regressor
-Get	Preprocess.cpp	/^Get()$/;"	f	class:Preprocess
 Get	pymss/Model.py	/^	def Get(self):$/;"	m	class:Container
 Get	sim/BVH.cpp	/^Get()$/;"	f	class:MSS::BVHNode
 Get	sim/BVH.cpp	/^Get(const std::string& bvh_node)$/;"	f	class:MSS::BVH
 GetAction	sim/Environment.h	/^	Eigen::VectorXd GetAction(){return mAction;}$/;"	f	class:MSS::Environment
 GetActionFromNN	render/SimWindow.cpp	/^GetActionFromNN()$/;"	f	class:SimWindow
+GetActivationFromNN	render/SimWindow.cpp	/^GetActivationFromNN()$/;"	f	class:SimWindow
 GetAnchors	sim/Muscle.h	/^	const std::vector<std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>>& GetAnchors(){return mAnchors;}$/;"	f	class:MSS::Muscle
 GetBVHMap	sim/Character.h	/^	const std::map<std::string,std::string>& GetBVHMap(){return mBVHMap;};$/;"	f	class:MSS::Character
 GetCharacter	sim/Environment.h	/^	Character* GetCharacter(){return mCharacter;};$/;"	f	class:MSS::Environment
 GetContactPoints	sim/Character.h	/^	const std::vector<ContactPoint*>& GetContactPoints() {return mContactPoints;};$/;"	f	class:MSS::Character
+GetControlHz	pymss/EnvironmentPython.h	/^	int GetControlHz(){return mSlaves[0]->GetControlHz();};$/;"	f	class:EnvironmentPython
 GetControlHz	sim/Environment.h	/^	int GetControlHz(){return mControlHz;};$/;"	f	class:MSS::Environment
 GetData	pymss/PPO.py	/^	def GetData(self):$/;"	m	class:EpisodeBuffer
+GetDesiredTorques	pymss/EnvironmentPython.cpp	/^GetDesiredTorques()$/;"	f	class:EnvironmentPython
+GetDesiredTorques	sim/Environment.cpp	/^GetDesiredTorques()$/;"	f	class:MSS::Environment
 GetDof	sim/Action.h	/^	int GetDof(){return target_bn.size()*3;}$/;"	f	class:MSS::IKAction
+GetElapsedTime	sim/Environment.h	/^	double GetElapsedTime(){return mTimeElapsed;}$/;"	f	class:MSS::Environment
 GetEndEffectors	sim/Character.h	/^	const std::vector<dart::dynamics::BodyNode*>& GetEndEffectors() {return mEndEffectors;};$/;"	f	class:MSS::Character
 GetForce	sim/Muscle.cpp	/^GetForce()$/;"	f	class:MSS::Muscle
 GetForceJacobianAndPassive	sim/Muscle.cpp	/^GetForceJacobianAndPassive()$/;"	f	class:MSS::Muscle
@@ -689,6 +688,7 @@ GetIKTargetPositions	sim/Character.cpp	/^GetIKTargetPositions(const Eigen::Vecto
 GetInterestBodies	sim/Character.h	/^	const std::vector<dart::dynamics::BodyNode*>& GetInterestBodies() {return mInterestBodies;};$/;"	f	class:MSS::Character
 GetJacobianTranspose	sim/Muscle.cpp	/^GetJacobianTranspose()$/;"	f	class:MSS::Muscle
 GetJtA	sim/QP.cpp	/^GetJtA()$/;"	f	class:QP
+GetJtP	sim/QP.cpp	/^GetJtP()$/;"	f	class:QP
 GetJtp_minus_c	sim/QP.cpp	/^GetJtp_minus_c()$/;"	f	class:QP
 GetKpActions	sim/Character.h	/^	const std::vector<KpAction*>& GetKpActions(){return mKpActions;};$/;"	f	class:MSS::Character
 GetKpKv	sim/Character.cpp	/^GetKpKv(double default_val,const Eigen::VectorXd& mode_lb)$/;"	f	class:MSS::Character
@@ -698,30 +698,34 @@ GetMaxTimeOfFirstSeq	sim/MotionGraph.h	/^	double GetMaxTimeOfFirstSeq() {return 
 GetMotion	sim/MotionGraph.cpp	/^GetMotion()$/;"	f	class:MSS::MotionGraph
 GetMotionActions	sim/Character.h	/^	const std::vector<MotionAction*>& GetMotionActions(){return mMotionActions;};$/;"	f	class:MSS::Character
 GetMotionGraph	sim/Character.h	/^	MotionGraph* GetMotionGraph(){return mMotionGraph;};$/;"	f	class:MSS::Character
+GetMuscleTorques	pymss/EnvironmentPython.cpp	/^GetMuscleTorques()$/;"	f	class:EnvironmentPython
+GetMuscleTorques	sim/Environment.cpp	/^GetMuscleTorques()$/;"	f	class:MSS::Environment
 GetMuscles	sim/Character.h	/^	const std::vector<Muscle*>& GetMuscles() {return mMuscles;};$/;"	f	class:MSS::Character
 GetNeighbor	sim/ContactPoint.h	/^	const std::vector<ContactPoint*>& GetNeighbor(){return neighbor;};$/;"	f	class:MSS::ContactPoint
 GetNode	sim/BVH.cpp	/^GetNode(const std::string& name)$/;"	f	class:MSS::BVHNode
 GetNumAction	pymss/EnvironmentPython.cpp	/^GetNumAction()$/;"	f	class:EnvironmentPython
 GetNumAction	sim/Environment.h	/^	int GetNumAction(){return mAction.rows();};$/;"	f	class:MSS::Environment
-GetNumDofs	Preprocess.h	/^	int GetNumDofs(){return mNumDofs;}$/;"	f	class:Preprocess
 GetNumDofs	pymss/EnvironmentPython.cpp	/^GetNumDofs()$/;"	f	class:EnvironmentPython
-GetNumMuscles	Preprocess.h	/^	int GetNumMuscles(){return mNumMuscles;}$/;"	f	class:Preprocess
 GetNumMuscles	pymss/EnvironmentPython.cpp	/^GetNumMuscles()$/;"	f	class:EnvironmentPython
+GetNumRelatedDofs	sim/Muscle.h	/^	int GetNumRelatedDofs(){return num_related_dofs;};$/;"	f	class:MSS::Muscle
 GetNumState	pymss/EnvironmentPython.cpp	/^GetNumState()$/;"	f	class:EnvironmentPython
 GetNumState	sim/Environment.h	/^	int GetNumState(){return GetState().rows();};$/;"	f	class:MSS::Environment
-GetNumStates	Preprocess.h	/^	int GetNumStates(){return mNumStates;}$/;"	f	class:Preprocess
+GetNumTotalMuscleRelatedDofs	pymss/EnvironmentPython.h	/^	int GetNumTotalMuscleRelatedDofs(){return mSlaves[0]->GetNumTotalRelatedDofs();};$/;"	f	class:EnvironmentPython
+GetNumTotalRelatedDofs	sim/Environment.h	/^	int GetNumTotalRelatedDofs(){return mNumTotalRelatedDofs;};$/;"	f	class:MSS::Environment
 GetP0	sim/BVH.cpp	/^GetP0()$/;"	f	class:MSS::BVH
 GetPhase	sim/MotionGraph.h	/^	double GetPhase() {return mElapsedTime\/mBVHs[mSequences[mCurrentSequence]]->GetMaxTime();}$/;"	f	class:MSS::MotionGraph
 GetPoint	sim/Muscle.cpp	/^Eigen::Vector3d GetPoint(const std::pair<dart::dynamics::BodyNode*,Eigen::Vector3d>& bnpos)$/;"	f	namespace:MSS
 GetPoint	sim/Muscle.cpp	/^Eigen::Vector3d GetPoint(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& local_pos)$/;"	f	namespace:MSS
 GetPosition	sim/ContactPoint.cpp	/^GetPosition()$/;"	f	class:MSS::ContactPoint
 GetQP	sim/Environment.h	/^	QP*	GetQP(){return mQP;}$/;"	f	class:MSS::Environment
+GetRelatedJtA	sim/Muscle.cpp	/^GetRelatedJtA()$/;"	f	class:MSS::Muscle
 GetReward	pymss/EnvironmentPython.cpp	/^GetReward(int id)$/;"	f	class:EnvironmentPython
 GetReward	sim/Environment.cpp	/^GetReward()$/;"	f	class:MSS::Environment
 GetRewards	pymss/EnvironmentPython.cpp	/^GetRewards()$/;"	f	class:EnvironmentPython
 GetRootCOM	sim/BVH.h	/^	const Eigen::Vector3d& GetRootCOM(){return mRootCOM;}$/;"	f	class:MSS::BVH
 GetSPDAccelerations	sim/Character.cpp	/^GetSPDAccelerations(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired)$/;"	f	class:MSS::Character
 GetSPDForces	sim/Character.cpp	/^GetSPDForces(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired)$/;"	f	class:MSS::Character
+GetSimulationHz	pymss/EnvironmentPython.h	/^	int GetSimulationHz(){return mSlaves[0]->GetSimulationHz();};$/;"	f	class:EnvironmentPython
 GetSimulationHz	sim/Environment.h	/^	int GetSimulationHz(){return mSimulationHz;};$/;"	f	class:MSS::Environment
 GetSkeleton	sim/Character.h	/^	const dart::dynamics::SkeletonPtr& GetSkeleton() {return mSkeleton;};$/;"	f	class:MSS::Character
 GetSolution	sim/QP.h	/^	Eigen::VectorXd GetSolution(){return mSolution;}$/;"	f	class:MSS::QP
@@ -733,7 +737,8 @@ GetTargetPositionsAndVelocitiesFromBVH	sim/Character.cpp	/^GetTargetPositionsAnd
 GetTimeStep	sim/BVH.h	/^	double GetTimeStep(){return mTimeStep;}$/;"	f	class:MSS::BVH
 GetTimeStep	sim/MotionGraph.h	/^	double GetTimeStep(){return mTimeStep;}$/;"	f	class:MSS::MotionGraph
 GetTrackballPoint	render/Camera.cpp	/^GetTrackballPoint(int mouseX, int mouseY,int w,int h)$/;"	f	class:Camera
-GetTuple	Regression.py	/^	def GetTuple(self,num):$/;"	m	class:Regressor
+GetTuples	pymss/EnvironmentPython.cpp	/^GetTuples()$/;"	f	class:EnvironmentPython
+GetTuples	sim/Environment.h	/^	std::vector<Tuple>& GetTuples(){return mTuples;};$/;"	f	class:MSS::Environment
 GetWorld	sim/Environment.h	/^	const dart::simulation::WorldPtr& GetWorld(){return mWorld;};$/;"	f	class:MSS::Environment
 Getf_A	sim/Muscle.cpp	/^Getf_A()$/;"	f	class:MSS::Muscle
 Getf_p	sim/Muscle.cpp	/^Getf_p()$/;"	f	class:MSS::Muscle
@@ -762,13 +767,12 @@ KpAction	sim/Action.h	/^class KpAction$/;"	c	namespace:MSS
 LARGE_VALUE	xmlparser/muscle_main.cpp	6;"	d	file:
 LARGE_VALUE	xmlparser/skel_main.cpp	6;"	d	file:
 LoadContactPoints	sim/Character.cpp	/^LoadContactPoints(const std::string& path,double threshold,dart::dynamics::BodyNode* ground)$/;"	f	class:MSS::Character
-LoadModel	Regression.py	/^	def LoadModel(self,model_path):$/;"	m	class:Regressor
 LoadModel	pymss/PPO.py	/^	def LoadModel(self,model_number):$/;"	m	class:PPO
 LoadMotionGraph	sim/Character.cpp	/^LoadMotionGraph(const std::string& path,const std::vector<int>& seq,double time_step)$/;"	f	class:MSS::Character
 LoadMuscles	sim/Character.cpp	/^LoadMuscles(const std::string& path)$/;"	f	class:MSS::Character
 LoadSkeleton	sim/Character.cpp	/^LoadSkeleton(const std::string& path)$/;"	f	class:MSS::Character
 LoadState	sim/MotionGraph.cpp	/^LoadState()$/;"	f	class:MSS::MotionGraph
-LongTensor	Regression.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
+LongTensor	pymss/Model.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
 LongTensor	pymss/PPO.py	/^LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor$/;"	v
 MSS	sim/Action.cpp	/^namespace MSS$/;"	n	file:
 MSS	sim/Action.h	/^namespace MSS$/;"	n
@@ -823,8 +827,7 @@ Muscle	sim/Muscle.cpp	/^Muscle(std::string _name,double _f0,double _lm0,double _
 Muscle	sim/Muscle.h	/^class Muscle$/;"	c	namespace:MSS
 MuscleBuffer	pymss/PPO.py	/^class MuscleBuffer(object):$/;"	c
 MuscleNN	pymss/Model.py	/^class MuscleNN(nn.Module):$/;"	c
-MuscleTransition	pymss/PPO.py	/^MuscleTransition = namedtuple('MuscleTransition',('s','qdd_des','a','A','b'))$/;"	v
-OptimizeModel	Regression.py	/^	def OptimizeModel(self):$/;"	m	class:Regressor
+MuscleTransition	pymss/PPO.py	/^MuscleTransition = namedtuple('MuscleTransition',('tau','tau_des','A','b'))$/;"	v
 OptimizeModel	pymss/PPO.py	/^	def OptimizeModel(self):$/;"	m	class:PPO
 Orthonormalize	sim/SkeletonBuilder.cpp	/^Eigen::Isometry3d Orthonormalize(const Eigen::Isometry3d& T_old)$/;"	f	namespace:MSS
 PLATFORM_ID	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	337;"	d	file:
@@ -957,14 +960,10 @@ PROXIMAR_JOINT_LIMIT	xmlparser/muscle_main.cpp	8;"	d	file:
 Pan	render/Camera.cpp	/^Pan(int x,int y,int prev_x,int prev_y)$/;"	f	class:Camera
 Parse	sim/BVH.cpp	/^Parse(const std::string& file)$/;"	f	class:MSS::BVH
 Parse	sim/MotionGraph.cpp	/^Parse(const std::string& path)$/;"	f	class:MSS::MotionGraph
-Plot	Regression.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
 Plot	pymss/PPO.py	/^def Plot(y,title,num_fig=1,ylim=True):$/;"	f
-Preprocess	Preprocess.cpp	/^Preprocess(int num_slaves)$/;"	f	class:Preprocess
-Preprocess	Preprocess.h	/^class Preprocess$/;"	c
 PreprocessWindow	render/PreprocessWindow.cpp	/^PreprocessWindow()$/;"	f	class:PreprocessWindow
 PreprocessWindow	render/PreprocessWindow.h	/^class PreprocessWindow : public GUI::GLUTWindow$/;"	c
 Proj	sim/SkeletonBuilder.cpp	/^Eigen::Vector3d Proj(const Eigen::Vector3d& u,const Eigen::Vector3d& v)$/;"	f	namespace:MSS
-Push	Regression.py	/^	def Push(self,*args):$/;"	m	class:Buffer
 Push	pymss/Model.py	/^	def Push(self,val):$/;"	m	class:Container
 Push	pymss/PPO.py	/^	def Push(self, *args):$/;"	m	class:EpisodeBuffer
 Push	pymss/PPO.py	/^	def Push(self,*args):$/;"	m	class:MuscleBuffer
@@ -986,7 +985,6 @@ R_z	sim/BVH.cpp	/^Eigen::Matrix3d R_z(double z)$/;"	f	namespace:MSS
 ReadHierarchy	sim/BVH.cpp	/^ReadHierarchy(BVHNode* parent,const std::string& name,int& channel_offset,std::ifstream& is)$/;"	f	class:MSS::BVH
 ReadMayaConstant	xmlparser/muscle_main.cpp	/^void ReadMayaConstant(std::vector<MayaConstant>& mc,std::string path)$/;"	f
 ReadMayaConstant	xmlparser/skel_main.cpp	/^void ReadMayaConstant(std::vector<MayaConstant>& mc,std::string path)$/;"	f
-Regressor	Regression.py	/^class Regressor(object):$/;"	c
 Remove	sim/ContactPoint.cpp	/^Remove(const dart::simulation::WorldPtr& world)$/;"	f	class:MSS::ContactPoint
 ReplayBuffer	pymss/PPO.py	/^class ReplayBuffer(object):$/;"	c
 Reset	pymss/EnvironmentPython.cpp	/^Reset(bool RSI,int id)$/;"	f	class:EnvironmentPython
@@ -1054,7 +1052,6 @@ SUFFIXES	build/render/Makefile	/^SUFFIXES =$/;"	m
 SUFFIXES	build/sim/Makefile	/^SUFFIXES =$/;"	m
 SUFFIXES	build/sim/quadprog_optimized/Makefile	/^SUFFIXES =$/;"	m
 SUFFIXES	build/xmlparser/Makefile	/^SUFFIXES =$/;"	m
-SaveModel	Regression.py	/^	def SaveModel(self):$/;"	m	class:Regressor
 SaveModel	pymss/PPO.py	/^	def SaveModel(self):$/;"	m	class:PPO
 SaveState	sim/MotionGraph.cpp	/^SaveState()$/;"	f	class:MSS::MotionGraph
 ScaleFunc	sim/MotionGraph.h	/^	static double ScaleFunc(double t){if(t<1.0) return (t-1.0)*(2.0*t*t-t-1); else return 0.0;}$/;"	f	class:MSS::MotionGraph
@@ -1081,30 +1078,31 @@ SetPDParameters	sim/Character.cpp	/^SetPDParameters(double kp, double kv)$/;"	f	
 SetWalk	sim/MotionGraph.cpp	/^SetWalk(const std::vector<int>& sequences)$/;"	f	class:MSS::MotionGraph
 SimWindow	render/SimWindow.cpp	/^SimWindow()$/;"	f	class:SimWindow
 SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path)$/;"	f	class:SimWindow
+SimWindow	render/SimWindow.cpp	/^SimWindow(const std::string& nn_path,const std::string& muscle_nn_path)$/;"	f	class:SimWindow
 SimWindow	render/SimWindow.h	/^class SimWindow : public GUI::GLUTWindow$/;"	c
 SimulationNN	pymss/Model.py	/^class SimulationNN(nn.Module):$/;"	c
 SkeletonBuilder	sim/SkeletonBuilder.h	/^class SkeletonBuilder$/;"	c	namespace:MSS
 SolveIK	sim/Action.cpp	/^SolveIK(const Eigen::VectorXd& p_old,const Eigen::VectorXd& target)$/;"	f	class:MSS::IKAction
-Step	pymss/EnvironmentPython.cpp	/^Step(int id)$/;"	f	class:EnvironmentPython
+Step	pymss/EnvironmentPython.cpp	/^Step(const Eigen::VectorXd& activation,int id)$/;"	f	class:EnvironmentPython
+Step	render/SimWindow.cpp	/^Step()$/;"	f	class:SimWindow
 Step	sim/Environment.cpp	/^Step(const Eigen::VectorXd& activation)$/;"	f	class:MSS::Environment
 Step	sim/MotionGraph.cpp	/^Step()$/;"	f	class:MSS::MotionGraph
-Steps	pymss/EnvironmentPython.cpp	/^Steps()$/;"	f	class:EnvironmentPython
-Tensor	Regression.py	/^Tensor = FloatTensor$/;"	v
+Steps	pymss/EnvironmentPython.cpp	/^Steps(np::ndarray np_array,p::list _terminated)$/;"	f	class:EnvironmentPython
+Tensor	pymss/Model.py	/^Tensor = FloatTensor$/;"	v
 Tensor	pymss/PPO.py	/^Tensor = FloatTensor$/;"	v
 Timer	render/PreprocessWindow.cpp	/^Timer(int value) $/;"	f	class:PreprocessWindow
 Timer	render/SimWindow.cpp	/^Timer(int value) $/;"	f	class:SimWindow
 TimerEvent	render/GLUTWindow.cpp	/^TimerEvent(int value)$/;"	f	class:GLUTWindow
-Train	pymss/PPO.py	/^	def Train(self):		$/;"	m	class:PPO
+Train	pymss/PPO.py	/^	def Train(self):$/;"	m	class:PPO
 Transition	pymss/PPO.py	/^Transition = namedtuple('Transition',('s','a', 'logprob', 'TD', 'GAE'))$/;"	v
 Translate	render/Camera.cpp	/^Translate(int x,int y,int prev_x,int prev_y)$/;"	f	class:Camera
-Tuple	Preprocess.h	/^struct Tuple$/;"	s
-Tuple	Regression.py	/^Tuple = namedtuple('Tuple',('s','qdd_des','a','A','b','q','q_d','v','v_d'))$/;"	v
+Tuple	sim/Environment.h	/^struct Tuple$/;"	s	namespace:MSS
 UnProject	render/Camera.cpp	/^UnProject(const Eigen::Vector3d& vec)$/;"	f	class:Camera
 Update	sim/Muscle.cpp	/^Update(double time_step)$/;"	f	class:MSS::Muscle
 Update	sim/QP.cpp	/^Update(const Eigen::VectorXd& qdd_desired)$/;"	f	class:QP
 UserConstant	xmlparser/muscle_main.cpp	/^	UserConstant(double _f0,double _lm,double _lt,double angle)$/;"	f	struct:UserConstant
 UserConstant	xmlparser/muscle_main.cpp	/^struct UserConstant$/;"	s	file:
-UserConstant	xmlparser/skel_main.cpp	/^	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None")$/;"	f	struct:UserConstant
+UserConstant	xmlparser/skel_main.cpp	/^	UserConstant(std::string parent,std::string joint_type,double mass,const Eigen::VectorXd& joint_lower_limit,const Eigen::VectorXd& joint_upper_limit,const Eigen::Vector3d& axis = Eigen::Vector3d::Zero(),std::string bvh_map="None",std::string obj_map="None",bool con = false)$/;"	f	struct:UserConstant
 UserConstant	xmlparser/skel_main.cpp	/^struct UserConstant$/;"	s	file:
 Vector	sim/quadprog_optimized/Array.hh	/^Vector<T>::Vector() $/;"	f	class:quadprogpp::Vector
 Vector	sim/quadprog_optimized/Array.hh	/^Vector<T>::Vector(const T& a, const unsigned int n) $/;"	f	class:quadprogpp::Vector
@@ -1136,17 +1134,15 @@ __MSS_INTERFACE_H__	render/MSSInterface.h	2;"	d
 __MSS_MODE_H__	sim/Action.h	2;"	d
 __MSS_MOTION_GRAPH_H__	sim/MotionGraph.h	2;"	d
 __MSS_MUSCLE_H__	sim/Muscle.h	2;"	d
-__MSS_PREPROCESS_H__	Preprocess.h	2;"	d
 __MSS_PREPROCESS_WINDOW_H__	render/PreprocessWindow.h	2;"	d
 __MSS_SIM_WINDOW_H__	render/SimWindow.h	2;"	d
 __MSS_SKELETON_BUILDER_H__	sim/SkeletonBuilder.h	2;"	d
 __QP_H__	sim/QP.h	2;"	d
 __WRAPPER_FUNCTIONS_H__	pymss/WrapperFunctions.h	2;"	d
-__init__	Regression.py	/^	def __init__(self,buff_size = 65536):$/;"	m	class:Buffer
-__init__	Regression.py	/^	def __init__(self,num_slaves):$/;"	m	class:Regressor
 __init__	pymss/Model.py	/^	def __init__(self,num):$/;"	m	class:Container
-__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions,num_dofs,num_muscles):$/;"	m	class:SimulationNN
-__init__	pymss/Model.py	/^	def __init__(self,num_states,num_dofs,num_muscles):$/;"	m	class:MuscleNN
+__init__	pymss/Model.py	/^	def __init__(self,num_muscles):$/;"	m	class:DiscriminatorNN
+__init__	pymss/Model.py	/^	def __init__(self,num_states,num_actions):$/;"	m	class:SimulationNN
+__init__	pymss/Model.py	/^	def __init__(self,num_total_muscle_related_dofs,num_dofs,num_muscles):$/;"	m	class:MuscleNN
 __init__	pymss/PPO.py	/^	def __init__(self):$/;"	m	class:EpisodeBuffer
 __init__	pymss/PPO.py	/^	def __init__(self, buff_size = 10000):$/;"	m	class:MuscleBuffer
 __init__	pymss/PPO.py	/^	def __init__(self, buff_size = 10000):$/;"	m	class:ReplayBuffer
@@ -1155,7 +1151,6 @@ a	sim/Action.h	/^	Eigen::VectorXd a;$/;"	m	class:MSS::IKAction
 a	sim/Action.h	/^	Eigen::VectorXd a;$/;"	m	class:MSS::KpAction
 a	sim/Action.h	/^	Eigen::VectorXd a;$/;"	m	class:MSS::MotionAction
 abs	sim/quadprog_optimized/Array.hh	/^inline Vector<T> abs(const Vector<T>& v)$/;"	f	namespace:quadprogpp
-activation	Preprocess.h	/^	Eigen::VectorXd activation;$/;"	m	struct:Tuple
 activation	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 activation	sim/Muscle.h	/^	double activation;$/;"	m	class:MSS::Muscle
 add_constraint	sim/quadprog_optimized/QuadProg++.cc	/^bool add_constraint(Matrix<double>& R, Matrix<double>& J, Vector<double>& d, int& iq, double& R_norm)$/;"	f	namespace:quadprogpp
@@ -1163,8 +1158,8 @@ all_mean	sim/quadprog_optimized/Array.hh	/^T all_mean(const Matrix<T>& m)$/;"	f	
 all_prod	sim/quadprog_optimized/Array.hh	/^T all_prod(const Matrix<T>& m)$/;"	f	namespace:quadprogpp
 all_sum	sim/quadprog_optimized/Array.hh	/^T all_sum(const Matrix<T>& m)$/;"	f	namespace:quadprogpp
 args	pymss/PPO.py	/^	args =parser.parse_args()$/;"	v
-b	Preprocess.h	/^	Eigen::VectorXd b;$/;"	m	struct:Tuple
 b	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
+b	sim/Environment.h	/^	Eigen::VectorXd b;$/;"	m	struct:MSS::Tuple
 b	sim/QP.h	/^	quadprogpp::Vector<double> b;$/;"	m	class:MSS::QP
 backward_elimination	sim/quadprog_optimized/Array.hh	/^Vector<T> backward_elimination(const Matrix<T>& U, const Vector<T> y)$/;"	f	namespace:quadprogpp
 backward_elimination	sim/quadprog_optimized/Array.hh	/^void backward_elimination(const Matrix<T>& U, Vector<T>& x, const Vector<T>& y)$/;"	f	namespace:quadprogpp
@@ -1176,6 +1171,7 @@ cholesky_decomposition	sim/quadprog_optimized/QuadProg++.cc	/^void cholesky_deco
 cholesky_solve	sim/quadprog_optimized/Array.hh	/^Vector<T> cholesky_solve(const Matrix<T>& LL, const Vector<T>& b)$/;"	f	namespace:quadprogpp
 cholesky_solve	sim/quadprog_optimized/Array.hh	/^void cholesky_solve(const Matrix<T>& LL, Vector<T>& x, const Vector<T>& b)$/;"	f	namespace:quadprogpp
 cholesky_solve	sim/quadprog_optimized/QuadProg++.cc	/^void cholesky_solve(const Matrix<double>& L, Vector<double>& x, const Vector<double>& b)$/;"	f	namespace:quadprogpp
+collision_on	xmlparser/skel_main.cpp	/^	bool collision_on;$/;"	m	struct:UserConstant	file:
 compute_d	sim/quadprog_optimized/QuadProg++.cc	/^inline void compute_d(Vector<double>& d, const Matrix<double>& J, const Vector<double>& np)$/;"	f	namespace:quadprogpp
 const	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	10;"	d	file:
 contact	sim/ContactPoint.h	/^	dart::collision::Contact contact;$/;"	m	class:MSS::ContactPoint
@@ -1211,14 +1207,15 @@ f0	sim/Muscle.h	/^	double f0;$/;"	m	class:MSS::Muscle
 f0	xmlparser/muscle_main.cpp	/^	double f0;$/;"	m	struct:UserConstant	file:
 features	build/CMakeFiles/feature_tests.c	/^  const char features[] = {"\\n"$/;"	v
 features	build/CMakeFiles/feature_tests.cxx	/^  const char features[] = {"\\n"$/;"	v
-forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:MuscleNN
+forward	pymss/Model.py	/^	def forward(self,a):$/;"	m	class:DiscriminatorNN
+forward	pymss/Model.py	/^	def forward(self,muscle_tau,tau):$/;"	m	class:MuscleNN
 forward	pymss/Model.py	/^	def forward(self,x):$/;"	m	class:SimulationNN
 forward_elimination	sim/quadprog_optimized/Array.hh	/^Vector<T> forward_elimination(const Matrix<T>& L, const Vector<T> b)$/;"	f	namespace:quadprogpp
 forward_elimination	sim/quadprog_optimized/Array.hh	/^void forward_elimination(const Matrix<T>& L, Vector<T>& y, const Vector<T> b)$/;"	f	namespace:quadprogpp
 forward_elimination	sim/quadprog_optimized/QuadProg++.cc	/^inline void forward_elimination(const Matrix<double>& L, Vector<double>& y, const Vector<double>& b)$/;"	f	namespace:quadprogpp
 fovy	render/Camera.h	/^	double fovy;$/;"	m	class:GUI::Camera
 get_action	pymss/Model.py	/^	def get_action(self,s):$/;"	m	class:SimulationNN
-get_activation	pymss/Model.py	/^	def get_activation(self,x):$/;"	m	class:MuscleNN
+get_activation	pymss/Model.py	/^	def get_activation(self,muscle_tau,tau):$/;"	m	class:MuscleNN
 get_random_action	pymss/Model.py	/^	def get_random_action(self,s):$/;"	m	class:SimulationNN
 ground	sim/ContactPoint.h	/^	dart::dynamics::BodyNode* ground;$/;"	m	class:MSS::ContactPoint
 ground_y	sim/ContactPoint.h	/^	double ground_y;$/;"	m	class:MSS::ContactPoint
@@ -1308,7 +1305,6 @@ mCurrentSequence	sim/MotionGraph.h	/^	int mCurrentSequence;$/;"	m	class:MSS::Mot
 mDisplayTimeout	render/GLUTWindow.h	/^	int 							mDisplayTimeout;$/;"	m	class:GUI::GLUTWindow
 mElapsedTime	sim/MotionGraph.h	/^	double mElapsedTime;$/;"	m	class:MSS::MotionGraph
 mEndEffectors	sim/Character.h	/^	std::vector<dart::dynamics::BodyNode*> mEndEffectors;$/;"	m	class:MSS::Character
-mEngines	Preprocess.h	/^	std::vector<std::default_random_engine> mEngines;$/;"	m	class:Preprocess
 mFocusBodyNum	render/SimWindow.h	/^	int mFocusBodyNum;$/;"	m	class:SimWindow
 mGround	sim/Environment.h	/^	dart::dynamics::SkeletonPtr mGround;$/;"	m	class:MSS::Environment
 mIKAction	sim/Character.h	/^	IKAction* mIKAction;$/;"	m	class:MSS::Character
@@ -1318,6 +1314,7 @@ mIsCapture	render/PreprocessWindow.h	/^	bool mIsCapture;$/;"	m	class:PreprocessW
 mIsCapture	render/SimWindow.h	/^	bool mIsCapture;$/;"	m	class:SimWindow
 mIsDrag	render/GLUTWindow.h	/^	bool 							mIsDrag;$/;"	m	class:GUI::GLUTWindow
 mIsFocusing	render/SimWindow.h	/^	bool mIsFocusing;$/;"	m	class:SimWindow
+mIsMuscleNNLoaded	render/SimWindow.h	/^	bool mIsMuscleNNLoaded;$/;"	m	class:SimWindow
 mIsNNLoaded	render/PreprocessWindow.h	/^	bool mIsNNLoaded;$/;"	m	class:PreprocessWindow
 mIsNNLoaded	render/SimWindow.h	/^	bool mIsNNLoaded;$/;"	m	class:SimWindow
 mIsRotate	render/PreprocessWindow.h	/^	bool mIsRotate;$/;"	m	class:PreprocessWindow
@@ -1347,16 +1344,13 @@ mName	xmlparser/muscle_main.cpp	/^	std::string mName;$/;"	m	struct:MayaConstant	
 mName	xmlparser/skel_main.cpp	/^	std::string mName;$/;"	m	struct:MayaConstant	file:
 mNumAction	pymss/EnvironmentPython.h	/^	int mNumAction;$/;"	m	class:EnvironmentPython
 mNumChannels	sim/BVH.h	/^	int mNumChannels;$/;"	m	class:MSS::BVHNode
-mNumDofs	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
 mNumDofs	sim/QP.h	/^	int mNumDofs,mNumMuscles;$/;"	m	class:MSS::QP
-mNumMuscles	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
 mNumMuscles	sim/QP.h	/^	int mNumDofs,mNumMuscles;$/;"	m	class:MSS::QP
-mNumSlaves	Preprocess.h	/^	int mNumSlaves;$/;"	m	class:Preprocess
 mNumSlaves	pymss/EnvironmentPython.h	/^	int mNumSlaves;$/;"	m	class:EnvironmentPython
 mNumState	pymss/EnvironmentPython.h	/^	int mNumState;$/;"	m	class:EnvironmentPython
-mNumStates	Preprocess.h	/^	int mNumStates,mNumDofs,mNumMuscles;$/;"	m	class:Preprocess
 mNumTotalChannels	sim/BVH.h	/^	int mNumTotalChannels;$/;"	m	class:MSS::BVH
 mNumTotalFrames	sim/BVH.h	/^	int mNumTotalFrames;$/;"	m	class:MSS::BVH
+mNumTotalRelatedDofs	sim/Environment.h	/^	int mNumTotalRelatedDofs;$/;"	m	class:MSS::Environment
 mNumTuple	render/PreprocessWindow.h	/^	int mNumTuple;$/;"	m	class:PreprocessWindow
 mOBJMap	xmlparser/skel_main.cpp	/^	std::string mOBJMap;$/;"	m	struct:UserConstant	file:
 mP	sim/QP.h	/^	std::vector<Eigen::VectorXd> mP;$/;"	m	class:MSS::QP
@@ -1387,15 +1381,16 @@ mSimulationHz	sim/Environment.h	/^	int mSimulationHz;$/;"	m	class:MSS::Environme
 mSize	xmlparser/skel_main.cpp	/^	Eigen::Vector3d mSize;$/;"	m	struct:MayaConstant	file:
 mSkeleton	sim/Character.h	/^	dart::dynamics::SkeletonPtr mSkeleton;$/;"	m	class:MSS::Character
 mSkeleton	sim/MotionGraph.h	/^	dart::dynamics::SkeletonPtr mSkeleton;$/;"	m	class:MSS::MotionGraph
-mSlaves	Preprocess.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:Preprocess
 mSlaves	pymss/EnvironmentPython.h	/^	std::vector<MSS::Environment*> mSlaves;$/;"	m	class:EnvironmentPython
 mSolution	sim/QP.h	/^	Eigen::VectorXd mSolution;$/;"	m	class:MSS::QP
 mTarget	sim/Environment.h	/^	std::pair<Eigen::VectorXd,Eigen::VectorXd> mTarget;$/;"	m	class:MSS::Environment
 mTimeElapsed	sim/Environment.h	/^	double mTimeElapsed;$/;"	m	class:MSS::Environment
 mTimeStep	sim/BVH.h	/^	double mTimeStep;$/;"	m	class:MSS::BVH
 mTimeStep	sim/MotionGraph.h	/^	double mTimeStep;$/;"	m	class:MSS::MotionGraph
+mTorqueDesired	sim/Environment.h	/^	Eigen::VectorXd mTorqueDesired;$/;"	m	class:MSS::Environment
 mTotalElapsedTime	sim/MotionGraph.h	/^	double mTotalElapsedTime;$/;"	m	class:MSS::MotionGraph
 mTransitions	sim/MotionGraph.h	/^	std::vector<std::vector<int>> mTransitions;$/;"	m	class:MSS::MotionGraph
+mTuples	sim/Environment.h	/^	std::vector<Tuple> mTuples;$/;"	m	class:MSS::Environment
 mW_effort	sim/QP.h	/^	double mW_effort,mW_tracking;$/;"	m	class:MSS::QP
 mW_tracking	sim/QP.h	/^	double mW_effort,mW_tracking;$/;"	m	class:MSS::QP
 mWinIDs	render/GLUTWindow.cpp	/^std::vector<int> GLUTWindow::mWinIDs;$/;"	m	class:GLUTWindow	file:
@@ -1405,8 +1400,6 @@ mWorld	render/PreprocessWindow.h	/^	MSS::Environment* mWorld;$/;"	m	class:Prepro
 mWorld	render/SimWindow.h	/^	MSS::Environment* mWorld;$/;"	m	class:SimWindow
 mWorld	sim/Character.h	/^	dart::simulation::WorldPtr mWorld;$/;"	m	class:MSS::Character
 mWorld	sim/Environment.h	/^	dart::simulation::WorldPtr mWorld;$/;"	m	class:MSS::Environment
-mX	Preprocess.h	/^	std::vector<Tuple> mX;$/;"	m	class:Preprocess
-mX_per_slave	Preprocess.h	/^	std::vector<std::vector<Tuple>> mX_per_slave;$/;"	m	class:Preprocess
 main	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	/^int main(argc, argv) int argc; char *argv[];$/;"	f
 main	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	/^void main() {}$/;"	f
 main	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
@@ -1432,10 +1425,11 @@ median	sim/quadprog_optimized/Array.hh	/^inline T median(const Vector<T>& v)$/;"
 min	sim/quadprog_optimized/Array.hh	/^Vector<T> min(const Matrix<T>& m)$/;"	f	namespace:quadprogpp
 min	sim/quadprog_optimized/Array.hh	/^inline T min(const Vector<T>& v)$/;"	f	namespace:quadprogpp
 mm	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
-mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+mm	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 mns	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
-mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+mns	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 mt_s	sim/MotionGraph.h	/^	double mt_s;$/;"	m	class:MSS::MotionGraph
+muscle_nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 n	sim/quadprog_optimized/Array.hh	/^  unsigned int n; \/\/ number of rows$/;"	m	class:quadprogpp::Matrix
 n	sim/quadprog_optimized/Array.hh	/^  unsigned int n; \/\/ size of array. upper index is n-1 $/;"	m	class:quadprogpp::Vector
 name	sim/Action.h	/^	std::string name;$/;"	m	class:MSS::IKAction
@@ -1444,9 +1438,10 @@ name	sim/Action.h	/^	std::string name;$/;"	m	class:MSS::MotionAction
 name	sim/Muscle.h	/^	std::string name;$/;"	m	class:MSS::Muscle
 ncols	sim/quadprog_optimized/Array.hh	/^  inline unsigned int ncols() const { return m; } \/\/ number of columns$/;"	f	class:quadprogpp::Matrix
 neighbor	sim/ContactPoint.h	/^	std::vector<ContactPoint*> neighbor;$/;"	m	class:MSS::ContactPoint
-nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+nn_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 nrows	sim/quadprog_optimized/Array.hh	/^  inline unsigned int nrows() const { return n; } \/\/ number of rows$/;"	f	class:quadprogpp::Matrix
 num_iteration	sim/Action.h	/^	int num_iteration;$/;"	m	class:MSS::IKAction
+num_related_dofs	sim/Muscle.h	/^	int num_related_dofs;$/;"	m	class:MSS::Muscle
 ompver_str	build/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c	/^const char ompver_str[] = { 'I', 'N', 'F', 'O', ':', 'O', 'p', 'e', 'n', 'M',$/;"	v
 ompver_str	build/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp	/^const char ompver_str[] = { 'I', 'N', 'F', 'O', ':', 'O', 'p', 'e', 'n', 'M',$/;"	v
 operator !=	sim/quadprog_optimized/Array.hh	/^inline bool operator!=(const Matrix<T>& a, const Matrix<T>& b)$/;"	f	namespace:quadprogpp
@@ -1546,12 +1541,9 @@ print_vector	sim/QP.cpp	/^void print_vector(const char* name, const quadprogpp::
 print_vector	sim/quadprog_optimized/QuadProg++.cc	/^void print_vector(const char* name, const Vector<T>& v, int n)$/;"	f	namespace:quadprogpp
 prod	sim/quadprog_optimized/Array.hh	/^Vector<T> prod(const Matrix<T>& m)$/;"	f	namespace:quadprogpp
 prod	sim/quadprog_optimized/Array.hh	/^inline T prod(const Vector<T>& v)$/;"	f	namespace:quadprogpp
-q	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
 q	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
-q_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
 q_d	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 q_next	render/PreprocessWindow.h	/^	Eigen::VectorXd q_next,v_next;$/;"	m	class:PreprocessWindow
-qdd_des	Preprocess.h	/^	Eigen::VectorXd qdd_des;$/;"	m	struct:Tuple
 qdd_des	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 qnxnto	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	build/CMakeFiles/3.11.20180602-g4b5d2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
@@ -1576,13 +1568,12 @@ rank	sim/quadprog_optimized/Array.hh	/^inline Matrix<double> rank(const Matrix<T
 rank	sim/quadprog_optimized/Array.hh	/^inline Vector<double> rank(const Vector<T>& v)$/;"	f	namespace:quadprogpp
 recursiveRender	render/GLfunctions.cpp	/^void recursiveRender(const struct aiScene *sc, const struct aiNode* nd) {$/;"	f
 reg_module	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
+related_dof_indices	sim/Muscle.h	/^	std::vector<int> related_dof_indices;$/;"	m	class:MSS::Muscle
 reset	sim/quadprog_optimized/Array.hh	/^inline void CanonicalBaseVector<T>::reset(unsigned int i)$/;"	f	class:quadprogpp::CanonicalBaseVector
 resize	sim/quadprog_optimized/Array.hh	/^inline void Matrix<T>::resize(const T& a, const unsigned int n, const unsigned int m) $/;"	f	class:quadprogpp::Matrix
 resize	sim/quadprog_optimized/Array.hh	/^inline void Matrix<T>::resize(const unsigned int n, const unsigned int m) $/;"	f	class:quadprogpp::Matrix
 resize	sim/quadprog_optimized/Array.hh	/^void Vector<T>::resize(const T& a, const unsigned int n) $/;"	f	class:quadprogpp::Vector
 resize	sim/quadprog_optimized/Array.hh	/^void Vector<T>::resize(const unsigned int n) $/;"	f	class:quadprogpp::Vector
-rewards	pymss/PPO.py	/^	rewards = []$/;"	v
-s	Preprocess.h	/^	Eigen::VectorXd s;$/;"	m	struct:Tuple
 s	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:MuscleNN
 save	pymss/Model.py	/^	def save(self,path):$/;"	m	class:SimulationNN
@@ -1615,15 +1606,18 @@ sum	sim/quadprog_optimized/Array.hh	/^Vector<T> sum(const Matrix<T>& m)$/;"	f	na
 sum	sim/quadprog_optimized/Array.hh	/^inline T sum(const Vector<T>& v)$/;"	f	namespace:quadprogpp
 svd	sim/quadprog_optimized/Array.hh	/^void svd(const Matrix<T>& A, Matrix<T>& U, Vector<T>& W, Matrix<T>& V)$/;"	f	namespace:quadprogpp
 sys_module	render/PreprocessWindow.h	/^	p::object mm,mns,sys_module,reg_module; \/\/main module,main namespace,sys module,nn_module$/;"	m	class:PreprocessWindow
-sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module;$/;"	m	class:SimWindow
+sys_module	render/SimWindow.h	/^	p::object mm,mns,sys_module,nn_module,muscle_nn_module;$/;"	m	class:SimWindow
 t	sim/quadprog_optimized/Array.hh	/^Matrix<T> t(const Matrix<T>& a)$/;"	f	namespace:quadprogpp
 target_bn	sim/Action.h	/^	std::vector<dart::dynamics::BodyNode*> target_bn;$/;"	m	class:MSS::IKAction
+tau	sim/Environment.h	/^	Eigen::VectorXd tau;$/;"	m	struct:MSS::Tuple
+tau_des	sim/Environment.h	/^	Eigen::VectorXd tau_des;$/;"	m	struct:MSS::Tuple
 temp	pymss/Model.py	/^temp = MultiVariateNormal.log_prob$/;"	v
 temp2	pymss/Model.py	/^temp2 = MultiVariateNormal.entropy$/;"	v
 toEigenMatrix	pymss/WrapperFunctions.cpp	/^Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)$/;"	f
 toEigenMatrix	render/PreprocessWindow.cpp	/^Eigen::MatrixXd toEigenMatrix(const np::ndarray& array)$/;"	f
 toEigenVector	pymss/WrapperFunctions.cpp	/^Eigen::VectorXd toEigenVector(const np::ndarray& array)$/;"	f
 toEigenVector	render/PreprocessWindow.cpp	/^Eigen::VectorXd toEigenVector(const np::ndarray& array)$/;"	f
+toEigenVectorVector	pymss/WrapperFunctions.cpp	/^std::vector<Eigen::VectorXd> toEigenVectorVector(const np::ndarray& array)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::Isometry3d& T)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::MatrixXd& matrix)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const Eigen::VectorXd& vec)$/;"	f
@@ -1634,6 +1628,8 @@ toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::ve
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<float>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<std::vector<double>>& val)$/;"	f
 toNumPyArray	pymss/WrapperFunctions.cpp	/^np::ndarray toNumPyArray(const std::vector<std::vector<float>>& val)$/;"	f
+toNumPyArray	render/SimWindow.cpp	/^np::ndarray toNumPyArray(const Eigen::VectorXd& vec)$/;"	f
+toStdVector	pymss/WrapperFunctions.cpp	/^std::vector<bool> toStdVector(const p::list& list)$/;"	f
 toString	xmlparser/muscle_main.cpp	/^std::string toString(const Eigen::Vector3d& v)$/;"	f
 toString	xmlparser/muscle_main.cpp	/^std::string toString(const Eigen::VectorXd& v)$/;"	f
 toString	xmlparser/skel_main.cpp	/^std::string toString(const Eigen::Vector3d& v)$/;"	f
@@ -1642,13 +1638,11 @@ up	render/Camera.h	/^	Eigen::Vector3d up;$/;"	m	class:GUI::Camera
 updateEngineData	sim/ContactPoint.h	/^	virtual void updateEngineData(){};$/;"	f	class:MSS::ContactPointCollisionObject
 update_r	sim/quadprog_optimized/QuadProg++.cc	/^inline void update_r(const Matrix<double>& R, Vector<double>& r, const Vector<double>& d, int iq)$/;"	f	namespace:quadprogpp
 update_z	sim/quadprog_optimized/QuadProg++.cc	/^inline void update_z(Vector<double>& z, const Matrix<double>& J, const Vector<double>& d, int iq)$/;"	f	namespace:quadprogpp
-use_cuda	Regression.py	/^use_cuda = torch.cuda.is_available()$/;"	v
+use_cuda	pymss/Model.py	/^use_cuda = torch.cuda.is_available()$/;"	v
 use_cuda	pymss/PPO.py	/^use_cuda = torch.cuda.is_available()$/;"	v
-v	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
 v	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 v	sim/quadprog_optimized/Array.hh	/^  T **v; \/\/ storage for data$/;"	m	class:quadprogpp::Matrix
 v	sim/quadprog_optimized/Array.hh	/^  T* v; \/\/ storage for data$/;"	m	class:quadprogpp::Vector
-v_d	Preprocess.h	/^	Eigen::VectorXd q,q_d,v,v_d;$/;"	m	struct:Tuple
 v_d	render/PreprocessWindow.h	/^	Eigen::VectorXd s,qdd_des,activation,b,q,q_d,v,v_d;$/;"	m	class:PreprocessWindow
 v_next	render/PreprocessWindow.h	/^	Eigen::VectorXd q_next,v_next;$/;"	m	class:PreprocessWindow
 var	sim/quadprog_optimized/Array.hh	/^Vector<T> var(const Matrix<T>& m, bool sample_correction = false)$/;"	f	namespace:quadprogpp
@@ -1659,6 +1653,7 @@ w_com	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environme
 w_ee	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_p	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
 w_v	sim/Environment.h	/^	double w_p,w_v,w_ee,w_com;$/;"	m	class:MSS::Environment
+weights_init	pymss/Model.py	/^def weights_init(m):$/;"	f
 x	sim/QP.h	/^	quadprogpp::Vector<double> x;$/;"	m	class:MSS::QP
 ~GLUTWindow	render/GLUTWindow.cpp	/^~GLUTWindow()$/;"	f	class:GLUTWindow
 ~Matrix	sim/quadprog_optimized/Array.hh	/^Matrix<T>::~Matrix() $/;"	f	class:quadprogpp::Matrix
