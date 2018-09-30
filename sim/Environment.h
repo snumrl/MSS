@@ -25,7 +25,6 @@ public:
 	void Step(const Eigen::VectorXd& activation);
 
 	void Reset(bool random=true);
-	Eigen::VectorXd ComputeActivationQP();
 	Eigen::VectorXd GetMuscleTorques();
 	bool IsTerminalState();
 
@@ -34,7 +33,7 @@ public:
 	double GetReward();
 	Eigen::VectorXd GetAction(){return mAction;}
 	void SetAction(const Eigen::VectorXd& a);
-
+	void SetAlpha(double a){mAlpha = a;};
 
 	int GetNumState(){return GetState().rows();};
 	int GetNumAction(){return mAction.rows();};
@@ -55,6 +54,9 @@ public:
 	int mControlHz;
 	int mSimulationHz;
 	int mNumTotalRelatedDofs;
+	int mSimCount;
+	int mRandomSampleIndex;
+	double mAlpha;
 
 	dart::dynamics::SkeletonPtr mGround;
 	Character* mCharacter;
@@ -67,6 +69,7 @@ public:
 	Eigen::VectorXd mTorqueDesired;
 
 	std::vector<Tuple> mTuples;
+	Tuple mTempTuple;
 };
 
 };

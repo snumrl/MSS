@@ -30,7 +30,7 @@ public:
 	double GetReward(int id);
 
 	//For all slaves
-	np::ndarray ComputeActivationsQP();
+	void SetAlpha(double a);
 	np::ndarray GetMuscleTorques();
 	np::ndarray GetDesiredTorques();
 	void Steps(np::ndarray np_array,p::list terminated);

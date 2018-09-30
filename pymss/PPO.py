@@ -85,11 +85,11 @@ class PPO(object):
 		self.lb = 0.95
 		self.clip_ratio = 0.2
 		
-		self.buffer_size = 4096
-		self.batch_size = 256
+		self.buffer_size = 2048
+		self.batch_size = 128
 		self.muscle_batch_size = 128
 		self.replay_buffer = ReplayBuffer(30000)
-		self.muscle_buffer = MuscleBuffer(self.buffer_size*self.num_simulation_per_control*1.5)
+		self.muscle_buffer = MuscleBuffer(self.buffer_size*15)
 
 		self.model = SimulationNN(self.num_state,self.num_action)
 		self.muscle_model = MuscleNN(self.num_total_muscle_related_dofs,self.num_dofs-6,self.num_muscles)
@@ -106,6 +106,8 @@ class PPO(object):
 
 		self.w_entropy = 0.0
 
+		self.alpha = 1.0
+		self.alpha_decay = 1000.0
 		self.loss_actor = 0.0
 		self.loss_critic = 0.0
 		self.loss_muscle = 0.0
@@ -115,14 +117,15 @@ class PPO(object):
 		self.tic = time.time()
 
 	def SaveModel(self):
-		# self.model.save('../nn/'+str(self.num_evaluation)+'.pt')
+		self.model.save('../nn/'+str(self.num_evaluation)+'.pt')
 		self.muscle_model.save('../nn_muscle/'+str(self.num_evaluation)+'.pt')
 #		self.muscle_model.save('../nn_muscle/'+str(self.num_evaluation)+'_dis.pt')
 
 	def LoadModel(self,model_number):
-		self.model.load('../nn/'+str(472)+'.pt')
-		# self.muscle_model.load('../nn_muscle/'+str(model_number)+'.pt')
-		# self.num_evaluation = int(model_number)
+
+		self.model.load('../nn/'+str(model_number)+'.pt')
+		self.muscle_model.load('../nn_muscle/'+str(model_number)+'.pt')
+		self.num_evaluation = int(model_number)
 
 	def ComputeTDandGAE(self):
 		self.replay_buffer.Clear()
@@ -152,7 +155,7 @@ class PPO(object):
 		
 		self.num_tuple_so_far += self.num_tuple
 
-		self.muscle_buffer.Clear()
+		# self.muscle_buffer.Clear()
 		tuples = self.env.GetTuples()
 		for i in range(len(tuples)):
 			self.muscle_buffer.Push(tuples[i][0],tuples[i][1],tuples[i][2],tuples[i][3])
@@ -174,7 +177,7 @@ class PPO(object):
 		counter = 0
 		while True:
 			counter += 1
-			if counter%1 == 0:
+			if counter%10 == 0:
 				print('SIM : {}'.format(local_step),end='\r')
 			a_dist,v = self.model(Tensor(states))
 			actions = a_dist.sample().cpu().detach().numpy()
@@ -182,12 +185,37 @@ class PPO(object):
 			values = v.cpu().detach().numpy().reshape(-1)
 			
 			self.env.SetActions(actions)
-			
+			mt_time = datetime.now()
 			mt = Tensor(self.env.GetMuscleTorques())
+			mt_time = datetime.now() - mt_time
+			dt_time = None
+			act_time = None
+			step_time = None
 			for i in range(self.num_simulation_per_control):
+				one = datetime.now()
 				dt = Tensor(self.env.GetDesiredTorques())
+
+				one = datetime.now() - one
+				if dt_time is None:
+					dt_time = one
+				else:
+					dt_time += one
+				two = datetime.now()
 				activations = self.muscle_model(mt,dt).cpu().detach().numpy()
+				two = datetime.now() - two
+				if act_time is None:
+					act_time = two
+				else:
+					act_time += two
+				three = datetime.now()
 				self.env.Steps(activations,terminated)
+				three = datetime.now() - three
+				if step_time is None:
+					step_time = three
+				else:
+					step_time += three
+			
+			print('{} {} {} {}'.format(mt_time.microseconds,dt_time.microseconds,act_time.microseconds,step_time.microseconds))
 
 			for j in range(self.num_slaves):
 				if terminated[j]:
@@ -226,46 +254,46 @@ class PPO(object):
 		print('')
 	def OptimizeModel(self):
 		self.ComputeTDandGAE()
-		# all_transitions = np.array(self.replay_buffer.buffer)
-		# for j in range(self.num_epochs):
-		# 	np.random.shuffle(all_transitions)
-		# 	for i in range(len(all_transitions)//self.batch_size):
-		# 		transitions = all_transitions[i*self.batch_size:(i+1)*self.batch_size]
-		# 		batch = Transition(*zip(*transitions))
+		all_transitions = np.array(self.replay_buffer.buffer)
+		for j in range(self.num_epochs):
+			np.random.shuffle(all_transitions)
+			for i in range(len(all_transitions)//self.batch_size):
+				transitions = all_transitions[i*self.batch_size:(i+1)*self.batch_size]
+				batch = Transition(*zip(*transitions))
 
-		# 		stack_s = np.vstack(batch.s).astype(np.float32)
-		# 		stack_a = np.vstack(batch.a).astype(np.float32)
-		# 		stack_lp = np.vstack(batch.logprob).astype(np.float32)
-		# 		stack_td = np.vstack(batch.TD).astype(np.float32)
-		# 		stack_gae = np.vstack(batch.GAE).astype(np.float32)
+				stack_s = np.vstack(batch.s).astype(np.float32)
+				stack_a = np.vstack(batch.a).astype(np.float32)
+				stack_lp = np.vstack(batch.logprob).astype(np.float32)
+				stack_td = np.vstack(batch.TD).astype(np.float32)
+				stack_gae = np.vstack(batch.GAE).astype(np.float32)
 				
-		# 		a_dist,v = self.model(Tensor(stack_s))
-		# 		'''Critic Loss'''
-		# 		loss_critic = ((v-Tensor(stack_td)).pow(2)).mean()
+				a_dist,v = self.model(Tensor(stack_s))
+				'''Critic Loss'''
+				loss_critic = ((v-Tensor(stack_td)).pow(2)).mean()
 				
-		# 		'''Actor Loss'''
-		# 		ratio = torch.exp(a_dist.log_prob(Tensor(stack_a))-Tensor(stack_lp))
-		# 		stack_gae = (stack_gae-stack_gae.mean())/(stack_gae.std()+ 1E-5)
-		# 		stack_gae = Tensor(stack_gae)
-		# 		surrogate1 = ratio * stack_gae
-		# 		surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * stack_gae
-		# 		loss_actor = - torch.min(surrogate1,surrogate2).mean()
-		# 		'''Entropy Loss'''
-		# 		loss_entropy = - self.w_entropy * a_dist.entropy().mean()
+				'''Actor Loss'''
+				ratio = torch.exp(a_dist.log_prob(Tensor(stack_a))-Tensor(stack_lp))
+				stack_gae = (stack_gae-stack_gae.mean())/(stack_gae.std()+ 1E-5)
+				stack_gae = Tensor(stack_gae)
+				surrogate1 = ratio * stack_gae
+				surrogate2 = torch.clamp(ratio,min =1.0-self.clip_ratio,max=1.0+self.clip_ratio) * stack_gae
+				loss_actor = - torch.min(surrogate1,surrogate2).mean()
+				'''Entropy Loss'''
+				loss_entropy = - self.w_entropy * a_dist.entropy().mean()
 
-		# 		self.loss_actor = loss_actor.cpu().detach().numpy().tolist()
-		# 		self.loss_critic = loss_critic.cpu().detach().numpy().tolist()
+				self.loss_actor = loss_actor.cpu().detach().numpy().tolist()
+				self.loss_critic = loss_critic.cpu().detach().numpy().tolist()
 				
-		# 		loss = loss_actor + loss_entropy + loss_critic
+				loss = loss_actor + loss_entropy + loss_critic
 
-		# 		self.optimizer.zero_grad()
-		# 		loss.backward(retain_graph=True)
-		# 		for param in self.model.parameters():
-		# 			if param.grad is not None:
-		# 				param.grad.data.clamp_(-0.5,0.5)
-		# 		self.optimizer.step()
-		# 	print('Optimizing sim nn : {}/{}'.format(j+1,self.num_epochs),end='\r')
-		# print('')
+				self.optimizer.zero_grad()
+				loss.backward(retain_graph=True)
+				for param in self.model.parameters():
+					if param.grad is not None:
+						param.grad.data.clamp_(-0.5,0.5)
+				self.optimizer.step()
+			print('Optimizing sim nn : {}/{}'.format(j+1,self.num_epochs),end='\r')
+		print('')
 		muscle_transitions = np.array(self.muscle_buffer.buffer)
 
 		valid = Tensor(self.muscle_batch_size,1).fill_(1.0)
@@ -320,14 +348,16 @@ class PPO(object):
 				# 		param.grad.data.clamp_(-0.5,0.5)
 				# self.optimizer_discrim.step()
 			
-			# print('Optimizing muscle nn : {}/{}'.format(j+1,self.num_epochs_muscle),end='\r')
+			print('Optimizing muscle nn : {}/{}'.format(j+1,self.num_epochs_muscle),end='\r')
 			
 			self.muscle_model.loss_container.Push(self.loss_muscle)
 			self.discriminator_model.loss_container.Push(self.loss_discrim)
-			print((tau-stack_tau_des)[0].cpu().detach().numpy())
-		
+			# print((tau-stack_tau_des)[0].cpu().detach().numpy())
+		print('')
 	def Train(self):
-		# if self.muscle_buffer.buffer.maxlen >= len(self.muscle_buffer.buffer)+10:
+		self.alpha = math.exp(-10.0/self.alpha_decay*self.num_evaluation)
+		self.env.SetAlpha(self.alpha)
+
 		self.GenerateTransitions()
 		self.OptimizeModel()
 
@@ -338,6 +368,7 @@ class PPO(object):
 			print('# {} (time : {:.2f}m)'.format(self.num_evaluation,(time.time() - self.tic)/60.0))
 		else:
 			print('# {} (time : {:.2f}h)'.format(self.num_evaluation,(time.time() - self.tic)/3600.0))
+		print('||Alpha                    : {:.3f}'.format(self.alpha))
 		print('||Noise                    : {:.3f}'.format(self.model.log_std.exp().mean()))
 		print('||Loss Actor               : {:.4f}'.format(self.loss_actor))
 		print('||Loss Critic              : {:.4f}'.format(self.loss_critic))
@@ -346,9 +377,9 @@ class PPO(object):
 		print('||Num Transition So far    : {}'.format(self.num_tuple_so_far))
 		print('||Num Transition           : {}'.format(self.num_tuple))
 		print('||Num Episode              : {}'.format(self.num_episode))
-		# print('||Avg Return per episode   : {:.3f}'.format(self.sum_return/self.num_episode))
-		# print('||Avg Reward per transition: {:.3f}'.format(self.sum_return/self.num_tuple))
-		# self.model.reward_container.Push(self.sum_return/self.num_episode)
+		print('||Avg Return per episode   : {:.3f}'.format(self.sum_return/self.num_episode))
+		print('||Avg Reward per transition: {:.3f}'.format(self.sum_return/self.num_tuple))
+		self.model.reward_container.Push(self.sum_return/self.num_episode)
 
 		self.num_evaluation = self.num_evaluation + 1
 		self.SaveModel()
@@ -402,7 +433,7 @@ if __name__=="__main__":
 	for i in range(50000):
 		ppo.Train()
 		rewards,losses,discrim_losses = ppo.Evaluate()
-		# Plot(rewards,'reward',0,False)
+		Plot(rewards,'reward',0,False)
 		if len(losses)>30:
 			Plot(losses[-30:],'muscle Loss',1,False)
 		else:

@@ -11,7 +11,7 @@ using namespace dart::simulation;
 using namespace dart::dynamics;
 SimWindow::
 SimWindow()
-	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false)
+	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0)
 {
 	mWorld = new MSS::Environment(30,900);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
@@ -163,33 +163,33 @@ Display()
 	// 	character->GetSkeleton()->setPositions(p_save);
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// }
-	// {
-	// 	Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
-	// 	Eigen::VectorXd p = character->GetTargetPositions();
-	// 	p[3] +=1.5;
-	// 	character->GetSkeleton()->setPositions(p);
-	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
-	// 	GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
+	{
+		Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
+		Eigen::VectorXd p = character->GetTargetPositions();
+		p[3] +=1.5;
+		character->GetSkeleton()->setPositions(p);
+		character->GetSkeleton()->computeForwardKinematics(true,false,false);
+		GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
 
-	// 	auto cps = character->GetContactPoints();
+		auto cps = character->GetContactPoints();
 
-	// 	for(auto cp : cps)
-	// 	{
-	// 		glPushMatrix();
-	// 		Eigen::Vector3d pos = cp->GetPosition();
-	// 		if(cp->IsColliding())
-	// 			glColor3f(0.8,0.2,0.2);
-	// 		else
-	// 			glColor3f(0.2,0.2,0.8);
+		for(auto cp : cps)
+		{
+			glPushMatrix();
+			Eigen::Vector3d pos = cp->GetPosition();
+			if(cp->IsColliding())
+				glColor3f(0.8,0.2,0.2);
+			else
+				glColor3f(0.2,0.2,0.8);
 
-	// 		glTranslatef(pos[0],pos[1],pos[2]);
-	// 		GUI::DrawSphere(0.004);
-	// 		glPopMatrix();
+			glTranslatef(pos[0],pos[1],pos[2]);
+			GUI::DrawSphere(0.004);
+			glPopMatrix();
 
-	// 	}
-	// 	character->GetSkeleton()->setPositions(p_save);
-	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
-	// }
+		}
+		character->GetSkeleton()->setPositions(p_save);
+		character->GetSkeleton()->computeForwardKinematics(true,false,false);
+	}
 
 	glutSwapBuffers();
 	if(mIsCapture)
@@ -214,18 +214,19 @@ Keyboard(unsigned char key,int x,int y)
 		case 't': mRandomAction=!mRandomAction;break;
 		case 'f': mIsFocusing=!mIsFocusing;break;
 		case '1': mFocusBodyNum = 0;break;
-		case '2': mFocusBodyNum = character->GetSkeleton()->getBodyNode("TalusR")->getIndexInSkeleton();break;
-		case '3': mFocusBodyNum = character->GetSkeleton()->getBodyNode("TalusL")->getIndexInSkeleton();break;
+		
 		case 'q': std::cout<<mWorld->GetState().transpose()<<std::endl;break;
 		case ' ': mIsAuto = !mIsAuto;break;
-		case '+': mAction[mActionNum]+=0.3;break;
-		case '-': mAction[mActionNum]-=0.3;break;
+		case '+': mAlpha+=0.1;break;
+		case '-': mAlpha-=0.1;break;
 		case 'b': mActionNum++;mActionNum %= mAction.size();break;
+
 		case 27 : exit(0);break;
 		default : break;
 	}
-	std::cout<<mActionNum<<std::endl;
+	std::cout<<mAlpha<<std::endl;
 	
+	mWorld->SetAlpha(mAlpha);
 	
 	
 	glutPostRedisplay();
@@ -297,10 +298,9 @@ Step()
 	Eigen::VectorXd mt = mWorld->GetMuscleTorques();
 	Eigen::VectorXd activation;
 	for(int i =0;i<sim_per_control;i++){
-		activation = (mIsMuscleNNLoaded?GetActivationFromNN(mt):mWorld->ComputeActivationQP());
-		mWorld->Step(activation);	
+		activation = GetActivationFromNN(mt);
+		mWorld->Step(activation);
 	}
-	// std::cout<<mWorld->GetElapsedTime()<<std::endl;
 }
 void
 SimWindow::
@@ -393,7 +393,7 @@ SimWindow::
 GetActivationFromNN(const Eigen::VectorXd& mt)
 {
 	if(!mIsMuscleNNLoaded)
-		return Eigen::VectorXd::Zero(0);
+		return Eigen::VectorXd::Zero(mWorld->GetCharacter()->GetMuscles().size());
 	p::object get_activation = muscle_nn_module.attr("get_activation");
 	// Eigen::VectorXd state = mWorld->GetState();
 	// Eigen::VectorXd mt = mWorld->GetMuscleTorques();

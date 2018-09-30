@@ -56,7 +56,7 @@ protected:
 	bool mIsMuscleNNLoaded;
 	bool mRandomAction;
 	int mFocusBodyNum;
-
+	double mAlpha;
 	//python object
 	p::object mm,mns,sys_module,nn_module,muscle_nn_module;
 

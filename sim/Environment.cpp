@@ -7,7 +7,7 @@ namespace MSS
 
 Environment::
 Environment(int control_Hz,int simulation_Hz)
-	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1)
+	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1),mAlpha(1.0),mRandomSampleIndex(-1),mSimCount(-1)
 {
 	mWorld->setGravity(Eigen::Vector3d(0,-9.81,0));
 	mWorld->setTimeStep(1.0/(double)mSimulationHz);
@@ -554,6 +554,7 @@ Step(const Eigen::VectorXd& activation)
 	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// return;
 
+	
 	//For Muscle Actuator
 	int count = 0;
 	for(auto muscle : mCharacter->GetMuscles())
@@ -563,41 +564,34 @@ Step(const Eigen::VectorXd& activation)
 		muscle->ApplyForceToBody();
 	}
 
-	//For Joint Torque
+	Eigen::VectorXd muscle_force = mCharacter->GetSkeleton()->getExternalForces();
+	mCharacter->GetSkeleton()->clearExternalForces();
 	// mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
-	// mTorqueDesired.head(6).setZero();
-	// mCharacter->GetSkeleton()->setForces(mTorqueDesired);
-	Tuple tp;
-	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
-	mQP->Update(qdd_desired);
-	tp.tau = GetMuscleTorques();
-	tp.tau_des = mTorqueDesired.tail(mTorqueDesired.rows()-6);
-	tp.A = mQP->GetJtA().block(6,0,mCharacter->GetSkeleton()->getNumDofs()-6,mCharacter->GetMuscles().size());
-	tp.b = mQP->GetJtP().segment(6,mCharacter->GetSkeleton()->getNumDofs()-6);
+	Eigen::VectorXd error = mTorqueDesired - muscle_force;
 
-	mTuples.push_back(tp);
+	if(mRandomSampleIndex==mSimCount)
+	{
+		Tuple tp;
+		tp.tau = mTempTuple.tau;
+		tp.tau_des = mTorqueDesired.tail(mTorqueDesired.rows()-6);
+		tp.A = mTempTuple.A;
+		tp.b = mTempTuple.b;
+		mTuples.push_back(tp);	
+	}
+	
+	//For Joint Torque
+	mCharacter->GetSkeleton()->setForces(muscle_force+mAlpha*error);
+
 	mWorld->step();
+	mSimCount++;
 }
 Eigen::VectorXd
 Environment::
 GetDesiredTorques()
 {
 	mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
+	// mTorqueDesired = Eigen::VectorXd::Zero(mCharacter->GetSkeleton()->getNumDofs());
 	return mTorqueDesired.tail(mTorqueDesired.rows()-6);
-}
-Eigen::VectorXd
-Environment::
-ComputeActivationQP()
-{
-	for(auto muscle : mCharacter->GetMuscles()){
-		muscle->Update(mWorld->getTimeStep());
-	}
-	Eigen::VectorXd qdd_desired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);
-	mQP->Minimize(qdd_desired);
-
-	Eigen::VectorXd solution = mQP->GetSolution();
-
-	return solution.tail(mCharacter->GetMuscles().size());
 }
 Eigen::VectorXd
 Environment::
@@ -612,6 +606,7 @@ GetMuscleTorques()
 		JtA.segment(index,JtA_i.rows()) = JtA_i;
 		index+=JtA_i.rows();
 	}
+	mTempTuple.tau = JtA;
 	return JtA;
 }
 void
@@ -623,7 +618,6 @@ Reset(bool random)
 	mCharacter->GetSkeleton()->clearConstraintImpulses();
 	mCharacter->GetSkeleton()->clearInternalForces();
 	mCharacter->GetSkeleton()->clearExternalForces();
-
 	
 	if(random)
 		mTimeElapsed = dart::math::random(0.0,mCharacter->GetMotionGraph()->GetMaxTimeOfFirstSeq());
@@ -765,5 +759,13 @@ SetAction(const Eigen::VectorXd& a)
 	mCharacter->GetMotionGraph()->Step();
 	
 	mTarget = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction);
+	
+	mSimCount = 0;	
+	mRandomSampleIndex = rand()%(mSimulationHz/mControlHz);
+	mQP->Update();
+	mTempTuple.A = mQP->GetJtA().block(6,0,mCharacter->GetSkeleton()->getNumDofs()-6,mCharacter->GetMuscles().size());
+	mTempTuple.b = mQP->GetJtP().segment(6,mCharacter->GetSkeleton()->getNumDofs()-6);
+
+	mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
 }
 }

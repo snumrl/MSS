@@ -79,17 +79,12 @@ GetReward(int id)
 }
 
 //For all slaves
-np::ndarray 
+void
 EnvironmentPython::
-ComputeActivationsQP()
+SetAlpha(double a)
 {
-	std::vector<Eigen::VectorXd> activations(mNumSlaves);
-#pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
-	{
-		activations[id] = mSlaves[id]->ComputeActivationQP();
-	}
-	return toNumPyArray(activations);
+		mSlaves[id]->SetAlpha(a);
 }
 np::ndarray
 EnvironmentPython::
@@ -222,7 +217,7 @@ BOOST_PYTHON_MODULE(pymss)
 		.def("GetState",&EnvironmentPython::GetState)
 		.def("SetAction",&EnvironmentPython::SetAction)
 		.def("GetReward",&EnvironmentPython::GetReward)
-		.def("ComputeActivationsQP",&EnvironmentPython::ComputeActivationsQP)
+		.def("SetAlpha",&EnvironmentPython::SetAlpha)
 		.def("GetMuscleTorques",&EnvironmentPython::GetMuscleTorques)
 		.def("GetDesiredTorques",&EnvironmentPython::GetDesiredTorques)
 		.def("Steps",&EnvironmentPython::Steps)

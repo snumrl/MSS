@@ -126,10 +126,8 @@ GetJtp_minus_c()
 }
 void
 QP::
-Update(const Eigen::VectorXd& qdd_desired)
+Update()
 {
-	mQddDesired = qdd_desired;
-
 	auto& skel = mCharacter->GetSkeleton();
 	auto& muscles = mCharacter->GetMuscles();
 
@@ -152,10 +150,6 @@ Update(const Eigen::VectorXd& qdd_desired)
 
 	mJtp_minus_c = mJtp - (skel->getCoriolisAndGravityForces());
 
-	//c
-	for(int i = 0;i<mNumDofs;i++)
-		c[i] = -2.0*mW_tracking*mQddDesired[i];
-
 	//A
 	for(int i=0;i<mNumDofs;i++)
 		for(int j=0;j<mNumDofs+mNumMuscles;j++)
@@ -163,4 +157,15 @@ Update(const Eigen::VectorXd& qdd_desired)
 	//b	
 	for(int i=0;i<mNumDofs;i++)
 		b[i] = -mJtp_minus_c[i];
+}
+void
+QP::
+Update(const Eigen::VectorXd& qdd_desired)
+{
+	mQddDesired = qdd_desired;
+	//c
+	for(int i = 0;i<mNumDofs;i++)
+		c[i] = -2.0*mW_tracking*mQddDesired[i];
+
+	Update();
 }
