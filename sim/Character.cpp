@@ -160,10 +160,13 @@ SetPDParameters(const Eigen::VectorXd& kp, const Eigen::VectorXd& kv)
 	// this->mKp.segment<6>(0).setZero();
 	// this->mKv.segment<6>(0).setZero();
 }
+#include <chrono>
 Eigen::VectorXd
 Character::
 GetSPDForces(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired)
 {
+	// std::chrono::system_clock::time_point start,end;
+	// start = std::chrono::system_clock::now();
 	auto& skel = mSkeleton;
 	Eigen::VectorXd q = skel->getPositions();
 	Eigen::VectorXd dq = skel->getVelocities();
@@ -181,7 +184,9 @@ GetSPDForces(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired)
 	Eigen::VectorXd tau = p_diff + v_diff - dt*mKv.cwiseProduct(qddot);
 	
 	tau.head<6>().setZero();
-	
+	// end = std::chrono::system_clock::now();
+	// std::chrono::duration<double> elapsed_seconds = end-start;
+	// std::cout<<"GetSPDForces "<<" takes "<<elapsed_seconds.count()<<std::endl;
 	return tau;
 }
 Eigen::VectorXd

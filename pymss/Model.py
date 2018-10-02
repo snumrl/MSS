@@ -53,19 +53,20 @@ class MuscleNN(nn.Module):
 
 		num_h1 = 128
 		num_h2 = 512
-		num_h3 = 512
-		num_h4 = 256
+		# num_h3 = 512
+		num_h3 = 256
 		self.fc = nn.Sequential(
 			nn.Linear(num_total_muscle_related_dofs+num_dofs,num_h1),
 			nn.LeakyReLU(0.2, inplace=True),
 			nn.Linear(num_h1,num_h2),
 			nn.LeakyReLU(0.2, inplace=True),
 			nn.Linear(num_h2,num_h3),
+			# nn.LeakyReLU(0.2, inplace=True),
+			# nn.Linear(num_h3,num_h4),
 			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h3,num_h4),
-			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h4,num_muscles),
-			nn.Sigmoid()
+			nn.Linear(num_h3,num_muscles),
+			nn.Tanh(),
+			nn.ReLU()		
 		)
 		self.loss_container = Container(50000)
 
@@ -98,31 +99,6 @@ class MuscleNN(nn.Module):
 	def get_activation(self,muscle_tau,tau):
 		act = self.forward(Tensor(muscle_tau.reshape(1,-1)),Tensor(tau.reshape(1,-1)))
 		return act.cpu().detach().numpy()
-
-class DiscriminatorNN(nn.Module):
-	def __init__(self,num_muscles):
-		super(DiscriminatorNN,self).__init__()
-		self.num_muscles = num_muscles
-		num_h1 = 128
-		num_h2 = 512
-		num_h3 = 512
-		num_h4 = 256
-		self.fc = nn.Sequential(
-			nn.Linear(self.num_muscles,num_h1),
-			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h1,num_h2),
-			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h2,num_h3),
-			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h3,num_h4),
-			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h4,1),
-			nn.Sigmoid()
-		)
-		self.loss_container = Container(50000)
-		self.fc.apply(weights_init)
-	def forward(self,a):
-		return self.fc(a)
 
 class SimulationNN(nn.Module):
 	def __init__(self,num_states,num_actions):

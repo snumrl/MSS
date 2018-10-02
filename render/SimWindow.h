@@ -55,11 +55,14 @@ protected:
 	bool mIsNNLoaded;
 	bool mIsMuscleNNLoaded;
 	bool mRandomAction;
+	bool mWriteOutput;
 	int mFocusBodyNum;
 	double mAlpha;
 	//python object
 	p::object mm,mns,sys_module,nn_module,muscle_nn_module;
 
+	int mOutputCount;
+	void WriteOutput(const std::string& path);
 };
 
 #endif

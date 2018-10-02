@@ -8,7 +8,7 @@ EnvironmentPython(int num_slaves)
 	:mNumSlaves(num_slaves)
 {
 	dart::math::seedRand();
-	omp_set_num_threads(num_slaves);
+	omp_set_num_threads(4);
 	for(int i =0;i<mNumSlaves;i++){
 		mSlaves.push_back(new MSS::Environment(30,900));
 	}
@@ -91,6 +91,7 @@ EnvironmentPython::
 GetMuscleTorques()
 {
 	std::vector<Eigen::VectorXd> mt(mNumSlaves);
+
 #pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
 	{
@@ -103,6 +104,7 @@ EnvironmentPython::
 GetDesiredTorques()
 {
 	std::vector<Eigen::VectorXd> qdd_des(mNumSlaves);
+	
 #pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
 	{
@@ -110,18 +112,23 @@ GetDesiredTorques()
 	}
 	return toNumPyArray(qdd_des);
 }
-void
+np::ndarray
 EnvironmentPython::
 Steps(np::ndarray np_array,p::list _terminated)
 {
 	std::vector<Eigen::VectorXd> activations =toEigenVectorVector(np_array);
+	std::vector<Eigen::VectorXd> qdd_des(mNumSlaves);
 	auto terminated = toStdVector(_terminated);
 #pragma omp parallel for
 	for (int id = 0; id < mNumSlaves; ++id)
 	{
 		if(terminated[id]==false)
-			this->Step(activations[id],id);
+			for(int j=0;j<2;j++)
+				this->Step(activations[id],id);
+		qdd_des[id] = mSlaves[id]->GetDesiredTorques();	
+		
 	}
+	return toNumPyArray(qdd_des);
 }
 void
 EnvironmentPython::

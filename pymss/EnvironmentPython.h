@@ -33,7 +33,7 @@ public:
 	void SetAlpha(double a);
 	np::ndarray GetMuscleTorques();
 	np::ndarray GetDesiredTorques();
-	void Steps(np::ndarray np_array,p::list terminated);
+	np::ndarray Steps(np::ndarray np_array,p::list terminated);
 	void Resets(bool RSI);
 	np::ndarray IsTerminalStates();
 	np::ndarray GetStates();

@@ -14,9 +14,10 @@ class Character;
 struct Tuple
 {
 	Eigen::VectorXd tau;
-	Eigen::VectorXd tau_des;
 	Eigen::MatrixXd A;
 	Eigen::VectorXd b;
+	Eigen::VectorXd tau_des;
+	
 };
 class Environment
 {

@@ -69,8 +69,8 @@ class PPO(object):
 		self.num_dofs = self.env.GetNumDofs()
 		self.num_muscles = self.env.GetNumMuscles()
 
-		self.num_epochs = 20
-		self.num_epochs_muscle = 10
+		self.num_epochs = 30
+		self.num_epochs_muscle = 15
 		self.num_evaluation = 0
 		self.num_tuple_so_far = 0
 		self.num_episode = 0
@@ -89,7 +89,7 @@ class PPO(object):
 		self.batch_size = 128
 		self.muscle_batch_size = 128
 		self.replay_buffer = ReplayBuffer(30000)
-		self.muscle_buffer = MuscleBuffer(self.buffer_size*15)
+		self.muscle_buffer = MuscleBuffer(self.buffer_size*5)
 
 		self.model = SimulationNN(self.num_state,self.num_action)
 		self.muscle_model = MuscleNN(self.num_total_muscle_related_dofs,self.num_dofs-6,self.num_muscles)
@@ -107,13 +107,15 @@ class PPO(object):
 		self.w_entropy = 0.0
 
 		self.alpha = 1.0
-		self.alpha_decay = 1000.0
+		self.alpha_decay = 200.0
 		self.loss_actor = 0.0
 		self.loss_critic = 0.0
 		self.loss_muscle = 0.0
 		self.loss_discrim = 0.0
 		self.sum_return = 0.0
-		
+		self.threshold = 6.0
+		self.current_avg_reward = 0.0
+		self.run_simulation_nn = False
 		self.tic = time.time()
 
 	def SaveModel(self):
@@ -185,37 +187,11 @@ class PPO(object):
 			values = v.cpu().detach().numpy().reshape(-1)
 			
 			self.env.SetActions(actions)
-			mt_time = datetime.now()
 			mt = Tensor(self.env.GetMuscleTorques())
-			mt_time = datetime.now() - mt_time
-			dt_time = None
-			act_time = None
-			step_time = None
-			for i in range(self.num_simulation_per_control):
-				one = datetime.now()
-				dt = Tensor(self.env.GetDesiredTorques())
-
-				one = datetime.now() - one
-				if dt_time is None:
-					dt_time = one
-				else:
-					dt_time += one
-				two = datetime.now()
+			dt = Tensor(self.env.GetDesiredTorques())
+			for i in range(self.num_simulation_per_control//2):
 				activations = self.muscle_model(mt,dt).cpu().detach().numpy()
-				two = datetime.now() - two
-				if act_time is None:
-					act_time = two
-				else:
-					act_time += two
-				three = datetime.now()
-				self.env.Steps(activations,terminated)
-				three = datetime.now() - three
-				if step_time is None:
-					step_time = three
-				else:
-					step_time += three
-			
-			print('{} {} {} {}'.format(mt_time.microseconds,dt_time.microseconds,act_time.microseconds,step_time.microseconds))
+				dt = Tensor(self.env.Steps(activations,terminated))
 
 			for j in range(self.num_slaves):
 				if terminated[j]:
@@ -250,11 +226,10 @@ class PPO(object):
 					break
 				
 			states = self.env.GetStates()
-		
 		print('')
-	def OptimizeModel(self):
-		self.ComputeTDandGAE()
+	def OptimizeSimulationNN(self):
 		all_transitions = np.array(self.replay_buffer.buffer)
+
 		for j in range(self.num_epochs):
 			np.random.shuffle(all_transitions)
 			for i in range(len(all_transitions)//self.batch_size):
@@ -294,13 +269,9 @@ class PPO(object):
 				self.optimizer.step()
 			print('Optimizing sim nn : {}/{}'.format(j+1,self.num_epochs),end='\r')
 		print('')
+	def OptimizeMuscleNN(self):
 		muscle_transitions = np.array(self.muscle_buffer.buffer)
 
-		valid = Tensor(self.muscle_batch_size,1).fill_(1.0)
-		valid.requires_grad = False
-		fake = Tensor(self.muscle_batch_size,1).fill_(0.0)
-		fake.requires_grad = False
-		adv_loss = torch.nn.BCELoss()
 		for j in range(self.num_epochs_muscle):
 			np.random.shuffle(muscle_transitions)
 			for i in range(len(muscle_transitions)//self.muscle_batch_size):
@@ -322,10 +293,8 @@ class PPO(object):
 				activation = self.muscle_model(stack_tau,stack_tau_des)
 				tau = torch.einsum('ijk,ik->ij',(stack_A,activation)) + stack_b
 				# qdd_target = torch.einsum('ijk,ik->ij',(stack_A,stack_a)) + stack_b
-
 				loss = 0.001*(activation).pow(2).mean() + (((tau-stack_tau_des)/10.0).pow(2)).mean()
 				# loss = ((activation-stack_a).pow(2)).mean()
-				#+ adv_loss(self.discriminator_model(activation),valid)
 
 				self.loss_muscle = loss.cpu().detach().numpy().tolist()
 
@@ -336,24 +305,19 @@ class PPO(object):
 						param.grad.data.clamp_(-0.5,0.5)
 				self.optimizer_muscle.step()
 
-				# real_loss = adv_loss(self.discriminator_model(stack_a),valid)
-				# fake_loss = adv_loss(self.discriminator_model(activation),fake)
-				# d_loss = 0.5*(real_loss+fake_loss)
-
-				# self.loss_discrim = d_loss.cpu().detach().numpy().tolist()
-				# self.optimizer_discrim.zero_grad()
-				# d_loss.backward(retain_graph=True)
-				# for param in self.discriminator_model.parameters():
-				# 	if param.grad is not None:
-				# 		param.grad.data.clamp_(-0.5,0.5)
-				# self.optimizer_discrim.step()
-			
 			print('Optimizing muscle nn : {}/{}'.format(j+1,self.num_epochs_muscle),end='\r')
 			
 			self.muscle_model.loss_container.Push(self.loss_muscle)
-			self.discriminator_model.loss_container.Push(self.loss_discrim)
-			# print((tau-stack_tau_des)[0].cpu().detach().numpy())
 		print('')
+	def OptimizeModel(self):
+		self.ComputeTDandGAE()
+		if self.run_simulation_nn:
+			self.OptimizeSimulationNN()
+		
+		self.OptimizeMuscleNN()
+		if self.run_simulation_nn is False:
+			self.OptimizeMuscleNN()
+		
 	def Train(self):
 		self.alpha = math.exp(-10.0/self.alpha_decay*self.num_evaluation)
 		self.env.SetAlpha(self.alpha)
@@ -380,7 +344,8 @@ class PPO(object):
 		print('||Avg Return per episode   : {:.3f}'.format(self.sum_return/self.num_episode))
 		print('||Avg Reward per transition: {:.3f}'.format(self.sum_return/self.num_tuple))
 		self.model.reward_container.Push(self.sum_return/self.num_episode)
-
+		if self.threshold<self.sum_return/self.num_episode:
+			self.run_simulation_nn = True
 		self.num_evaluation = self.num_evaluation + 1
 		self.SaveModel()
 		
@@ -419,7 +384,7 @@ def Plot(y,title,num_fig=1,ylim=True):
 import argparse
 
 if __name__=="__main__":
-	ppo = PPO(16)
+	ppo = PPO(4)
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m','--model',help='actor model number')
@@ -434,8 +399,8 @@ if __name__=="__main__":
 		ppo.Train()
 		rewards,losses,discrim_losses = ppo.Evaluate()
 		Plot(rewards,'reward',0,False)
-		if len(losses)>30:
-			Plot(losses[-30:],'muscle Loss',1,False)
+		if len(losses)>100:
+			Plot(losses[-100:],'muscle Loss',1,False)
 		else:
 			Plot(losses,'muscle Loss',1,False)
 		# Plot(discrim_losses,'disc Loss',2,False)

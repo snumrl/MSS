@@ -11,7 +11,7 @@ using namespace dart::simulation;
 using namespace dart::dynamics;
 SimWindow::
 SimWindow()
-	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0)
+	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0),mWriteOutput(false)
 {
 	mWorld = new MSS::Environment(30,900);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
@@ -214,7 +214,7 @@ Keyboard(unsigned char key,int x,int y)
 		case 't': mRandomAction=!mRandomAction;break;
 		case 'f': mIsFocusing=!mIsFocusing;break;
 		case '1': mFocusBodyNum = 0;break;
-		
+		case 'w': mWriteOutput = !mWriteOutput; break;
 		case 'q': std::cout<<mWorld->GetState().transpose()<<std::endl;break;
 		case ' ': mIsAuto = !mIsAuto;break;
 		case '+': mAlpha+=0.1;break;
@@ -291,6 +291,8 @@ void
 SimWindow::
 Step()
 {
+	if(mWriteOutput)
+		WriteOutput("output");
 	GetActionFromNN();
 	mWorld->SetAction(mAction);
 	int sim_per_control = mWorld->GetSimulationHz()/mWorld->GetControlHz();
@@ -410,4 +412,45 @@ GetActivationFromNN(const Eigen::VectorXd& mt)
 		activation[i] = srcs[i];
 
 	return activation;
+}
+#include <fstream>
+void
+SimWindow::
+WriteOutput(const std::string& path)
+{
+	std::string real_path = path + "/"+ std::to_string(mOutputCount) +".tr";
+
+	// std::ofstream out(real_path);
+	auto& skel = mWorld->GetCharacter()->GetSkeleton();
+	for(int i =0;i<skel->getNumJoints();i++)
+	{
+		auto joint = skel->getJoint(i);
+		auto child_bn = joint->getChildBodyNode();
+		auto parent_bn = joint->getParentBodyNode();
+		Eigen::Isometry3d T;
+		T.setIdentity();
+		if(parent_bn==nullptr)
+			T = child_bn->getTransform()*joint->getTransformFromChildBodyNode();
+		else
+		{
+			Eigen::Isometry3d T_parent,T_global;
+
+			T_parent = parent_bn->getTransform()*parent_bn->getParentJoint()->getTransformFromChildBodyNode();
+			T_global = child_bn->getTransform()*joint->getTransformFromChildBodyNode();
+			T = T_parent.inverse()*T_global;
+		}
+		std::cout<<joint->getName();
+		double mat[16];
+		for(int i =0;i<16;i++)
+			mat[i]= T.data()[i];
+		for(int i =0;i<4;i++)
+			for(int j=0;j<4;j++)
+				std::cout<<"\t"<<mat[j*4+i];
+		std::cout<<std::endl;
+	}
+
+	// out.close();
+
+	mOutputCount++;
+
 }

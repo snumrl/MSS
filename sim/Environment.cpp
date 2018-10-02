@@ -564,10 +564,10 @@ Step(const Eigen::VectorXd& activation)
 		muscle->ApplyForceToBody();
 	}
 
-	Eigen::VectorXd muscle_force = mCharacter->GetSkeleton()->getExternalForces();
-	mCharacter->GetSkeleton()->clearExternalForces();
+	// Eigen::VectorXd muscle_force = mCharacter->GetSkeleton()->getExternalForces();
+	// mCharacter->GetSkeleton()->clearExternalForces();
 	// mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
-	Eigen::VectorXd error = mTorqueDesired - muscle_force;
+	// Eigen::VectorXd error = mTorqueDesired - muscle_force;
 
 	if(mRandomSampleIndex==mSimCount)
 	{
@@ -580,7 +580,7 @@ Step(const Eigen::VectorXd& activation)
 	}
 	
 	//For Joint Torque
-	mCharacter->GetSkeleton()->setForces(muscle_force+mAlpha*error);
+	// mCharacter->GetSkeleton()->setForces(muscle_force+mAlpha*error);
 
 	mWorld->step();
 	mSimCount++;
@@ -644,7 +644,7 @@ IsTerminalState()
 	//ET
 	if(root_y<0.7 || root_y > 2.0)
 		isTerminal = true;
-	if(dart::math::isNan(v)||v.array().abs().maxCoeff()>1E3)
+	if(dart::math::isNan(v)||v.array().abs().maxCoeff()>1E2)
 		isTerminal = true;
 	if(dart::math::isNan(p))
 		isTerminal = true;
