@@ -11,21 +11,18 @@ using namespace dart::simulation;
 using namespace dart::dynamics;
 SimWindow::
 SimWindow()
-	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0),mWriteOutput(false)
+	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(38),mRandomAction(false),mAlpha(1.0),mWriteOutput(false),mFocusMuscle(0),mFootControlMode(false)
 {
 	mWorld = new MSS::Environment(30,900);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
-}
-SimWindow::
-SimWindow(const std::string& nn_path)
-	:SimWindow()
-{
-	mIsNNLoaded = true;
+	Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
+	anchored_pos = T_weld.translation();
 
 	mm = p::import("__main__");
 	mns = mm.attr("__dict__");
 	sys_module = p::import("sys");
+	
 	p::str module_dir = (std::string(MSS_ROOT_DIR)+"/pymss").c_str();
 	sys_module.attr("path").attr("insert")(1, module_dir);
 	p::exec("import torch",mns);
@@ -35,7 +32,19 @@ SimWindow(const std::string& nn_path)
 	p::exec("import torchvision.transforms as T",mns);
 	p::exec("import numpy as np",mns);
 	p::exec("from Model import *",mns);
+	p::exec("import matplotlib",mns);
+	plt_module = p::import("matplotlib.pyplot");
+	plot_value.resize(mWorld->GetCharacter()->GetMuscles().size());
+	
+}
+SimWindow::
+SimWindow(const std::string& nn_path)
+	:SimWindow()
+{
+	mIsNNLoaded = true;
 
+
+	
 	boost::python::str str = ("num_state = "+std::to_string(mWorld->GetNumState())).c_str();
 	p::exec(str,mns);
 	str = ("num_action = "+std::to_string(mWorld->GetNumAction())).c_str();
@@ -45,6 +54,7 @@ SimWindow(const std::string& nn_path)
 
 	p::object load = nn_module.attr("load");
 	load(nn_path);
+
 }
 
 SimWindow::
@@ -116,7 +126,8 @@ Display()
 	glPopMatrix();
 	{
 		GUI::DrawSkeleton(character->GetSkeleton());
-		GUI::DrawMuscles(character->GetMuscles());
+
+		GUI::DrawMuscles(character->GetMuscles(),mFocusMuscle);
 		auto cps = character->GetContactPoints();
 
 		for(auto cp : cps)
@@ -133,6 +144,12 @@ Display()
 			glPopMatrix();
 
 		}
+	}
+	{
+		glPushMatrix();
+		glTranslatef(anchored_pos[0],anchored_pos[1],anchored_pos[2]);
+		GUI::DrawSphere(0.01);
+		glPopMatrix();
 	}
 	// {
 	// 	Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
@@ -163,34 +180,34 @@ Display()
 	// 	character->GetSkeleton()->setPositions(p_save);
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// }
-	{
-		Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
-		Eigen::VectorXd p = character->GetTargetPositions();
-		p[3] +=1.5;
-		character->GetSkeleton()->setPositions(p);
-		character->GetSkeleton()->computeForwardKinematics(true,false,false);
-		GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
+	// {
+	// 	Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
+	// 	Eigen::VectorXd p = character->GetTargetPositions();
+	// 	p[3] +=1.5;
+	// 	character->GetSkeleton()->setPositions(p);
+	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
+	// 	GUI::DrawSkeleton(character->GetSkeleton(),Eigen::Vector3d(0.8,0.2,0.2));
 
-		auto cps = character->GetContactPoints();
+	// 	auto cps = character->GetContactPoints();
 
-		for(auto cp : cps)
-		{
-			glPushMatrix();
-			Eigen::Vector3d pos = cp->GetPosition();
-			if(cp->IsColliding())
-				glColor3f(0.8,0.2,0.2);
-			else
-				glColor3f(0.2,0.2,0.8);
+	// 	for(auto cp : cps)
+	// 	{
+	// 		glPushMatrix();
+	// 		Eigen::Vector3d pos = cp->GetPosition();
+	// 		if(cp->IsColliding())
+	// 			glColor3f(0.8,0.2,0.2);
+	// 		else
+	// 			glColor3f(0.2,0.2,0.8);
 
-			glTranslatef(pos[0],pos[1],pos[2]);
-			GUI::DrawSphere(0.004);
-			glPopMatrix();
+	// 		glTranslatef(pos[0],pos[1],pos[2]);
+	// 		GUI::DrawSphere(0.004);
+	// 		glPopMatrix();
 
-		}
-		character->GetSkeleton()->setPositions(p_save);
-		character->GetSkeleton()->computeForwardKinematics(true,false,false);
-	}
-
+	// 	}
+	// 	character->GetSkeleton()->setPositions(p_save);
+	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
+	// }
+	DrawMuscleLength(mWorld->GetCharacter()->GetMuscles(),mFocusMuscle);
 	glutSwapBuffers();
 	if(mIsCapture)
 		Screenshot();
@@ -202,11 +219,21 @@ SimWindow::
 Keyboard(unsigned char key,int x,int y) 
 {
 	auto character = mWorld->GetCharacter();
+	// Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
+	// double angle = 0.0;
+	// Eigen::Vector3d axis(-1,0,0);
+	// Eigen::Vector3d talus_com = mWorld->GetCharacter()->GetSkeleton()->getBodyNode("TalusL")->getCOM();
+	// Eigen::Vector3d pivot = (mWorld->GetCharacter()->GetSkeleton()->getBodyNode("TibiaL")->getTransform()*mWorld->GetCharacter()->GetSkeleton()->getBodyNode("TibiaL")->getParentJoint()->getTransformFromChildBodyNode()).translation();
+	// double radius = (talus_com-pivot).norm();
+	// Eigen::Vector3d pivot_axis = (talus_com-pivot).normalized();
+	// Eigen::Vector3d dp_dir = -(pivot_axis.cross(axis)).normalized();
+	Eigen::VectorXd xy(10);
+	xy.setZero();
 	switch(key)
 	{
 		case '`': mIsRotate= !mIsRotate;break;
 		case 'C': mIsCapture = true; break;
-	
+		case 'c': mFootControlMode = !mFootControlMode;break;
 		case ']': Step();break;
 		case 'R': mWorld->Reset(false);break;
 		case 'r': mWorld->Reset(true);break;
@@ -217,16 +244,22 @@ Keyboard(unsigned char key,int x,int y)
 		case 'w': mWriteOutput = !mWriteOutput; break;
 		case 'q': std::cout<<mWorld->GetState().transpose()<<std::endl;break;
 		case ' ': mIsAuto = !mIsAuto;break;
-		case '+': mAlpha+=0.1;break;
-		case '-': mAlpha-=0.1;break;
 		case 'b': mActionNum++;mActionNum %= mAction.size();break;
-
+		case '+': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i =0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case '-': mFocusMuscle--;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i =0;i<plot_value.size();i++)plot_value[i].clear();break;
 		case 27 : exit(0);break;
 		default : break;
 	}
-	std::cout<<mAlpha<<std::endl;
 	
-	mWorld->SetAlpha(mAlpha);
+	
+	// T_weld.linear() = T_weld.linear()*dart::math::expMapRot(angle*axis);
+	// T_weld.translation() += radius*angle*dp_dir;
+	// mWorld->GetWeldConstraint()->setRelativeTransform(T_weld);
+	
+	
+	// std::cout<<mAlpha<<std::endl;
+	
+	// mWorld->SetAlpha(mAlpha);
 	
 	
 	glutPostRedisplay();
@@ -260,19 +293,49 @@ Motion(int x, int y)
 	int mod = glutGetModifiers();
 	if (mMouseType == GLUT_LEFT_BUTTON)
 	{
+		
 		if(!mIsRotate)
 		mCamera->Translate(x,y,mPrevX,mPrevY);
 		else
-		mCamera->Rotate(x,y,mPrevX,mPrevY);
+		mCamera->Rotate(x,y,mPrevX,mPrevY);	
+	
+		
 	}
 	else if (mMouseType == GLUT_RIGHT_BUTTON)
 	{
+		if(mFootControlMode)
+		{
+			GLint w = glutGet(GLUT_WINDOW_WIDTH);
+			GLint h = glutGet(GLUT_WINDOW_HEIGHT);
+			Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
+			Eigen::Vector3d p = mCamera->GetDeltaPosition(x,y,mPrevX,mPrevY);
+			anchored_pos -= p*0.2;
+			// anchored_pos[0] = 0.0;
+			// std::cout<<T_weld.translation().transpose()<<std::endl;
+			T_weld.translation() = anchored_pos;
+			auto skel =  mWorld->GetCharacter()->GetSkeleton();
+			Eigen::VectorXd save_p = skel->getPositions();
+			Eigen::VectorXd target_p = save_p;
+
+			int idx = skel->getJoint("TalusL")->getDof(0)->getIndexInSkeleton();
+			target_p.segment<1>(idx).setZero();
+
+			skel->setPositions(target_p);
+			skel->computeForwardKinematics(true,false,false);
+			T_weld.linear() = skel->getBodyNode("TalusL")->getTransform().linear();
+			skel->setPositions(save_p);
+			skel->computeForwardKinematics(true,false,false);
+			mWorld->GetWeldConstraint()->setRelativeTransform(T_weld);
+		}
+		else
+		{
 		switch (mod)
 		{
 		case GLUT_ACTIVE_SHIFT:
 			mCamera->Zoom(x,y,mPrevX,mPrevY); break;
 		default:
 			mCamera->Pan(x,y,mPrevX,mPrevY); break;		
+		}
 		}
 
 	}
@@ -287,10 +350,14 @@ Reshape(int w, int h)
 	glViewport(0, 0, w, h);
 	mCamera->Apply();
 }
+#include <chrono>
 void
 SimWindow::
 Step()
 {
+	std::chrono::system_clock::time_point start,end;
+	start = std::chrono::system_clock::now();
+	
 	if(mWriteOutput)
 		WriteOutput("output");
 	GetActionFromNN();
@@ -303,6 +370,27 @@ Step()
 		activation = GetActivationFromNN(mt);
 		mWorld->Step(activation);
 	}
+	end = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed_seconds = end-start;
+	
+	int idx = mWorld->GetCharacter()->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton();
+	std::vector<Eigen::VectorXd> eigen_value;
+	eigen_value.resize(plot_value.size());
+	for(int j =mFocusMuscle;j<mFocusMuscle+1;j++)//mWorld->GetCharacter()->GetMuscles().size();j++)
+	{
+		auto muscle = mWorld->GetCharacter()->GetMuscles()[j];
+		double tau = (muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().second)[idx];
+		plot_value[j].push_back(muscle->l_mt);
+		// plot_value[j].push_back(tau);
+		eigen_value[j].resize(plot_value[j].size());
+		for(int i =0;i<plot_value[j].size();i++)
+			eigen_value[j][i] = plot_value[j][i];	
+	}
+	
+	Plot(eigen_value);
+	// std::cout<<" takes "<<elapsed_seconds.count()<<std::endl;
+	// if(mWorld->GetElapsedTime()>1.5)
+	// 	mWorld->Reset(false);
 }
 void
 SimWindow::
@@ -453,4 +541,25 @@ WriteOutput(const std::string& path)
 
 	mOutputCount++;
 
+}
+void
+SimWindow::
+Plot(const std::vector<Eigen::VectorXd>& y)
+{
+	p::object ion = plt_module.attr("ion");
+	p::object clf = plt_module.attr("clf");
+	p::object plot = plt_module.attr("plot");
+	p::object show = plt_module.attr("show");
+	p::object pause = plt_module.attr("pause");
+	p::object hold = plt_module.attr("hold");
+
+	ion();
+	clf();
+	for(int i =0;i<y.size();i++)
+	{
+		plot(toNumPyArray(y[i]));
+		hold(true);
+	}
+	show();
+	pause(0.001);
 }

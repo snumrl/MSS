@@ -18,7 +18,7 @@ IKAction::
 IKAction(const std::string& _name,const dart::dynamics::SkeletonPtr& skeleton,
 		const std::vector<dart::dynamics::BodyNode*>& target_body,
 		const Eigen::VectorXd& upper_box,const Eigen::VectorXd& lower_box)
-	:name(_name),skel(skeleton),target_bn(target_body),a(0.5*(upper_box-lower_box)),num_iteration(100)
+	:name(_name),skel(skeleton),target_bn(target_body),a(0.5*(upper_box-lower_box)),num_iteration(1000)
 {
 
 }
@@ -26,10 +26,7 @@ Eigen::VectorXd
 IKAction::
 SolveIK(const Eigen::VectorXd& p_old,const Eigen::VectorXd& target)
 {
-
 	Eigen::VectorXd p = p_old;
-	
-	
 
 	Eigen::VectorXd gradient = Eigen::VectorXd::Zero(skel->getNumDofs());
 
@@ -54,7 +51,7 @@ SolveIK(const Eigen::VectorXd& p_old,const Eigen::VectorXd& target)
 		int k=0;
 		double energy_new;
 		
-		for(k;k<8;k++)
+		for(k;k<12;k++)
 		{
 			energy_new = 0.0;
 			p_new = p - alpha*gradient;
@@ -75,7 +72,7 @@ SolveIK(const Eigen::VectorXd& p_old,const Eigen::VectorXd& target)
 		skel->setPositions(p);
 		skel->computeForwardKinematics(true,false,false);
 
-		if(energy_new<1E-5 || k==8)
+		if(energy_new<1E-7 || k==12)
 			break;
 	}
 	

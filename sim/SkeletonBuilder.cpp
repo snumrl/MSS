@@ -291,6 +291,7 @@ BodyNode* SkeletonBuilder::MakeFreeJointBody(
 	// props.mT_ChildBodyToJoint = joint_position;
 	props.mT_ParentBodyToJoint = body_position;
 
+
 	bn = target_skel->createJointAndBodyNodePair<FreeJoint>(
 		parent,props,BodyNode::AspectProperties(body_name)).second;
 
@@ -342,7 +343,7 @@ BodyNode* SkeletonBuilder::MakeBallJointBody(
 	if(parent!=nullptr)
 		props.mT_ParentBodyToJoint = parent->getTransform().inverse()*joint_position;
 	props.mT_ChildBodyToJoint = body_position.inverse()*joint_position;
-
+	// props.mDampingCoefficients = Eigen::Vector3d(0.1,0.1,0.1);
 	// std::cout<<props.mT_ChildBodyToJoint.translation().transpose()<<std::endl;
 	// std::cout<<props.mT_ChildBodyToJoint.linear()<<std::endl;
 	// std::cout<<props.mT_ChildBodyToJoint.linear().determinant()<<std::endl;
@@ -417,6 +418,7 @@ BodyNode* SkeletonBuilder::MakeRevoluteJointBody(
 	RevoluteJoint::Properties props;
 	props.mName = body_name;
 	props.mAxis = axis;
+	// props.mDampingCoefficients = Eigen::Matrix<double,1,1>(0.1);
 
 	if(parent!=nullptr)
 		props.mT_ParentBodyToJoint = parent->getTransform().inverse()*joint_position;

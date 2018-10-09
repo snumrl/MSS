@@ -4,7 +4,7 @@ using namespace GUI;
 
 Camera::
 Camera()
-	:fovy(60.0),lookAt(Eigen::Vector3d(0,0.5,0)),eye(Eigen::Vector3d(0,0.5,2)),up(Eigen::Vector3d(0,1,0))
+	:fovy(60.0),lookAt(Eigen::Vector3d(0,0.0,0)),eye(Eigen::Vector3d(1.7,0.4,0)),up(Eigen::Vector3d(0,1,0))
 {
 
 }
@@ -84,6 +84,15 @@ SetLookAt(const Eigen::Vector3d& lookAt)
 	this->lookAt =lookAt;
 	this->eye = this->eye + diff;	
 }
+#include <iostream>
+Eigen::Vector3d
+Camera::
+GetDeltaPosition(int x,int y,int prev_x,int prev_y)
+{
+	Eigen::Vector3d delta((double)x - (double)prev_x, (double)y - (double)prev_y, 0);
+	delta = UnProject(delta) / 200.0;
+	return delta;
+}
 Eigen::Vector3d
 Camera::
 Rotateq(const Eigen::Vector3d& target, const Eigen::Vector3d& rotateVector,double angle)
@@ -109,9 +118,9 @@ GetTrackballPoint(int mouseX, int mouseY,int w,int h)
 	double dx2pdy2 = dx*dx + dy*dy;
 
 	if (rad*rad - dx2pdy2 <= 0)
-		return Eigen::Vector3d(dx, dy, 0);
+		return Eigen::Vector3d(dx/rad, dy/rad, 0);
 	else
-		return Eigen::Vector3d(dx, dy, sqrt(rad*rad - dx*dx - dy*dy));
+		return Eigen::Vector3d(dx/rad, dy/rad, sqrt(rad*rad - dx*dx - dy*dy)/rad);
 }
 Eigen::Vector3d
 Camera::

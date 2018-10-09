@@ -130,7 +130,25 @@ int main(int argc,char** argv)
 	// ucs.insert(std::make_pair("L_Vastus_Intermedius1",UserConstant(500.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Vastus_Lateralis",UserConstant(500.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Vastus_Medialis1",UserConstant(500.0,1.0,0.2,0.0)));
+	std::vector<std::string> upper_body;
 
+	upper_body.push_back("Spine");
+	upper_body.push_back("Torso");
+	upper_body.push_back("Neck");
+	upper_body.push_back("Head");
+	upper_body.push_back("ShoulderL");
+	upper_body.push_back("ArmL");
+	upper_body.push_back("ForeArmL");
+	upper_body.push_back("HandL");
+	upper_body.push_back("ShoulderR");
+	upper_body.push_back("ArmR");
+	upper_body.push_back("ForeArmR");
+	upper_body.push_back("HandR");
+	upper_body.push_back("FemurR");
+	upper_body.push_back("TibiaR");
+	upper_body.push_back("TalusR");
+	upper_body.push_back("TalusL");
+	upper_body.push_back("Pevlis");
 	TiXmlDocument doc;
 	TiXmlElement* muscle_elem = new TiXmlElement("Muscle");
 	doc.LinkEndChild(muscle_elem);
@@ -147,16 +165,24 @@ int main(int argc,char** argv)
 		unit_elem->SetAttribute("lt",std::to_string(uc.lt));
 		unit_elem->SetAttribute("pen_angle",std::to_string(uc.pen_angle));
 
+		bool is_lower_body = true;
 		for(int j =0;j<mcs[i].mAnchors.size();j++)
 		{
 			TiXmlElement* waypoint_elem = new TiXmlElement("Waypoint");
+			for(int k =0;k<upper_body.size();k++)
+				if(mcs[i].mAnchors[j].first == upper_body[k])
+					is_lower_body = false;
+			if(mcs[i].mAnchors[j].first == "TibiaL")
+				is_lower_body = true;
+			else
+				is_lower_body = false;
+				
 			waypoint_elem->SetAttribute("body",mcs[i].mAnchors[j].first);
 			waypoint_elem->SetAttribute("p",toString(mcs[i].mAnchors[j].second));
 			unit_elem->LinkEndChild(waypoint_elem);	
 		}
-		muscle_elem->LinkEndChild(unit_elem);
-		
-		
+		if(is_lower_body)
+			muscle_elem->LinkEndChild(unit_elem);
 	}
 	TiXmlPrinter printer;
 	printer.SetIndent( "\n" );

@@ -20,6 +20,7 @@ public:
 	void Translate(int x,int y,int prev_x,int prev_y);
 
 	void SetLookAt(const Eigen::Vector3d& lookAt);
+	Eigen::Vector3d GetDeltaPosition(int x,int y,int prev_x,int prev_y);
 private:
 	Eigen::Vector3d lookAt;
 	Eigen::Vector3d eye;

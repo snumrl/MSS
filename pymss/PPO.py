@@ -19,6 +19,7 @@ import torchvision.transforms as T
 import numpy as np
 from pymss import Env
 from IPython import embed
+from Plot import Plot
 from Model import *
 use_cuda = torch.cuda.is_available()
 FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
@@ -353,32 +354,7 @@ class PPO(object):
 
 		return self.model.reward_container.Get(),self.muscle_model.loss_container.Get(),self.discriminator_model.loss_container.Get()
 		
-import matplotlib
-import matplotlib.pyplot as plt
-plt.ion()
 
-def Plot(y,title,num_fig=1,ylim=True):
-	temp_y = np.zeros(y.shape)
-	if y.shape[0]>5:
-		temp_y[0] = y[0]
-		temp_y[1] = 0.5*(y[0] + y[1])
-		temp_y[2] = 0.3333*(y[0] + y[1] + y[2])
-		temp_y[3] = 0.25*(y[0] + y[1] + y[2] + y[3])
-		for i in range(4,y.shape[0]):
-			temp_y[i] = np.sum(y[i-4:i+1])*0.2
-
-	plt.figure(num_fig)
-	plt.clf()
-	plt.hold(True)
-	plt.title(title)
-	plt.plot(y,'b')
-	
-	plt.plot(temp_y,'r')
-
-	plt.show()
-	if ylim:
-		plt.ylim([0,1])
-	plt.pause(0.001)
 
 
 import argparse

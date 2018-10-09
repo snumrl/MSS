@@ -49,6 +49,7 @@ public:
 	Eigen::VectorXd GetDesiredTorques();
 	// const Eigen::VectorXd& GetDesiredAcceleration(){mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);return mQddDesired;};
 	double GetElapsedTime(){return mTimeElapsed;}
+	std::shared_ptr<dart::constraint::WeldJointConstraint>& GetWeldConstraint(){return mWeldConstraint;};
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;
@@ -71,6 +72,9 @@ public:
 
 	std::vector<Tuple> mTuples;
 	Tuple mTempTuple;
+
+	Eigen::VectorXd mMeasurePose;
+	std::shared_ptr<dart::constraint::WeldJointConstraint> mWeldConstraint;
 };
 
 };

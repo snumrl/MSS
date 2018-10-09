@@ -56,13 +56,18 @@ protected:
 	bool mIsMuscleNNLoaded;
 	bool mRandomAction;
 	bool mWriteOutput;
+	bool mFootControlMode;
 	int mFocusBodyNum;
+	int mFocusMuscle;
 	double mAlpha;
+	Eigen::Vector3d anchored_pos;
 	//python object
-	p::object mm,mns,sys_module,nn_module,muscle_nn_module;
+	p::object mm,mns,sys_module,nn_module,muscle_nn_module,plt_module;
 
 	int mOutputCount;
 	void WriteOutput(const std::string& path);
+	std::vector<std::vector<double>> plot_value;
+	void Plot(const std::vector<Eigen::VectorXd>& y);
 };
 
 #endif
