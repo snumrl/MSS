@@ -19,7 +19,6 @@ import torchvision.transforms as T
 import numpy as np
 from pymss import Env
 from IPython import embed
-from Plot import Plot
 from Model import *
 use_cuda = torch.cuda.is_available()
 FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
@@ -70,8 +69,8 @@ class PPO(object):
 		self.num_dofs = self.env.GetNumDofs()
 		self.num_muscles = self.env.GetNumMuscles()
 
-		self.num_epochs = 30
-		self.num_epochs_muscle = 15
+		self.num_epochs = 20
+		self.num_epochs_muscle = 10
 		self.num_evaluation = 0
 		self.num_tuple_so_far = 0
 		self.num_episode = 0
@@ -94,38 +93,32 @@ class PPO(object):
 
 		self.model = SimulationNN(self.num_state,self.num_action)
 		self.muscle_model = MuscleNN(self.num_total_muscle_related_dofs,self.num_dofs-6,self.num_muscles)
-		self.discriminator_model = DiscriminatorNN(self.num_muscles)
 
 		if use_cuda:
 			self.model.cuda()
 			self.muscle_model.cuda()
-			self.discriminator_model.cuda()
 
 		self.optimizer = optim.Adam(self.model.parameters(),lr=5E-5)
 		self.optimizer_muscle = optim.Adam(self.muscle_model.parameters(),lr=5E-5)
-		self.optimizer_discrim = optim.Adam(self.discriminator_model.parameters(),lr=2E-4)
 
 		self.w_entropy = 0.0
 
 		self.alpha = 1.0
 		self.alpha_decay = 200.0
-		self.loss_actor = 0.0
-		self.loss_critic = 0.0
-		self.loss_muscle = 0.0
-		self.loss_discrim = 0.0
+		self.loss_actor = []
+		self.loss_critic = []
+		self.loss_muscle = []
+		self.rewards = []
 		self.sum_return = 0.0
 		self.threshold = 6.0
 		self.current_avg_reward = 0.0
-		self.run_simulation_nn = False
 		self.tic = time.time()
 
 	def SaveModel(self):
 		self.model.save('../nn/'+str(self.num_evaluation)+'.pt')
 		self.muscle_model.save('../nn_muscle/'+str(self.num_evaluation)+'.pt')
-#		self.muscle_model.save('../nn_muscle/'+str(self.num_evaluation)+'_dis.pt')
 
 	def LoadModel(self,model_number):
-
 		self.model.load('../nn/'+str(model_number)+'.pt')
 		self.muscle_model.load('../nn_muscle/'+str(model_number)+'.pt')
 		self.num_evaluation = int(model_number)
@@ -136,6 +129,8 @@ class PPO(object):
 		for epi in self.total_episodes:
 			data = epi.GetData()
 			size = len(data)
+			if size == 0:
+				continue
 			states, actions, rewards, values, logprobs = zip(*data)
 
 			values = np.concatenate((values, np.zeros(1)), axis=0)
@@ -161,7 +156,8 @@ class PPO(object):
 		# self.muscle_buffer.Clear()
 		tuples = self.env.GetTuples()
 		for i in range(len(tuples)):
-			self.muscle_buffer.Push(tuples[i][0],tuples[i][1],tuples[i][2],tuples[i][3])
+			if np.max(np.abs(tuples[i][1]))<500.0 and np.max(np.abs(tuples[i][3]))<100.0:
+				self.muscle_buffer.Push(tuples[i][0],tuples[i][1],tuples[i][2],tuples[i][3])
 		
 	def GenerateTransitions(self):
 		self.total_episodes = []
@@ -210,6 +206,7 @@ class PPO(object):
 				# if episode is terminated
 				if terminated_state or (nan_occur is True):
 					# push episodes
+					# print('push {}'.format(len(episodes[j].data)))
 					self.total_episodes.append(episodes[j])
 
 					# if data limit is exceeded, stop simulations
@@ -230,7 +227,6 @@ class PPO(object):
 		print('')
 	def OptimizeSimulationNN(self):
 		all_transitions = np.array(self.replay_buffer.buffer)
-
 		for j in range(self.num_epochs):
 			np.random.shuffle(all_transitions)
 			for i in range(len(all_transitions)//self.batch_size):
@@ -294,10 +290,24 @@ class PPO(object):
 				activation = self.muscle_model(stack_tau,stack_tau_des)
 				tau = torch.einsum('ijk,ik->ij',(stack_A,activation)) + stack_b
 				# qdd_target = torch.einsum('ijk,ik->ij',(stack_A,stack_a)) + stack_b
-				loss = 0.001*(activation).pow(2).mean() + (((tau-stack_tau_des)/10.0).pow(2)).mean()
-				# loss = ((activation-stack_a).pow(2)).mean()
+				# abnormal_mask = ByteTensor(tuple(map(lambda s: s.max() > 500.0,tau)))
+				# abnormal_mask2 = ByteTensor(tuple(map(lambda s: s.max() > 500.0,stack_tau_des)))
+				# activation[abnormal_mask] = 0.0
+				# tau[abnormal_mask] = 0.0
+				# stack_tau_des[abnormal_mask] = 0.0
 
-				self.loss_muscle = loss.cpu().detach().numpy().tolist()
+				# activation[abnormal_mask2] = 0.0
+				# tau[abnormal_mask2] = 0.0
+				# stack_tau_des[abnormal_mask2] = 0.0
+
+
+				loss = 0.01*(activation).pow(2).mean() + (((tau-stack_tau_des)/100.0).pow(2)).mean()
+
+				# loss = ((activation-stack_a).pow(2)).mean()
+				# if loss.cpu().detach().numpy().tolist()>10000.0:
+				# 	embed()
+				# 	exit()
+				
 
 				self.optimizer_muscle.zero_grad()
 				loss.backward(retain_graph=True)
@@ -307,17 +317,14 @@ class PPO(object):
 				self.optimizer_muscle.step()
 
 			print('Optimizing muscle nn : {}/{}'.format(j+1,self.num_epochs_muscle),end='\r')
-			
-			self.muscle_model.loss_container.Push(self.loss_muscle)
+			self.loss_muscle.append(loss.cpu().detach().numpy().tolist())
+			# self.muscle_model.loss_container.Push(self.loss_muscle)
 		print('')
 	def OptimizeModel(self):
 		self.ComputeTDandGAE()
-		if self.run_simulation_nn:
+		if self.num_evaluation>10:
 			self.OptimizeSimulationNN()
-		
 		self.OptimizeMuscleNN()
-		if self.run_simulation_nn is False:
-			self.OptimizeMuscleNN()
 		
 	def Train(self):
 		self.alpha = math.exp(-10.0/self.alpha_decay*self.num_evaluation)
@@ -327,41 +334,64 @@ class PPO(object):
 		self.OptimizeModel()
 
 	def Evaluate(self):
-		if (time.time() - self.tic)<60.0:
-			print('# {} (time : {:.2f}s)'.format(self.num_evaluation,(time.time() - self.tic)))
-		elif(time.time() - self.tic)<3600.0:
-			print('# {} (time : {:.2f}m)'.format(self.num_evaluation,(time.time() - self.tic)/60.0))
-		else:
-			print('# {} (time : {:.2f}h)'.format(self.num_evaluation,(time.time() - self.tic)/3600.0))
-		print('||Alpha                    : {:.3f}'.format(self.alpha))
-		print('||Noise                    : {:.3f}'.format(self.model.log_std.exp().mean()))
-		print('||Loss Actor               : {:.4f}'.format(self.loss_actor))
-		print('||Loss Critic              : {:.4f}'.format(self.loss_critic))
-		print('||Loss Muscle              : {:.4f}'.format(self.loss_muscle))
-		print('||Loss Discrim             : {:.4f}'.format(self.loss_discrim))
+		self.num_evaluation = self.num_evaluation + 1
+		h = int((time.time() - self.tic)//3600.0)
+		m = int((time.time() - self.tic)//60.0)
+		s = int((time.time() - self.tic))
+		m = m - h*60
+		s = int((time.time() - self.tic))
+		s = s - h*3600 - m*60
+
+		print('# {} === {}h:{}m:{}s ==='.format(self.num_evaluation,h,m,s))
+		print('||Loss Muscle              : {:.4f}'.format(self.loss_muscle[-1]))
+		if i>10:
+			print('||Loss Actor               : {:.4f}'.format(self.loss_actor))
+			print('||Loss Critic              : {:.4f}'.format(self.loss_critic))
+			print('||Noise                    : {:.3f}'.format(self.model.log_std.exp().mean()))		
 		print('||Num Transition So far    : {}'.format(self.num_tuple_so_far))
 		print('||Num Transition           : {}'.format(self.num_tuple))
 		print('||Num Episode              : {}'.format(self.num_episode))
 		print('||Avg Return per episode   : {:.3f}'.format(self.sum_return/self.num_episode))
 		print('||Avg Reward per transition: {:.3f}'.format(self.sum_return/self.num_tuple))
-		self.model.reward_container.Push(self.sum_return/self.num_episode)
-		if self.threshold<self.sum_return/self.num_episode:
-			self.run_simulation_nn = True
-		self.num_evaluation = self.num_evaluation + 1
+		self.rewards.append(self.sum_return/self.num_episode)
+		
 		self.SaveModel()
 		
 		print('=============================================')
+		return np.array(self.rewards),np.array(self.loss_muscle)
 
-		return self.model.reward_container.Get(),self.muscle_model.loss_container.Get(),self.discriminator_model.loss_container.Get()
-		
+import matplotlib
+import matplotlib.pyplot as plt
 
+plt.ion()
 
+def Plot(y,title,num_fig=1,ylim=True):
+	temp_y = np.zeros(y.shape)
+	if y.shape[0]>5:
+		temp_y[0] = y[0]
+		temp_y[1] = 0.5*(y[0] + y[1])
+		temp_y[2] = 0.3333*(y[0] + y[1] + y[2])
+		temp_y[3] = 0.25*(y[0] + y[1] + y[2] + y[3])
+		for i in range(4,y.shape[0]):
+			temp_y[i] = np.sum(y[i-4:i+1])*0.2
+
+	plt.figure(num_fig)
+	plt.clf()
+	plt.hold(True)
+	plt.title(title)
+	plt.plot(y,'b')
+	
+	plt.plot(temp_y,'r')
+
+	plt.show()
+	if ylim:
+		plt.ylim([0,1])
+	plt.pause(0.001)
 
 import argparse
 
 if __name__=="__main__":
 	ppo = PPO(4)
-
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m','--model',help='actor model number')
 
@@ -370,10 +400,12 @@ if __name__=="__main__":
 	
 	if args.model is not None:
 		ppo.LoadModel(args.model)
+	else:
+		ppo.SaveModel()
 	print('num states: {}, num actions: {}'.format(ppo.env.GetNumState(),ppo.env.GetNumAction()))
 	for i in range(50000):
 		ppo.Train()
-		rewards,losses,discrim_losses = ppo.Evaluate()
+		rewards,losses = ppo.Evaluate()
 		Plot(rewards,'reward',0,False)
 		if len(losses)>100:
 			Plot(losses[-100:],'muscle Loss',1,False)

@@ -7,7 +7,7 @@ namespace MSS
 
 Environment::
 Environment(int control_Hz,int simulation_Hz)
-	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1),mAlpha(1.0),mRandomSampleIndex(-1),mSimCount(-1)
+	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<dart::simulation::World>()),w_p(0.65),w_v(0.1),w_ee(0.15),w_com(0.1),mAlpha(1.0),mRandomSampleIndex(-1),mSimCount(-1),mIsFirstAction(true)
 {
 	mWorld->setGravity(Eigen::Vector3d(0,-9.81,0));
 	mWorld->setTimeStep(1.0/(double)mSimulationHz);
@@ -20,9 +20,11 @@ Environment(int control_Hz,int simulation_Hz)
 	mWorld->addSkeleton(mCharacter->GetSkeleton());
 
 	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/character/muscle.xml"));
-	mNumTotalRelatedDofs =0;
-	for(auto m : mCharacter->GetMuscles())
+	mNumTotalRelatedDofs = 0;
+	for(auto m : mCharacter->GetMuscles()){
+		m->Update(0.01);
 		mNumTotalRelatedDofs += m->GetNumRelatedDofs();
+	}
 
 	std::cout<<"# muscles : "<<mCharacter->GetMuscles().size()<<std::endl;
 	std::cout<<"# muscles dofs : "<<mNumTotalRelatedDofs<<std::endl;
@@ -531,7 +533,7 @@ Environment(int control_Hz,int simulation_Hz)
 	}
 
 	// mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size()+mCharacter->GetIKAction()->GetDof()+mCharacter->GetKpActions().size());
-	mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size()+mCharacter->GetIKAction()->GetDof());
+	mAction = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size());
 
 	// mAction = Eigen::VectorXd::Zero(mCharacter->GetMuscles().size());
 	auto kpkv = mCharacter->GetKpKv(300.0);
@@ -539,35 +541,25 @@ Environment(int control_Hz,int simulation_Hz)
 	mQP = new QP(mCharacter);
 	mMeasurePose = mCharacter->GetSkeleton()->getPositions();
 	mMeasurePose.setZero();
-	mMeasurePose[0] = -1.57;
-	mMeasurePose[4] = -0.85;
-	mMeasurePose[mCharacter->GetSkeleton()->getJoint("FemurL")->getDof(0)->getIndexInSkeleton()] = -1.57;
-	mMeasurePose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 1.57;
+	// mMeasurePose[0] = -1.57;
+	// mMeasurePose[4] = -0.85;
+	// mMeasurePose[mCharacter->GetSkeleton()->getJoint("FemurL")->getDof(0)->getIndexInSkeleton()] = -1.57;
+	// mMeasurePose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 1.57;
+	// mMeasurePose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 0.5;
 	Reset(false);
-	mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("Pelvis")));
-	mWeldConstraint = std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("FemurL"));
-	mWorld->getConstraintSolver()->addConstraint(mWeldConstraint);
-	mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("HandR")));
-	mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("HandL")));
-	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("TalusR")));
-	mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("Head")));
-	Eigen::Isometry3d T_weld = mWeldConstraint->getRelativeTransform();
+	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("Pelvis")));
+	// mWeldConstraint = std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("TalusL"));
+	// mWorld->getConstraintSolver()->addConstraint(mWeldConstraint);
+	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("HandR")));
+	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("HandL")));
+	// // mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("TalusR")));
+	// mWorld->getConstraintSolver()->addConstraint(std::make_shared<dart::constraint::WeldJointConstraint>(mCharacter->GetSkeleton()->getBodyNode("Head")));
+	// Eigen::Isometry3d T_weld = mWeldConstraint->getRelativeTransform();
 	// T_weld.translation()[0] += 0.1;
 	// T_weld.translation()[2] += -0.05;
-	mWeldConstraint->setRelativeTransform(T_weld);
-	
-
-	// mWeldConstraint->setErrorAllowance(0.1);
-	mWeldConstraint->setErrorReductionParameter(0.002);
-	// mWeldConstraint->setMaxErrorReductionVelocity(1E-1);
-	mWeldConstraint->setConstraintForceMixing(1E-2);
-	// std::cout<<mWeldConstraint->getErrorAllowance()<<std::endl;
-	// std::cout<<mWeldConstraint->getErrorReductionParameter()<<std::endl;
-	// std::cout<<mWeldConstraint->getMaxErrorReductionVelocity()<<std::endl;
-	// std::cout<<mWeldConstraint->getConstraintForceMixing()<<std::endl;
-
-	// std::cout<<.linear()<<std::endl;
-	// std::cout<<mWeldConstraint->getRelativeTransform().translation().transpose()<<std::endl;
+	// mWeldConstraint->setRelativeTransform(T_weld);
+	// mWeldConstraint->setErrorReductionParameter(0.002);
+	// mWeldConstraint->setConstraintForceMixing(1E-2);
 	
 }
 void
@@ -575,31 +567,41 @@ Environment::
 Step(const Eigen::VectorXd& activation)
 {
 	// For Kinematic Moves
-	int count = 0;
-	for(auto muscle : mCharacter->GetMuscles())
-	{
-		muscle->activation = activation[count++];
-		muscle->Update(mWorld->getTimeStep());
-	}
-	mCharacter->GetSkeleton()->setPositions(mTarget.first);
-	mCharacter->GetSkeleton()->setVelocities(mTarget.second);
-	mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
-	return;
-
-	
-	//For Muscle Actuator
 	// int count = 0;
-
 	// for(auto muscle : mCharacter->GetMuscles())
 	// {
 	// 	muscle->activation = activation[count++];
 	// 	muscle->Update(mWorld->getTimeStep());
-	// 	muscle->ApplyForceToBody();
 	// }
+	// mCharacter->GetSkeleton()->setPositions(mTarget.first);
+	// mCharacter->GetSkeleton()->setVelocities(mTarget.second);
+	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+	// return;
+	
+	//For Muscle Actuator
+	int count = 0;
+	for(auto muscle : mCharacter->GetMuscles())
+	{
+		muscle->activation = activation[count++];
+		if(mSimCount%4==0)
+			muscle->Update(mWorld->getTimeStep());
+		muscle->ApplyForceToBody();
+	}
+
+	// Eigen::Isometry3d T_weld = mWeldConstraint->getBodyNode1()->getTransform();
+	// Eigen::Isometry3d T_target = mWeldConstraint->getRelativeTransform();
+	// Eigen::Vector3d p = (T_target.translation()-T_weld.translation());
+	// Eigen::Vector3d v = mWeldConstraint->getBodyNode1()->getCOMLinearVelocity();
+	// double kp,kv;
+	// kp = 5000.0;
+	// kv = 2*sqrt(kp);
+	// Eigen::Vector3d weld_force = kp*p - kv*v;
+	// mWeldConstraint->getBodyNode1()->addExtForce(weld_force);
 
 	// Eigen::VectorXd muscle_force = mCharacter->GetSkeleton()->getExternalForces();
 	// mCharacter->GetSkeleton()->clearExternalForces();
 	// mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
+	// mCharacter->GetSkeleton()->setForces(mTorqueDesired);	
 	// Eigen::VectorXd error = mTorqueDesired - muscle_force;
 
 	if(mRandomSampleIndex==mSimCount)
@@ -609,11 +611,12 @@ Step(const Eigen::VectorXd& activation)
 		tp.tau_des = mTorqueDesired.tail(mTorqueDesired.rows()-6);
 		tp.A = mTempTuple.A;
 		tp.b = mTempTuple.b;
-		mTuples.push_back(tp);	
+
+		mTuples.push_back(tp);
 	}
 	
 	//For Joint Torque
-	// mCharacter->GetSkeleton()->setForces(muscle_force+mAlpha*error);
+	
 
 	mWorld->step();
 	mSimCount++;
@@ -658,16 +661,15 @@ Reset(bool random)
 		mTimeElapsed = 0.0;
 	mCharacter->GetMotionGraph()->Reset(mTimeElapsed);
 	mAction.setZero();
-	mTarget = mCharacter->GetTargetPositionsAndVelocitiesFromBVH();
-	Eigen::VectorXd sin_pose = mMeasurePose;
-	sin_pose.setZero();
-	sin_pose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 0.8*sin(mTimeElapsed*3.0)-0.5;
-	mTarget.first = mMeasurePose + sin_pose;
+	mIsFirstAction = true;
+	
+	// Eigen::VectorXd sin_pose = mMeasurePose;
+	// sin_pose.setZero();
+	// sin_pose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 0.8*sin(mTimeElapsed*3.0)-0.5;
+	// mTarget.first = mMeasurePose + sin_pose;
 
-	mTarget.second.setZero();
-	mCharacter->GetSkeleton()->setPositions(mTarget.first);
-	mCharacter->GetSkeleton()->setVelocities(mTarget.second);
-	mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+	// mTarget.second.setZero();
+
 }
 bool
 Environment::
@@ -739,6 +741,7 @@ GetReward()
 {
 	auto& skel = mCharacter->GetSkeleton();
 	Eigen::VectorXd zeros = Eigen::VectorXd::Zero(mCharacter->GetMotionActions().size());
+	// auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction.tail(mCharacter->GetMotionActions().size()));
 	auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH();
 
 	Eigen::VectorXd cur_pos = skel->getPositions();
@@ -793,26 +796,38 @@ void
 Environment::
 SetAction(const Eigen::VectorXd& a)
 {
-	mAction = 0.1*a;
+	mAction.head(mCharacter->GetMotionActions().size()) = 0.1*a.head(mCharacter->GetMotionActions().size());
+	// mAction.tail(mCharacter->GetMotionActions().size()) = 0.01*a.tail(mCharacter->GetMotionActions().size());
+	if(mIsFirstAction)
+	{
+		// auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction.tail(mCharacter->GetMotionActions().size()));
+		auto target = mCharacter->GetTargetPositionsAndVelocitiesFromBVH();
+		mCharacter->GetSkeleton()->setPositions(target.first);
+		mCharacter->GetSkeleton()->setVelocities(target.second);
+		mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+		mIsFirstAction = false;
+	}
+
+
 	mTimeElapsed += 1.0 / (double)mControlHz;
 	mCharacter->GetMotionGraph()->Step();
 	
 	mTarget = mCharacter->GetTargetPositionsAndVelocitiesFromBVH(mAction.head(mCharacter->GetMotionActions().size()));
-Eigen::VectorXd sin_pose = mMeasurePose;
-	sin_pose.setZero();
-	sin_pose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 0.8*sin(mTimeElapsed*3.0)-0.5;
-	mTarget.first = mMeasurePose + sin_pose;
-	mTarget.second.setZero();
+	
+	// Eigen::VectorXd sin_pose = mMeasurePose;
+	// sin_pose.setZero();
+	// sin_pose[mCharacter->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton()] = 0.8*sin(mTimeElapsed*3.0)-0.5;
+	// mTarget.first = mMeasurePose + sin_pose;
+	// mTarget.second.setZero();
 
-	Eigen::VectorXd IK_action = mAction.tail(mCharacter->GetIKAction()->GetDof());
-	mTarget.first = mCharacter->GetIKTargetPositions(mTarget.first,IK_action);
-	mSimCount = 0;	
+	// Eigen::VectorXd IK_action = mAction.tail(mCharacter->GetIKAction()->GetDof());
+	// mTarget.first = mCharacter->GetIKTargetPositions(mTarget.first,IK_action);
+	mSimCount = 0;
 	mRandomSampleIndex = rand()%(mSimulationHz/mControlHz);
 	mQP->Update();
 	mTempTuple.A = mQP->GetJtA().block(6,0,mCharacter->GetSkeleton()->getNumDofs()-6,mCharacter->GetMuscles().size());
 	mTempTuple.b = mQP->GetJtP().segment(6,mCharacter->GetSkeleton()->getNumDofs()-6);
 
 	mTorqueDesired = mCharacter->GetSPDForces(mTarget.first,mTarget.second);
-
 }
 }

@@ -11,13 +11,13 @@ using namespace dart::simulation;
 using namespace dart::dynamics;
 SimWindow::
 SimWindow()
-	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(38),mRandomAction(false),mAlpha(1.0),mWriteOutput(false),mFocusMuscle(0),mFootControlMode(false)
+	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0),mWriteOutput(false),mFocusMuscle(0),mFootControlMode(false)
 {
 	mWorld = new MSS::Environment(30,900);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
-	Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
-	anchored_pos = T_weld.translation();
+	// Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
+	// anchored_pos = T_weld.translation();
 
 	mm = p::import("__main__");
 	mns = mm.attr("__dict__");
@@ -182,7 +182,7 @@ Display()
 	// }
 	// {
 	// 	Eigen::VectorXd p_save = character->GetSkeleton()->getPositions();
-	// 	Eigen::VectorXd p = character->GetTargetPositions();
+	// 	Eigen::VectorXd p = character->GetTargetPositions(mWorld->GetAction().tail(character->GetMotionActions().size()));
 	// 	p[3] +=1.5;
 	// 	character->GetSkeleton()->setPositions(p);
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
@@ -207,11 +207,13 @@ Display()
 	// 	character->GetSkeleton()->setPositions(p_save);
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// }
-	DrawMuscleLength(mWorld->GetCharacter()->GetMuscles(),mFocusMuscle);
+	// DrawMuscleLength(mWorld->GetCharacter()->GetMuscles(),mFocusMuscle);
 	glutSwapBuffers();
 	if(mIsCapture)
 		Screenshot();
 	glutPostRedisplay();
+	// GetActionFromNN();
+	// mWorld->SetAction(mAction);
 }
 
 void
@@ -227,8 +229,6 @@ Keyboard(unsigned char key,int x,int y)
 	// double radius = (talus_com-pivot).norm();
 	// Eigen::Vector3d pivot_axis = (talus_com-pivot).normalized();
 	// Eigen::Vector3d dp_dir = -(pivot_axis.cross(axis)).normalized();
-	Eigen::VectorXd xy(10);
-	xy.setZero();
 	switch(key)
 	{
 		case '`': mIsRotate= !mIsRotate;break;
@@ -245,8 +245,8 @@ Keyboard(unsigned char key,int x,int y)
 		case 'q': std::cout<<mWorld->GetState().transpose()<<std::endl;break;
 		case ' ': mIsAuto = !mIsAuto;break;
 		case 'b': mActionNum++;mActionNum %= mAction.size();break;
-		case '+': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i =0;i<plot_value.size();i++)plot_value[i].clear();break;
-		case '-': mFocusMuscle--;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i =0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case '+': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case '-': mFocusMuscle--;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
 		case 27 : exit(0);break;
 		default : break;
 	}
@@ -376,16 +376,35 @@ Step()
 	int idx = mWorld->GetCharacter()->GetSkeleton()->getJoint("TibiaL")->getDof(0)->getIndexInSkeleton();
 	std::vector<Eigen::VectorXd> eigen_value;
 	eigen_value.resize(plot_value.size());
-	for(int j =mFocusMuscle;j<mFocusMuscle+1;j++)//mWorld->GetCharacter()->GetMuscles().size();j++)
+	double tau_sum =0.0;
+	double tau_sum_passive =0.0;
+	for(int j =0;j<mWorld->GetCharacter()->GetMuscles().size();j++)
+	// for(int j =mFocusMuscle;j<mFocusMuscle+1;j++)
 	{
 		auto muscle = mWorld->GetCharacter()->GetMuscles()[j];
-		double tau = (muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().second)[idx];
-		plot_value[j].push_back(muscle->l_mt);
+		// if((muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().first)[idx]>0.0)
+		// 	std::cout<<"Flexor : "<<muscle->name<<std::endl;
+		// else
+		// 	std::cout<<"Extensor : "<<muscle->name<<std::endl;
+
+		double tau = (muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().first)[idx];
+		double tau_passive = (muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().second)[idx];
+		tau_sum += tau;
+		tau_sum_passive += tau_passive;
+		// plot_value[j].push_back(muscle->l_mt);
 		// plot_value[j].push_back(tau);
-		eigen_value[j].resize(plot_value[j].size());
-		for(int i =0;i<plot_value[j].size();i++)
-			eigen_value[j][i] = plot_value[j][i];	
+		// eigen_value[j].resize(plot_value[j].size());
+		// for(int i =0;i<plot_value[j].size();i++)
+		// 	eigen_value[j][i] = plot_value[j][i];	
 	}
+	plot_value[0].push_back(tau_sum);
+	eigen_value[0].resize(plot_value[0].size());
+	for(int i =0;i<plot_value[0].size();i++)
+		eigen_value[0][i] = plot_value[0][i];
+	plot_value[1].push_back(tau_sum_passive);
+	eigen_value[1].resize(plot_value[1].size());
+	for(int i =0;i<plot_value[1].size();i++)
+		eigen_value[1][i] = plot_value[1][i];
 	
 	Plot(eigen_value);
 	// std::cout<<" takes "<<elapsed_seconds.count()<<std::endl;
@@ -552,12 +571,17 @@ Plot(const std::vector<Eigen::VectorXd>& y)
 	p::object show = plt_module.attr("show");
 	p::object pause = plt_module.attr("pause");
 	p::object hold = plt_module.attr("hold");
+	p::object title = plt_module.attr("title");
 
 	ion();
 	clf();
+	title(mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->name);
 	for(int i =0;i<y.size();i++)
 	{
-		plot(toNumPyArray(y[i]));
+		if(i==mFocusMuscle)
+			plot(toNumPyArray(y[i]),'r');
+		else
+			plot(toNumPyArray(y[i]),'k');
 		hold(true);
 	}
 	show();

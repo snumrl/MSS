@@ -100,8 +100,36 @@ int main(int argc,char** argv)
 	std::vector<MayaConstant> mcs;
 	ReadMayaConstant(mcs,argv[1]);
 	// exit(0);
-	for(int i =0;i<mcs.size();i++)
+	std::vector<std::string> knee_flexor;
+	knee_flexor.push_back("L_Bicep_Femoris_Short");
+	knee_flexor.push_back("L_Gastrocnemius_Lateral_Head");
+	knee_flexor.push_back("L_Gastrocnemius_Medial_Head");
+	knee_flexor.push_back("L_Gracilis");
+	knee_flexor.push_back("L_Popliteus");
+	knee_flexor.push_back("L_Sartorius");
+	std::vector<std::string> knee_extensor;
+	knee_extensor.push_back("L_Bicep_Femoris_Longus");
+	knee_extensor.push_back("L_Rectus_Femoris");
+	knee_extensor.push_back("L_Semimembranosus1");
+	knee_extensor.push_back("L_Semitendinosus");
+	knee_extensor.push_back("L_Tensor_Fascia_Lata2");
+	knee_extensor.push_back("L_Vastus_Intermedius1");
+	knee_extensor.push_back("L_Vastus_Lateralis1");
+	knee_extensor.push_back("L_Vastus_Medialis2");
+	for(int i =0;i<mcs.size();i++){
 		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(2000.0,1.0,0.2,0.0)));
+	}
+	// for(int i=0;i<knee_flexor.size();i++)
+	// {
+	// 	ucs.at(knee_flexor[i]).lm = 0.4;
+	// 	ucs.at(knee_flexor[i]).lt = 0.4;
+	// }
+	// for(int i=0;i<knee_extensor.size();i++)
+	// {
+	// 	ucs.at(knee_extensor[i]).lm = 0.7;
+	// 	ucs.at(knee_extensor[i]).lt = 0.2;
+	// }
+
 	// ucs.insert(std::make_pair("L_Adductor_Longus1",UserConstant(300.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Bicep_Femoris_Longus",UserConstant(500.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Bicep_Femoris_Short",UserConstant(500.0,1.0,0.2,0.0)));
@@ -144,8 +172,8 @@ int main(int argc,char** argv)
 	upper_body.push_back("ArmR");
 	upper_body.push_back("ForeArmR");
 	upper_body.push_back("HandR");
-	upper_body.push_back("FemurR");
-	upper_body.push_back("TibiaR");
+	// upper_body.push_back("FemurR");
+	// upper_body.push_back("TibiaR");
 	upper_body.push_back("TalusR");
 	upper_body.push_back("TalusL");
 	upper_body.push_back("Pevlis");
@@ -169,13 +197,13 @@ int main(int argc,char** argv)
 		for(int j =0;j<mcs[i].mAnchors.size();j++)
 		{
 			TiXmlElement* waypoint_elem = new TiXmlElement("Waypoint");
-			for(int k =0;k<upper_body.size();k++)
-				if(mcs[i].mAnchors[j].first == upper_body[k])
-					is_lower_body = false;
-			if(mcs[i].mAnchors[j].first == "TibiaL")
-				is_lower_body = true;
-			else
-				is_lower_body = false;
+			// for(int k =0;k<upper_body.size();k++)
+			// 	if(mcs[i].mAnchors[j].first == upper_body[k])
+			// 		is_lower_body = false;
+			// if(mcs[i].mAnchors[j].first == "TibiaR")
+			// 	is_lower_body = true;
+			// else
+			// 	is_lower_body = false;
 				
 			waypoint_elem->SetAttribute("body",mcs[i].mAnchors[j].first);
 			waypoint_elem->SetAttribute("p",toString(mcs[i].mAnchors[j].second));

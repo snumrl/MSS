@@ -55,12 +55,27 @@ LoadMuscles(const std::string& path)
 		double lm = std::stod(unit->Attribute("lm"));
 		double lt = std::stod(unit->Attribute("lt"));
 		double pa = std::stod(unit->Attribute("pen_angle"));
-		mMuscles.push_back(new Muscle(name,f0,lm,lt,pa));
+		mMuscles.push_back(new MuscleLBS(name,f0,lm,lt,pa));
+		int num_waypoints = 0;
+		for(TiXmlElement* waypoint = unit->FirstChildElement("Waypoint");waypoint!=nullptr;waypoint = waypoint->NextSiblingElement("Waypoint"))	
+			num_waypoints++;
+		int i = 0;
 		for(TiXmlElement* waypoint = unit->FirstChildElement("Waypoint");waypoint!=nullptr;waypoint = waypoint->NextSiblingElement("Waypoint"))	
 		{
 			std::string body = waypoint->Attribute("body");
 			Eigen::Vector3d glob_pos = string_to_vector3d(waypoint->Attribute("p"));
-			mMuscles.back()->AddAnchor(mSkeleton->getBodyNode(body),glob_pos);
+			if(i==0||i==num_waypoints-1)
+			// if(true)
+			{
+				
+				mMuscles.back()->AddAnchor(mSkeleton->getBodyNode(body),glob_pos);
+			}
+			else
+			{
+				mMuscles.back()->AddAnchor(mSkeleton,mSkeleton->getBodyNode(body),glob_pos,2);
+			}
+
+			i++;			
 		}
 	}
 	

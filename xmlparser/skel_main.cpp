@@ -125,20 +125,20 @@ int main(int argc,char** argv)
 	std::map<std::string,UserConstant> ucs;
 	std::vector<MayaConstant> mcs;
 	ReadMayaConstant(mcs,argv[1]);
-	ucs.insert(std::make_pair("Pelvis",UserConstant("None","FreeJoint",20.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Hips","Pelvis_mesh.obj",true)));
+	ucs.insert(std::make_pair("Pelvis",UserConstant("None","FreeJoint",15.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Hips","Pelvis_mesh.obj",true)));
 	//Upper body
-	ucs.insert(std::make_pair("Spine",UserConstant("Pelvis","RevoluteJoint",15.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(0,1,0),"Character1_Spine","Spine_mesh.obj")));
-	ucs.insert(std::make_pair("Torso",UserConstant("Spine","BallJoint",15.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Spine1","Torso_mesh.obj")));
-	ucs.insert(std::make_pair("Neck",UserConstant("Torso","RevoluteJoint",3.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(1,0,0),"Character1_Neck","Neck_mesh.obj")));
-	ucs.insert(std::make_pair("Head",UserConstant("Neck","BallJoint",5.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_Head","Skull_mesh.obj")));
+	ucs.insert(std::make_pair("Spine",UserConstant("Pelvis","RevoluteJoint",5.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(0,1,0),"Character1_Spine","Spine_mesh.obj")));
+	ucs.insert(std::make_pair("Torso",UserConstant("Spine","BallJoint",10.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Spine1","Torso_mesh.obj")));
+	ucs.insert(std::make_pair("Neck",UserConstant("Torso","RevoluteJoint",2.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(1,0,0),"Character1_Neck","Neck_mesh.obj")));
+	ucs.insert(std::make_pair("Head",UserConstant("Neck","BallJoint",4.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_Head","Skull_mesh.obj")));
 	ucs.insert(std::make_pair("ShoulderL",UserConstant("Torso","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_LeftShoulder","L_Shoulder_mesh.obj")));
-	ucs.insert(std::make_pair("ArmL",UserConstant("ShoulderL","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftArm","L_Humerus_mesh.obj")));
-	ucs.insert(std::make_pair("ForeArmL",UserConstant("ArmL","RevoluteJoint",5.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_LeftForeArm","L_Radius_mesh.obj")));
-	ucs.insert(std::make_pair("HandL",UserConstant("ForeArmL","BallJoint",3.0,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_LeftHand","L_Hand_mesh.obj")));
+	ucs.insert(std::make_pair("ArmL",UserConstant("ShoulderL","BallJoint",2.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftArm","L_Humerus_mesh.obj")));
+	ucs.insert(std::make_pair("ForeArmL",UserConstant("ArmL","RevoluteJoint",1.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_LeftForeArm","L_Radius_mesh.obj")));
+	ucs.insert(std::make_pair("HandL",UserConstant("ForeArmL","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_LeftHand","HandL_racket_mesh.obj")));
 	ucs.insert(std::make_pair("ShoulderR",UserConstant("Torso","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_RightShoulder","R_Shoulder_mesh.obj")));
-	ucs.insert(std::make_pair("ArmR",UserConstant("ShoulderR","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightArm","R_Humerus_mesh.obj")));
-	ucs.insert(std::make_pair("ForeArmR",UserConstant("ArmR","RevoluteJoint",5.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_RightForeArm","R_Radius_mesh.obj")));
-	ucs.insert(std::make_pair("HandR",UserConstant("ForeArmR","BallJoint",3.0,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_RightHand","R_Hand_mesh.obj")));
+	ucs.insert(std::make_pair("ArmR",UserConstant("ShoulderR","BallJoint",2.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightArm","R_Humerus_mesh.obj")));
+	ucs.insert(std::make_pair("ForeArmR",UserConstant("ArmR","RevoluteJoint",1.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_RightForeArm","R_Radius_mesh.obj")));
+	ucs.insert(std::make_pair("HandR",UserConstant("ForeArmR","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_RightHand","R_Hand_mesh.obj")));
 	//Lower body
 	ucs.insert(std::make_pair("FemurL",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftUpLeg","L_Femur_mesh.obj",true)));
 	ucs.insert(std::make_pair("TibiaL",UserConstant("FemurL","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_LeftLeg","L_Tibia_mesh.obj",true)));
@@ -146,8 +146,8 @@ int main(int argc,char** argv)
 	ucs.insert(std::make_pair("TibiaR",UserConstant("FemurR","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_RightLeg","R_Tibia_mesh.obj",true)));
 
 #ifndef DETAIL
-	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",2.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_merge_mesh.obj",true)));
-	ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",2.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_merge_mesh.obj",true)));
+	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",1.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_merge_mesh.obj",true)));
+	ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",1.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_merge_mesh.obj",true)));
 #else
 	//Left
 	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_mesh.obj")));

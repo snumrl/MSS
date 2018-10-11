@@ -59,6 +59,7 @@ public:
 	int mSimCount;
 	int mRandomSampleIndex;
 	double mAlpha;
+	bool mIsFirstAction;
 
 	dart::dynamics::SkeletonPtr mGround;
 	Character* mCharacter;

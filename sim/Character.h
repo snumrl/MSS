@@ -4,6 +4,7 @@
 #include "MotionGraph.h"
 #include "Action.h"
 #include "Muscle.h"
+#include "MuscleLBS.h"
 #include "Functions.h"
 #include "dart/dart.hpp"
 
@@ -41,7 +42,7 @@ public:
 	Eigen::VectorXd GetSPDAccelerations(const Eigen::VectorXd& p_desired, const Eigen::VectorXd& v_desired);
 	
 	const dart::dynamics::SkeletonPtr& GetSkeleton() {return mSkeleton;};
-	const std::vector<Muscle*>& GetMuscles() {return mMuscles;};
+	const std::vector<MuscleLBS*>& GetMuscles() {return mMuscles;};
 	const std::vector<ContactPoint*>& GetContactPoints() {return mContactPoints;};
 	MotionGraph* GetMotionGraph(){return mMotionGraph;};
 	const std::vector<dart::dynamics::BodyNode*>& GetInterestBodies() {return mInterestBodies;};
@@ -54,7 +55,7 @@ public:
 public:
 	dart::simulation::WorldPtr mWorld;
 	dart::dynamics::SkeletonPtr mSkeleton;
-	std::vector<Muscle*> mMuscles;
+	std::vector<MuscleLBS*> mMuscles;
 	std::map<std::string,std::string> mBVHMap;
 	MotionGraph* mMotionGraph;
 	Eigen::VectorXd mKp, mKv;

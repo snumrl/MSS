@@ -42,44 +42,44 @@ DrawSkeleton(
 		glMultMatrixd(T.data());
 		
 		GUI::DrawSphere(0.004);
+		// GUI::DrawSphere(0.08);
 		glPopMatrix();
     	
 	}
 }
 void
 GUI::
-DrawMuscles(const std::vector<Muscle*>& muscles,int focus)
+DrawMuscles(const std::vector<MuscleLBS*>& muscles,int focus)
 {
+
 	glDisable(GL_LIGHTING);
 	int count =0;
 	for(auto muscle : muscles)
 	{
-		if(count==focus)
-		{
+		// if(count==focus)
+		// {
 
 
 		auto aps = muscle->GetAnchors();
 		double a = muscle->activation;
-		// std::cout<<a<<std::endl;
-
-		Eigen::Vector3d color(a,0.0,1.0-a);
+		Eigen::Vector3d color(10.0*a,0.0,1.0-10.0*a);
 		glColor3f(1.0,0.0,0.362);
 		for(int i=0;i<aps.size();i++)
 		{
-			Eigen::Vector3d p = GetPoint(aps[i]);
+			Eigen::Vector3d p = aps[i]->GetPoint();
 			GUI::DrawSphere(p,0.006);
 		}
-		if(count==focus)
+		// if(count==focus)
 			glColor3f(color[0],color[1],color[2]);
-		else
-			glColor3f(0.0,0.0,0.0);
+		// else
+			// glColor3f(0.0,0.0,0.0);
 		for(int i=0;i<aps.size()-1;i++)
 		{
-			Eigen::Vector3d p = GetPoint(aps[i]);
-			Eigen::Vector3d p1 = GetPoint(aps[i+1]);
+			Eigen::Vector3d p = aps[i]->GetPoint();
+			Eigen::Vector3d p1 = aps[i+1]->GetPoint();
 			GUI::drawCylinder(0.003,p,p1);
 		}
-		}
+		// }
 		count++;
 	}
 	glEnable(GL_LIGHTING);
@@ -87,7 +87,7 @@ DrawMuscles(const std::vector<Muscle*>& muscles,int focus)
 
 void
 GUI::
-DrawMuscleLength(const std::vector<MSS::Muscle*> muscles,int focus)
+DrawMuscleLength(const std::vector<MSS::MuscleLBS*> muscles,int focus)
 {
 	glDisable(GL_LIGHTING);
 	int w =glutGet(GLUT_WINDOW_WIDTH);
@@ -165,6 +165,7 @@ void
 GUI::
 DrawActivation(const Eigen::MatrixXd& activation)
 {
+
 	// Eigen::MatrixXi temp(activation.rows(),activation.cols());
 	// for(int i =0;i<activation.rows();i++)
 	// {

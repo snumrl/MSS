@@ -12,8 +12,8 @@ void DrawSkeleton(
 	const dart::dynamics::SkeletonPtr& skel,
 	const Eigen::Vector3d& color=Eigen::Vector3d(0.8,0.8,0.8));
 
-void DrawMuscles(const std::vector<MSS::Muscle*>& muscles,int focus);
-void DrawMuscleLength(const std::vector<MSS::Muscle*> muscles,int focus);
+void DrawMuscles(const std::vector<MSS::MuscleLBS*>& muscles,int focus);
+void DrawMuscleLength(const std::vector<MSS::MuscleLBS*> muscles,int focus);
 void DrawActivation(const Eigen::MatrixXd& activation);
 void DrawShape(const Eigen::Isometry3d& T,
 	const dart::dynamics::Shape* shape,

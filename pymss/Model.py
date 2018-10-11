@@ -29,20 +29,20 @@ def weights_init(m):
 		torch.nn.init.xavier_uniform_(m.weight)
 		m.bias.data.zero_()
 		
-class Container(nn.Module):
-	def __init__(self,num):
-		super(Container,self).__init__()
-		self.num = num
-		self.container = nn.Parameter(torch.zeros(self.num),requires_grad=False)
-		self.counter = nn.Parameter(torch.zeros(1),requires_grad=False)
+# class Container(nn.Module):
+# 	def __init__(self,num):
+# 		super(Container,self).__init__()
+# 		self.num = num
+# 		self.container = nn.Parameter(torch.zeros(self.num),requires_grad=False)
+# 		self.counter = nn.Parameter(torch.zeros(1),requires_grad=False)
 
-	def Push(self,val):
-		self.container[int(self.counter.cpu().data[0].numpy().tolist())] = val
-		self.counter += 1
+# 	def Push(self,val):
+# 		self.container[int(self.counter.cpu().data[0].numpy().tolist())] = val
+# 		self.counter += 1
 
-	def Get(self):
-		vec = self.container.cpu().detach().numpy()
-		return vec[0:int(self.counter.cpu().data[0].numpy().tolist())]
+# 	def Get(self):
+# 		vec = self.container.cpu().detach().numpy()
+# 		return vec[0:int(self.counter.cpu().data[0].numpy().tolist())]
 
 class MuscleNN(nn.Module):
 	def __init__(self,num_total_muscle_related_dofs,num_dofs,num_muscles):
@@ -68,7 +68,7 @@ class MuscleNN(nn.Module):
 			nn.Tanh(),
 			nn.ReLU()		
 		)
-		self.loss_container = Container(50000)
+		# self.loss_container = Container(50000)
 
 		self.std_tau = torch.zeros(self.num_dofs)
 		self.std_muscle_tau = torch.zeros(self.num_total_muscle_related_dofs)
@@ -116,7 +116,7 @@ class SimulationNN(nn.Module):
 		self.v_fc2 = nn.Linear(num_h1,num_h2)
 		self.v_fc3 = nn.Linear(num_h2,1)
 
-		self.reward_container = Container(10000)
+		# self.reward_container = Container(10000)
 
 		torch.nn.init.xavier_uniform_(self.p_fc1.weight)
 		torch.nn.init.xavier_uniform_(self.p_fc2.weight)
