@@ -133,11 +133,12 @@ int main(int argc,char** argv)
 	ucs.insert(std::make_pair("Head",UserConstant("Neck","BallJoint",4.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_Head","Skull_mesh.obj")));
 	ucs.insert(std::make_pair("ShoulderL",UserConstant("Torso","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_LeftShoulder","L_Shoulder_mesh.obj")));
 	ucs.insert(std::make_pair("ArmL",UserConstant("ShoulderL","BallJoint",2.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftArm","L_Humerus_mesh.obj")));
-	ucs.insert(std::make_pair("ForeArmL",UserConstant("ArmL","RevoluteJoint",1.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_LeftForeArm","L_Radius_mesh.obj")));
-	ucs.insert(std::make_pair("HandL",UserConstant("ForeArmL","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_LeftHand","HandL_racket_mesh.obj")));
+	ucs.insert(std::make_pair("ForeArmL",UserConstant("ArmL","RevoluteJoint",1.0,Eigen::Vector1d(-3.0),Eigen::Vector1d(-0.0),Eigen::Vector3d(0,1,0),"Character1_LeftForeArm","L_Radius_mesh.obj")));
+	// ucs.insert(std::make_pair("HandL",UserConstant("ForeArmL","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_LeftHand","HandL_racket_mesh.obj")));
+	ucs.insert(std::make_pair("HandL",UserConstant("ForeArmL","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_LeftHand","L_Hand_mesh.obj")));
 	ucs.insert(std::make_pair("ShoulderR",UserConstant("Torso","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_RightShoulder","R_Shoulder_mesh.obj")));
 	ucs.insert(std::make_pair("ArmR",UserConstant("ShoulderR","BallJoint",2.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightArm","R_Humerus_mesh.obj")));
-	ucs.insert(std::make_pair("ForeArmR",UserConstant("ArmR","RevoluteJoint",1.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,1,0),"Character1_RightForeArm","R_Radius_mesh.obj")));
+	ucs.insert(std::make_pair("ForeArmR",UserConstant("ArmR","RevoluteJoint",1.0,Eigen::Vector1d(-0.5),Eigen::Vector1d(0.0),Eigen::Vector3d(0,1,0),"Character1_RightForeArm","R_Radius_mesh.obj")));
 	ucs.insert(std::make_pair("HandR",UserConstant("ForeArmR","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_RightHand","R_Hand_mesh.obj")));
 	//Lower body
 	ucs.insert(std::make_pair("FemurL",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftUpLeg","L_Femur_mesh.obj",true)));
@@ -232,10 +233,10 @@ int main(int argc,char** argv)
 		{
 			joint_elem->SetAttribute("axis",toString(uc.mAxis));
 		}
-		if(uc.collision_on==true)
-		{
+		// if(uc.collision_on==true)
+		// {
 			joint_elem->SetAttribute("contact","On");	
-		}
+		// }
 		TiXmlElement* body_position_elem = new TiXmlElement("BodyPosition");
 		body_position_elem->SetAttribute("linear",toString(mcs[i].mBodyR));
 		body_position_elem->SetAttribute("translation",toString(mcs[i].mBodyT));

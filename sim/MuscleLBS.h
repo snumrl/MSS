@@ -18,7 +18,7 @@ struct LBSAnchor
 class MuscleLBS
 {
 public:
-	MuscleLBS(std::string _name,double f0,double lm0,double lt0,double pen_angle);
+	MuscleLBS(std::string _name,double f0,double lm0,double lt0,double pen_angle,double lmax);
 	// void AddAnchor(const dart::dynamics::SkeletonPtr& skel,const Eigen::Vector3d& glob_pos,int num_related_bodies);
 	void AddAnchor(const dart::dynamics::SkeletonPtr& skel,dart::dynamics::BodyNode* bn,const Eigen::Vector3d& glob_pos,int num_related_bodies);
 	void AddAnchor(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& glob_pos);
@@ -32,8 +32,15 @@ public:
 
 	int GetNumRelatedDofs(){return num_related_dofs;};
 	Eigen::VectorXd GetRelatedJtA();
+	
 	Eigen::MatrixXd GetJacobianTranspose();
 	std::pair<Eigen::VectorXd,Eigen::VectorXd> GetForceJacobianAndPassive();
+
+
+	std::vector<dart::dynamics::Joint*> GetRelatedJoints();
+	std::vector<dart::dynamics::BodyNode*> GetRelatedBodyNodes();
+	void ComputeJacobians();
+	
 public:
 	std::string name;
 	std::vector<LBSAnchor*> mAnchors;
@@ -41,6 +48,7 @@ public:
 	std::vector<int> related_dof_indices;
 
 	std::vector<Eigen::Vector3d> mCachedAnchorPositions;
+	std::vector<Eigen::MatrixXd> mCachedJs;
 public:
 	//Dynamics
 	double g(double _l_m);
@@ -48,7 +56,8 @@ public:
 	double g_pl(double _l_m);
 	double g_al(double _l_m);
 	
-	double l_mt;
+
+	double l_mt,l_mt_max;
 	double l_m;
 	double activation;
 

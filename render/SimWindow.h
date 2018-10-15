@@ -67,7 +67,7 @@ protected:
 	int mOutputCount;
 	void WriteOutput(const std::string& path);
 	std::vector<std::vector<double>> plot_value;
-	void Plot(const std::vector<Eigen::VectorXd>& y);
+	void Plot(const std::vector<std::vector<double>>& y);
 };
 
 #endif

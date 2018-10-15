@@ -20,8 +20,8 @@ GetPoint()
 }
 
 MuscleLBS::
-MuscleLBS(std::string _name,double _f0,double _lm0,double _lt0,double _pen_angle)
-	:name(_name),f0(_f0),l_m0(_lm0),l_m(l_mt - l_t0),l_t0(_lt0),l_mt0(0.0),l_mt(1.0),activation(0.0),f_toe(0.33),k_toe(3.0),k_lin(51.878788),e_toe(0.02),e_t0(0.033),k_pe(4.0),e_mo(0.6),gamma(0.5)
+MuscleLBS(std::string _name,double _f0,double _lm0,double _lt0,double _pen_angle,double lmax)
+	:name(_name),f0(_f0),l_m0(_lm0),l_m(l_mt - l_t0),l_t0(_lt0),l_mt0(0.0),l_mt(1.0),activation(0.0),f_toe(0.33),k_toe(3.0),k_lin(51.878788),e_toe(0.02),e_t0(0.033),k_pe(4.0),e_mo(0.6),gamma(0.5),l_mt_max(lmax)
 {
 }
 std::vector<int> sort_indices(const std::vector<double>& val)
@@ -163,6 +163,7 @@ AddAnchor(dart::dynamics::BodyNode* bn,const Eigen::Vector3d& glob_pos)
 			num_related_dofs++;
 			related_dof_indices.push_back(i);
 		}
+	
 }
 void
 MuscleLBS::
@@ -268,6 +269,7 @@ GetRelatedJtA()
 	}
 	return JtA_reduced;
 }
+
 Eigen::MatrixXd
 MuscleLBS::
 GetJacobianTranspose()
@@ -321,6 +323,72 @@ GetForceJacobianAndPassive()
 	}
 	return std::make_pair(A,p);
 }
+
+std::vector<dart::dynamics::Joint*>
+MuscleLBS::
+GetRelatedJoints()
+{
+	auto skel = mAnchors[0]->bodynodes[0]->getSkeleton();
+	std::map<dart::dynamics::Joint*,int> jns;
+	std::vector<dart::dynamics::Joint*> jns_related;
+	for(int i =0;i<skel->getNumJoints();i++)
+		jns.insert(std::make_pair(skel->getJoint(i),0));
+	ComputeJacobians();
+	//Compute dL/dtheta
+	Eigen::VectorXd dl_dtheta(skel->getNumDofs());
+	dl_dtheta.setZero();
+	Update(0.01);
+	for(int i =0;i<mAnchors.size()-1;i++)
+	{
+		Eigen::Vector3d li = mCachedAnchorPositions[i+1] - mCachedAnchorPositions[i];
+		Eigen::MatrixXd dp_i1_minus_dpi = mCachedJs[i+1]-mCachedJs[i];
+		Eigen::VectorXd d_li_d_theta = 2*dp_i1_minus_dpi.transpose()*li;
+		dl_dtheta += d_li_d_theta;
+	}
+	
+	for(int i =0;i<dl_dtheta.rows();i++)
+		if(std::abs(dl_dtheta[i])>1E-6)
+		{
+			jns[skel->getDof(i)->getJoint()]+=1;
+		}
+
+	for(auto jn : jns)
+		if(jn.second>0)
+			jns_related.push_back(jn.first);
+	return jns_related;
+}
+std::vector<dart::dynamics::BodyNode*>
+MuscleLBS::
+GetRelatedBodyNodes()
+{
+	std::vector<dart::dynamics::BodyNode*> bns_related;
+	auto rjs = GetRelatedJoints();
+	for(auto joint : rjs){
+		bns_related.push_back(joint->getChildBodyNode());
+	}
+
+	return bns_related;
+}
+void
+MuscleLBS::
+ComputeJacobians()
+{
+	const auto& skel = mAnchors[0]->bodynodes[0]->getSkeleton();
+	int dof = skel->getNumDofs();
+	mCachedJs.resize(mAnchors.size());
+	for(int i =0;i<mAnchors.size();i++)
+	{
+		mCachedJs[i].resize(3,skel->getNumDofs());
+		mCachedJs[i].setZero();
+
+		for(int j=0;j<mAnchors[i]->num_related_bodies;j++){
+			mCachedJs[i] += mAnchors[i]->weights[j]*skel->getLinearJacobian(mAnchors[i]->bodynodes[j],mAnchors[i]->local_positions[j]);//mAnchors[i]->bodynodes[j]->getTransform().inverse()*mCachedAnchorPositions[i]);
+			// std::cout<<i<<std::endl;
+			// std::cout<<mCachedJs[j].transpose()<<std::endl;
+		}
+	}
+}
+
 double
 MuscleLBS::
 g(double _l_m)

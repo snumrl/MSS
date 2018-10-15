@@ -13,11 +13,11 @@ SimWindow::
 SimWindow()
 	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0),mWriteOutput(false),mFocusMuscle(0),mFootControlMode(false)
 {
-	mWorld = new MSS::Environment(30,900);
+	mWorld = new MSS::Environment(30,3000);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
-	// Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
-	// anchored_pos = T_weld.translation();
+	Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
+	anchored_pos = T_weld.translation();
 
 	mm = p::import("__main__");
 	mns = mm.attr("__dict__");
@@ -34,7 +34,7 @@ SimWindow()
 	p::exec("from Model import *",mns);
 	p::exec("import matplotlib",mns);
 	plt_module = p::import("matplotlib.pyplot");
-	plot_value.resize(mWorld->GetCharacter()->GetMuscles().size());
+	plot_value.resize(mWorld->GetCharacter()->GetMuscles().size()+1);
 	
 }
 SimWindow::
@@ -208,6 +208,7 @@ Display()
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// }
 	// DrawMuscleLength(mWorld->GetCharacter()->GetMuscles(),mFocusMuscle);
+	Plot(plot_value);
 	glutSwapBuffers();
 	if(mIsCapture)
 		Screenshot();
@@ -234,7 +235,7 @@ Keyboard(unsigned char key,int x,int y)
 		case '`': mIsRotate= !mIsRotate;break;
 		case 'C': mIsCapture = true; break;
 		case 'c': mFootControlMode = !mFootControlMode;break;
-		case ']': Step();break;
+		case 's': Step();break;
 		case 'R': mWorld->Reset(false);break;
 		case 'r': mWorld->Reset(true);break;
 		case 'm': mAction.setZero();
@@ -245,8 +246,10 @@ Keyboard(unsigned char key,int x,int y)
 		case 'q': std::cout<<mWorld->GetState().transpose()<<std::endl;break;
 		case ' ': mIsAuto = !mIsAuto;break;
 		case 'b': mActionNum++;mActionNum %= mAction.size();break;
-		case '+': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
-		case '-': mFocusMuscle--;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case '[': mFocusMuscle--;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case ']': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
+		case '+': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max += 0.001;break;
+		case '-': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max -= 0.001;break;
 		case 27 : exit(0);break;
 		default : break;
 	}
@@ -257,7 +260,7 @@ Keyboard(unsigned char key,int x,int y)
 	// mWorld->GetWeldConstraint()->setRelativeTransform(T_weld);
 	
 	
-	// std::cout<<mAlpha<<std::endl;
+	std::cout<<mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->name<<std::endl;
 	
 	// mWorld->SetAlpha(mAlpha);
 	
@@ -391,22 +394,31 @@ Step()
 		double tau_passive = (muscle->GetJacobianTranspose()*muscle->GetForceJacobianAndPassive().second)[idx];
 		tau_sum += tau;
 		tau_sum_passive += tau_passive;
-		// plot_value[j].push_back(muscle->l_mt);
+		plot_value[j].push_back(muscle->Getl_mt());
+		
+		// std::cout<<	
 		// plot_value[j].push_back(tau);
-		// eigen_value[j].resize(plot_value[j].size());
-		// for(int i =0;i<plot_value[j].size();i++)
-		// 	eigen_value[j][i] = plot_value[j][i];	
+		// eigen_value[0].resize(plot_value[0].size());
+
+		// for(int i =0;i<plot_value[0].size();i++)
+		// 	eigen_value[0][i] = plot_value[0][i];
+		// plot_value[1].push_back(muscle->l_mt_max);
+		// eigen_value[1].resize(plot_value[1].size());
+		// for(int i =0;i<plot_value[1].size();i++)
+		// 	eigen_value[1][i] = plot_value[1][i];
 	}
-	plot_value[0].push_back(tau_sum);
-	eigen_value[0].resize(plot_value[0].size());
-	for(int i =0;i<plot_value[0].size();i++)
-		eigen_value[0][i] = plot_value[0][i];
-	plot_value[1].push_back(tau_sum_passive);
-	eigen_value[1].resize(plot_value[1].size());
-	for(int i =0;i<plot_value[1].size();i++)
-		eigen_value[1][i] = plot_value[1][i];
+	// plot_value[1].push_back(muscle->l_mt_max);
+	// plot_value[0].push_back(tau_sum);
+	// eigen_value[0].resize(plot_value[0].size());
+	// for(int i =0;i<plot_value[0].size();i++)
+	// 	eigen_value[0][i] = plot_value[0][i];
+	// plot_value[1].clear();
+
+	// .push_back(tau_sum_passive);
+	// eigen_value[1].resize(plot_value[1].size());
+	// for(int i =0;i<plot_value[1].size();i++)
+	// 	eigen_value[1][i] = plot_value[1][i];
 	
-	Plot(eigen_value);
 	// std::cout<<" takes "<<elapsed_seconds.count()<<std::endl;
 	// if(mWorld->GetElapsedTime()>1.5)
 	// 	mWorld->Reset(false);
@@ -563,7 +575,7 @@ WriteOutput(const std::string& path)
 }
 void
 SimWindow::
-Plot(const std::vector<Eigen::VectorXd>& y)
+Plot(const std::vector<std::vector<double>>& y)
 {
 	p::object ion = plt_module.attr("ion");
 	p::object clf = plt_module.attr("clf");
@@ -572,18 +584,28 @@ Plot(const std::vector<Eigen::VectorXd>& y)
 	p::object pause = plt_module.attr("pause");
 	p::object hold = plt_module.attr("hold");
 	p::object title = plt_module.attr("title");
+	p::object legend = plt_module.attr("legend");
 
 	ion();
 	clf();
-	title(mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->name);
+	title("red : l_mt, black : l_mt_max");
 	for(int i =0;i<y.size();i++)
 	{
-		if(i==mFocusMuscle)
-			plot(toNumPyArray(y[i]),'r');
-		else
-			plot(toNumPyArray(y[i]),'k');
+		Eigen::VectorXd temp(y[i].size());
+		for(int j=0;j<temp.rows();j++)
+			temp[j] = y[i][j];
+		if(i==mFocusMuscle){
+
+			plot(toNumPyArray(temp),'r');
+		}
+		
+		else{
+
+			plot(toNumPyArray(temp),'k');
+		}
 		hold(true);
 	}
+	
 	show();
 	pause(0.001);
 }

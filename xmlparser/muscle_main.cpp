@@ -12,14 +12,14 @@ namespace Eigen
 };
 struct UserConstant
 {
-	UserConstant(double _f0,double _lm,double _lt,double angle)
-		:f0(_f0),lm(_lm),lt(_lt),pen_angle(angle)
+	UserConstant(double _f0,double _lm,double _lt,double angle,double lmax)
+		:f0(_f0),lm(_lm),lt(_lt),pen_angle(angle),l_max(lmax)
 	{}
 	double f0;
 	double lm;
 	double lt;
 	double pen_angle;
-	
+	double l_max;	
 };
 struct MayaConstant
 {
@@ -117,8 +117,10 @@ int main(int argc,char** argv)
 	knee_extensor.push_back("L_Vastus_Lateralis1");
 	knee_extensor.push_back("L_Vastus_Medialis2");
 	for(int i =0;i<mcs.size();i++){
-		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(2000.0,1.0,0.2,0.0)));
+		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(2000.0,1.0,0.2,0.0,-0.1)));
 	}
+	// ucs.at("L_Semitendinosus").l_max = 1.3;
+	ucs.at("L_Vastus_Intermedius1").l_max = 1.20;
 	// for(int i=0;i<knee_flexor.size();i++)
 	// {
 	// 	ucs.at(knee_flexor[i]).lm = 0.4;
@@ -172,8 +174,10 @@ int main(int argc,char** argv)
 	upper_body.push_back("ArmR");
 	upper_body.push_back("ForeArmR");
 	upper_body.push_back("HandR");
-	// upper_body.push_back("FemurR");
-	// upper_body.push_back("TibiaR");
+	upper_body.push_back("FemurR");
+	upper_body.push_back("TibiaR");
+	upper_body.push_back("FemurL");
+	upper_body.push_back("TibiaL");
 	upper_body.push_back("TalusR");
 	upper_body.push_back("TalusL");
 	upper_body.push_back("Pevlis");
@@ -192,7 +196,7 @@ int main(int argc,char** argv)
 		unit_elem->SetAttribute("lm",std::to_string(uc.lm));
 		unit_elem->SetAttribute("lt",std::to_string(uc.lt));
 		unit_elem->SetAttribute("pen_angle",std::to_string(uc.pen_angle));
-
+		unit_elem->SetAttribute("lmax",std::to_string(uc.l_max));
 		bool is_lower_body = true;
 		for(int j =0;j<mcs[i].mAnchors.size();j++)
 		{
@@ -200,11 +204,13 @@ int main(int argc,char** argv)
 			// for(int k =0;k<upper_body.size();k++)
 			// 	if(mcs[i].mAnchors[j].first == upper_body[k])
 			// 		is_lower_body = false;
-			// if(mcs[i].mAnchors[j].first == "TibiaR")
-			// 	is_lower_body = true;
-			// else
-			// 	is_lower_body = false;
+			if(mcs[i].mAnchors[j].first == "TibiaL")
+				is_lower_body = true;
+			else
+				is_lower_body = false;
 				
+			if(uc.l_max<0.0)
+				is_lower_body = false;
 			waypoint_elem->SetAttribute("body",mcs[i].mAnchors[j].first);
 			waypoint_elem->SetAttribute("p",toString(mcs[i].mAnchors[j].second));
 			unit_elem->LinkEndChild(waypoint_elem);	
