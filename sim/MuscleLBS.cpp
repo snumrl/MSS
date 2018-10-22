@@ -333,24 +333,12 @@ GetRelatedJoints()
 	std::vector<dart::dynamics::Joint*> jns_related;
 	for(int i =0;i<skel->getNumJoints();i++)
 		jns.insert(std::make_pair(skel->getJoint(i),0));
-	ComputeJacobians();
-	//Compute dL/dtheta
-	Eigen::VectorXd dl_dtheta(skel->getNumDofs());
-	dl_dtheta.setZero();
-	Update(0.01);
-	for(int i =0;i<mAnchors.size()-1;i++)
-	{
-		Eigen::Vector3d li = mCachedAnchorPositions[i+1] - mCachedAnchorPositions[i];
-		Eigen::MatrixXd dp_i1_minus_dpi = mCachedJs[i+1]-mCachedJs[i];
-		Eigen::VectorXd d_li_d_theta = 2*dp_i1_minus_dpi.transpose()*li;
-		dl_dtheta += d_li_d_theta;
-	}
+
+	Eigen::VectorXd dl_dtheta = Getdl_dtheta();
 	
 	for(int i =0;i<dl_dtheta.rows();i++)
 		if(std::abs(dl_dtheta[i])>1E-6)
-		{
 			jns[skel->getDof(i)->getJoint()]+=1;
-		}
 
 	for(auto jn : jns)
 		if(jn.second>0)
@@ -382,13 +370,32 @@ ComputeJacobians()
 		mCachedJs[i].setZero();
 
 		for(int j=0;j<mAnchors[i]->num_related_bodies;j++){
-			mCachedJs[i] += mAnchors[i]->weights[j]*skel->getLinearJacobian(mAnchors[i]->bodynodes[j],mAnchors[i]->local_positions[j]);//mAnchors[i]->bodynodes[j]->getTransform().inverse()*mCachedAnchorPositions[i]);
-			// std::cout<<i<<std::endl;
-			// std::cout<<mCachedJs[j].transpose()<<std::endl;
+			mCachedJs[i] += mAnchors[i]->weights[j]*skel->getLinearJacobian(mAnchors[i]->bodynodes[j],mAnchors[i]->local_positions[j]);
 		}
 	}
 }
+Eigen::VectorXd
+MuscleLBS::
+Getdl_dtheta()
+{
+	ComputeJacobians();
+	const auto& skel = mAnchors[0]->bodynodes[0]->getSkeleton();
+	Eigen::VectorXd dl_dtheta(skel->getNumDofs());
+	dl_dtheta.setZero();
+	for(int i =0;i<mAnchors.size()-1;i++)
+	{
+		Eigen::Vector3d pi = mCachedAnchorPositions[i+1] - mCachedAnchorPositions[i];
+		Eigen::MatrixXd dpi_dtheta = mCachedJs[i+1] - mCachedJs[i];
+		Eigen::VectorXd dli_d_theta = (dpi_dtheta.transpose()*pi)/(l_mt0*pi.norm());
+		dl_dtheta += dli_d_theta;
+	}
 
+	for(int i =0;i<dl_dtheta.rows();i++)
+		if(std::abs(dl_dtheta[i])<1E-6)
+			dl_dtheta[i] = 0.0;
+
+	return dl_dtheta;
+}
 double
 MuscleLBS::
 g(double _l_m)

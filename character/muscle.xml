@@ -1,8 +1,30 @@
 <Muscle>
-    <Unit name="L_Vastus_Intermedius1" f0="2000.000000" lm="1.000000" lt="0.200000" pen_angle="0.000000" lmax="1.200000">
-        <Waypoint body="FemurL" p="0.124000 0.871400 0.002600 " />
-        <Waypoint body="FemurL" p="0.130600 0.790100 0.032900 " />
-        <Waypoint body="FemurL" p="0.118200 0.650700 0.036700 " />
-        <Waypoint body="TibiaL" p="0.095000 0.557500 0.032300 " />
+    <Unit name="L_Bicep_Femoris_Longus" f0="2000.000000" lm="1.000000" lt="0.200000" pen_angle="0.000000" lmax="1.000000">
+        <Waypoint body="Pelvis" p="0.070900 0.900200 -0.063600 " />
+        <Waypoint body="FemurL" p="0.096500 0.854800 -0.046300 " />
+        <Waypoint body="FemurL" p="0.139900 0.574300 -0.029200 " />
+        <Waypoint body="FemurL" p="0.144100 0.541600 -0.032800 " />
+        <Waypoint body="TibiaL" p="0.138200 0.488800 -0.038800 " />
+    </Unit>
+    <Unit name="R_Bicep_Femoris_Longus" f0="2000.000000" lm="1.000000" lt="0.200000" pen_angle="0.000000" lmax="1.000000">
+        <Waypoint body="Pelvis" p="-0.070900 0.900200 -0.063600 " />
+        <Waypoint body="FemurR" p="-0.096500 0.854800 -0.046300 " />
+        <Waypoint body="FemurR" p="-0.139900 0.574300 -0.029200 " />
+        <Waypoint body="FemurR" p="-0.144100 0.541600 -0.032800 " />
+        <Waypoint body="TibiaR" p="-0.138200 0.488800 -0.038800 " />
+    </Unit>
+    <Unit name="L_Semimembranosus1" f0="2000.000000" lm="1.000000" lt="0.200000" pen_angle="0.000000" lmax="0.950000">
+        <Waypoint body="Pelvis" p="0.078400 0.905300 -0.053300 " />
+        <Waypoint body="FemurL" p="0.093700 0.862300 -0.034300 " />
+        <Waypoint body="FemurL" p="0.104400 0.560200 -0.047900 " />
+        <Waypoint body="FemurL" p="0.081200 0.527200 -0.056200 " />
+        <Waypoint body="TibiaL" p="0.082000 0.495000 -0.042200 " />
+    </Unit>
+    <Unit name="R_Semimembranosus1" f0="2000.000000" lm="1.000000" lt="0.200000" pen_angle="0.000000" lmax="0.950000">
+        <Waypoint body="Pelvis" p="-0.078400 0.905300 -0.053300 " />
+        <Waypoint body="FemurR" p="-0.093700 0.862300 -0.034300 " />
+        <Waypoint body="FemurR" p="-0.104400 0.560200 -0.047900 " />
+        <Waypoint body="FemurR" p="-0.081200 0.527200 -0.056200 " />
+        <Waypoint body="TibiaR" p="-0.082000 0.495000 -0.042200 " />
     </Unit>
 </Muscle>

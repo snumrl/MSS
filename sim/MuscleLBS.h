@@ -40,7 +40,7 @@ public:
 	std::vector<dart::dynamics::Joint*> GetRelatedJoints();
 	std::vector<dart::dynamics::BodyNode*> GetRelatedBodyNodes();
 	void ComputeJacobians();
-	
+	Eigen::VectorXd Getdl_dtheta();
 public:
 	std::string name;
 	std::vector<LBSAnchor*> mAnchors;

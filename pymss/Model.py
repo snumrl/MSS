@@ -51,20 +51,20 @@ class MuscleNN(nn.Module):
 		self.num_dofs = num_dofs
 		self.num_muscles = num_muscles
 
-		num_h1 = 128
+		num_h1 = 512
 		num_h2 = 512
-		# num_h3 = 512
-		num_h3 = 256
+		num_h3 = 512
+		num_h4 = 512
 		self.fc = nn.Sequential(
 			nn.Linear(num_total_muscle_related_dofs+num_dofs,num_h1),
 			nn.LeakyReLU(0.2, inplace=True),
 			nn.Linear(num_h1,num_h2),
 			nn.LeakyReLU(0.2, inplace=True),
 			nn.Linear(num_h2,num_h3),
-			# nn.LeakyReLU(0.2, inplace=True),
-			# nn.Linear(num_h3,num_h4),
 			nn.LeakyReLU(0.2, inplace=True),
-			nn.Linear(num_h3,num_muscles),
+			nn.Linear(num_h3,num_h4),
+			nn.LeakyReLU(0.2, inplace=True),
+			nn.Linear(num_h4,num_muscles),
 			nn.Tanh(),
 			nn.ReLU()		
 		)
@@ -106,44 +106,53 @@ class SimulationNN(nn.Module):
 		
 		num_h1 = 256
 		num_h2 = 256
+		num_h3 = 256
 
 		self.p_fc1 = nn.Linear(num_states,num_h1)
 		self.p_fc2 = nn.Linear(num_h1,num_h2)
-		self.p_fc3 = nn.Linear(num_h2,num_actions)
+		self.p_fc3 = nn.Linear(num_h2,num_h3)
+		self.p_fc4 = nn.Linear(num_h3,num_actions)
 		self.log_std = nn.Parameter(torch.zeros(num_actions))
 
 		self.v_fc1 = nn.Linear(num_states,num_h1)
 		self.v_fc2 = nn.Linear(num_h1,num_h2)
-		self.v_fc3 = nn.Linear(num_h2,1)
+		self.v_fc3 = nn.Linear(num_h2,num_h3)
+		self.v_fc4 = nn.Linear(num_h3,1)
 
 		# self.reward_container = Container(10000)
 
 		torch.nn.init.xavier_uniform_(self.p_fc1.weight)
 		torch.nn.init.xavier_uniform_(self.p_fc2.weight)
 		torch.nn.init.xavier_uniform_(self.p_fc3.weight)
+		torch.nn.init.xavier_uniform_(self.p_fc4.weight)
 
 		self.p_fc1.bias.data.zero_()
 		self.p_fc2.bias.data.zero_()
 		self.p_fc3.bias.data.zero_()
+		self.p_fc4.bias.data.zero_()
 
 		torch.nn.init.xavier_uniform_(self.v_fc1.weight)
 		torch.nn.init.xavier_uniform_(self.v_fc2.weight)
 		torch.nn.init.xavier_uniform_(self.v_fc3.weight)
+		torch.nn.init.xavier_uniform_(self.v_fc4.weight)
 
 		self.v_fc1.bias.data.zero_()
 		self.v_fc2.bias.data.zero_()
 		self.v_fc3.bias.data.zero_()
+		self.v_fc4.bias.data.zero_()
 
 	def forward(self,x):
 		p_out = F.relu(self.p_fc1(x))
 		p_out = F.relu(self.p_fc2(p_out))
-		p_out = self.p_fc3(p_out)
+		p_out = F.relu(self.p_fc3(p_out))
+		p_out = self.p_fc4(p_out)
 
 		p_out = MultiVariateNormal(p_out,self.log_std.exp())
 
 		v_out = F.relu(self.v_fc1(x))
 		v_out = F.relu(self.v_fc2(v_out))
-		v_out = self.v_fc3(v_out)
+		v_out = F.relu(self.v_fc3(v_out))
+		v_out = self.v_fc4(v_out)
 		return p_out,v_out
 
 	def load(self,path):

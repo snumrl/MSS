@@ -13,7 +13,7 @@ SimWindow::
 SimWindow()
 	:GLUTWindow(),mIsRotate(false),mIsAuto(false),mIsCapture(false),mOutputCount(0),mFocusBodyNum(0),mIsFocusing(false),mIsNNLoaded(false),mIsMuscleNNLoaded(false),mActionNum(0),mRandomAction(false),mAlpha(1.0),mWriteOutput(false),mFocusMuscle(0),mFootControlMode(false)
 {
-	mWorld = new MSS::Environment(30,3000);
+	mWorld = new MSS::Environment(30,900);
 	mAction =Eigen::VectorXd::Zero(mWorld->GetNumAction());
 	mDisplayTimeout = 33;
 	Eigen::Isometry3d T_weld = mWorld->GetWeldConstraint()->getRelativeTransform();
@@ -208,7 +208,7 @@ Display()
 	// 	character->GetSkeleton()->computeForwardKinematics(true,false,false);
 	// }
 	// DrawMuscleLength(mWorld->GetCharacter()->GetMuscles(),mFocusMuscle);
-	Plot(plot_value);
+	// Plot(plot_value);
 	glutSwapBuffers();
 	if(mIsCapture)
 		Screenshot();
@@ -250,6 +250,8 @@ Keyboard(unsigned char key,int x,int y)
 		case ']': mFocusMuscle++;mFocusMuscle=mFocusMuscle%mWorld->GetCharacter()->GetMuscles().size();for(int i=0;i<plot_value.size();i++)plot_value[i].clear();break;
 		case '+': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max += 0.001;break;
 		case '-': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max -= 0.001;break;
+		// case '+': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max += 0.001;break;
+		// case '-': mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max -= 0.001;break;
 		case 27 : exit(0);break;
 		default : break;
 	}
@@ -259,8 +261,9 @@ Keyboard(unsigned char key,int x,int y)
 	// T_weld.translation() += radius*angle*dp_dir;
 	// mWorld->GetWeldConstraint()->setRelativeTransform(T_weld);
 	
-	
 	std::cout<<mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->name<<std::endl;
+	std::cout<<mWorld->GetCharacter()->GetMuscles()[mFocusMuscle]->l_mt_max<<std::endl<<std::endl;
+	
 	
 	// mWorld->SetAlpha(mAlpha);
 	

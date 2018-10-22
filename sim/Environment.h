@@ -51,6 +51,7 @@ public:
 	// const Eigen::VectorXd& GetDesiredAcceleration(){mQddDesired = mCharacter->GetSPDAccelerations(mTarget.first,mTarget.second);return mQddDesired;};
 	double GetElapsedTime(){return mTimeElapsed;}
 	std::shared_ptr<dart::constraint::WeldJointConstraint>& GetWeldConstraint(){return mWeldConstraint;};
+	std::vector<std::shared_ptr<MuscleLimitConstraint>>& GetMuscleLimitConstraints(){return mMuscleLimitConstraints;};
 public:
 	dart::simulation::WorldPtr mWorld;
 	double mTimeElapsed;
@@ -77,6 +78,7 @@ public:
 
 	Eigen::VectorXd mMeasurePose;
 	std::shared_ptr<dart::constraint::WeldJointConstraint> mWeldConstraint;
+	std::vector<std::shared_ptr<MuscleLimitConstraint>> mMuscleLimitConstraints;
 };
 
 };

@@ -45,6 +45,7 @@ public:
   /// Get global constraint force mixing parameter
   static double getConstraintForceMixing();
 
+  MSS::MuscleLBS* GetMuscle(){return mMuscle;}
   //----------------------------------------------------------------------------
   // Friendship
   //----------------------------------------------------------------------------

@@ -32,6 +32,7 @@ struct MayaConstant
 	MayaConstant(std::string name, const Eigen::Vector3d& size,const Eigen::VectorXd& R,const Eigen::Vector3d& bt,const Eigen::Vector3d& jt)
 		:mName(name),mSize(size),mBodyR(R),mBodyT(bt),mJointT(jt)
 	{
+		// mSize *= 0.5;
 		// std::cout<<name<<std::endl;
 		// std::cout<<mSize.transpose()<<std::endl;
 		// std::cout<<mBodyR.transpose()<<std::endl;
@@ -119,15 +120,15 @@ void ReadMayaConstant(std::vector<MayaConstant>& mc,std::string path)
 
 	ifs.close();
 }
-// #define DETAIL
+#define DETAIL
 int main(int argc,char** argv)
 {
 	std::map<std::string,UserConstant> ucs;
 	std::vector<MayaConstant> mcs;
 	ReadMayaConstant(mcs,argv[1]);
-	ucs.insert(std::make_pair("Pelvis",UserConstant("None","FreeJoint",15.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Hips","Pelvis_mesh.obj",true)));
+	ucs.insert(std::make_pair("Pelvis",UserConstant("None","FreeJoint",15.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Hips","Pelvis_mesh.obj")));
 	//Upper body
-	ucs.insert(std::make_pair("Spine",UserConstant("Pelvis","RevoluteJoint",5.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(0,1,0),"Character1_Spine","Spine_mesh.obj")));
+	ucs.insert(std::make_pair("Spine",UserConstant("Pelvis","BallJoint",5.0,Eigen::Vector3d(-0.4,-0.4,-0.4),Eigen::Vector3d(0.4,0.4,0.4),Eigen::Vector3d(0,1,0),"Character1_Spine","Spine_mesh.obj")));
 	ucs.insert(std::make_pair("Torso",UserConstant("Spine","BallJoint",10.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_Spine1","Torso_mesh.obj")));
 	ucs.insert(std::make_pair("Neck",UserConstant("Torso","RevoluteJoint",2.0,Eigen::Vector1d(-0.4),Eigen::Vector1d(0.4),Eigen::Vector3d(1,0,0),"Character1_Neck","Neck_mesh.obj")));
 	ucs.insert(std::make_pair("Head",UserConstant("Neck","BallJoint",4.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_Head","Skull_mesh.obj")));
@@ -141,69 +142,78 @@ int main(int argc,char** argv)
 	ucs.insert(std::make_pair("ForeArmR",UserConstant("ArmR","RevoluteJoint",1.0,Eigen::Vector1d(-0.5),Eigen::Vector1d(0.0),Eigen::Vector3d(0,1,0),"Character1_RightForeArm","R_Radius_mesh.obj")));
 	ucs.insert(std::make_pair("HandR",UserConstant("ForeArmR","BallJoint",0.7,Eigen::Vector3d(-0.7,-0.7,-0.7),Eigen::Vector3d(0.7,0.7,0.7),Eigen::Vector3d(0,0,0),"Character1_RightHand","R_Hand_mesh.obj")));
 	//Lower body
-	ucs.insert(std::make_pair("FemurL",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftUpLeg","L_Femur_mesh.obj",true)));
-	ucs.insert(std::make_pair("TibiaL",UserConstant("FemurL","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_LeftLeg","L_Tibia_mesh.obj",true)));
-	ucs.insert(std::make_pair("FemurR",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightUpLeg","R_Femur_mesh.obj",true)));
-	ucs.insert(std::make_pair("TibiaR",UserConstant("FemurR","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_RightLeg","R_Tibia_mesh.obj",true)));
+	ucs.insert(std::make_pair("FemurL",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftUpLeg","L_Femur_mesh.obj")));
+	ucs.insert(std::make_pair("TibiaL",UserConstant("FemurL","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_LeftLeg","L_Tibia_mesh.obj")));
+	// ucs.insert(std::make_pair("TibiaL",UserConstant("FemurL","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_LeftLeg","L_Tibia_mesh.obj")));
+	ucs.insert(std::make_pair("FemurR",UserConstant("Pelvis","BallJoint",7.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightUpLeg","R_Femur_mesh.obj")));
+	ucs.insert(std::make_pair("TibiaR",UserConstant("FemurR","RevoluteJoint",3.0,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(1,0,0),"Character1_RightLeg","R_Tibia_mesh.obj")));
+	// ucs.insert(std::make_pair("TibiaR",UserConstant("FemurR","RevoluteJoint",3.0,Eigen::Vector1d(-0.3),Eigen::Vector1d(2.0),Eigen::Vector3d(1,0,0),"Character1_RightLeg","R_Tibia_mesh.obj")));
 
 #ifndef DETAIL
 	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",1.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_merge_mesh.obj",true)));
 	ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",1.0,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_merge_mesh.obj",true)));
 #else
+	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",0.6,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","TalusL_mesh2.obj",true)));
+	ucs.insert(std::make_pair("FootThumbL",UserConstant("TalusL","RevoluteJoint",0.2,Eigen::Vector1d(-1.3),Eigen::Vector1d(1.3),Eigen::Vector3d(1,0,0),"None","FootThumbL_mesh.obj",true)));
+	ucs.insert(std::make_pair("FootPinkyL",UserConstant("TalusL","RevoluteJoint",0.2,Eigen::Vector1d(-1.3),Eigen::Vector1d(1.3),Eigen::Vector3d(1,0,0),"None","FootPinkyL_mesh.obj",true)));
+
+	ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",0.6,Eigen::Vector3d(-0.5,-0.5,-0.2),Eigen::Vector3d(0.5,0.5,0.2),Eigen::Vector3d(0,0,0),"Character1_RightFoot","TalusR_mesh2.obj",true)));
+	ucs.insert(std::make_pair("FootThumbR",UserConstant("TalusR","RevoluteJoint",0.2,Eigen::Vector1d(-1.3),Eigen::Vector1d(1.3),Eigen::Vector3d(1,0,0),"None","FootThumbR_mesh.obj",true)));
+	ucs.insert(std::make_pair("FootPinkyR",UserConstant("TalusR","RevoluteJoint",0.2,Eigen::Vector1d(-1.3),Eigen::Vector1d(1.3),Eigen::Vector3d(1,0,0),"None","FootPinkyR_mesh.obj",true)));
 	//Left
-	ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_mesh.obj")));
-	ucs.insert(std::make_pair("NavicularL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"None","L_Navicular_mesh.obj")));
-	ucs.insert(std::make_pair("MedialCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Medial_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal1L",UserConstant( "MedialCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_1_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx1L",UserConstant( "Metatarsal1L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_1_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx1L",UserConstant( "ProximalPhalanx1L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_1_mesh.obj")));
-	ucs.insert(std::make_pair("IntermediateCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Intermediate_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal2L",UserConstant( "IntermediateCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_2_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx2L",UserConstant( "Metatarsal2L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx2L",UserConstant( "ProximalPhalanx2L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx2L",UserConstant( "MiddlePhalanx2L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("LateralCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Lateral_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal3L",UserConstant( "LateralCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_3_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx3L",UserConstant( "Metatarsal3L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx3L",UserConstant( "ProximalPhalanx3L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx3L",UserConstant( "MiddlePhalanx3L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("CuboidL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(0,0,1),"None","L_Cuboid_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal4L",UserConstant( "CuboidL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_4_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx4L",UserConstant( "Metatarsal4L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx4L",UserConstant( "ProximalPhalanx4L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx4L",UserConstant( "MiddlePhalanx4L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal5L",UserConstant( "CuboidL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_5_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx5L",UserConstant( "Metatarsal5L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx5L",UserConstant( "ProximalPhalanx5L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx5L",UserConstant( "MiddlePhalanx5L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("CalcaneusL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-0.1),Eigen::Vector1d(0.1),Eigen::Vector3d(1,0,0),"None","L_Calcaneus_mesh.obj")));
-	//Right
-	ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_mesh.obj")));
-	ucs.insert(std::make_pair("NavicularR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"None","R_Navicular_mesh.obj")));
-	ucs.insert(std::make_pair("MedialCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Medial_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal1R",UserConstant( "MedialCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_1_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx1R",UserConstant( "Metatarsal1R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_1_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx1R",UserConstant( "ProximalPhalanx1R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_1_mesh.obj")));
-	ucs.insert(std::make_pair("IntermediateCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Intermediate_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal2R",UserConstant( "IntermediateCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_2_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx2R",UserConstant( "Metatarsal2R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx2R",UserConstant( "ProximalPhalanx2R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx2R",UserConstant( "MiddlePhalanx2R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_2_mesh.obj")));
-	ucs.insert(std::make_pair("LateralCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Lateral_Cuneiform_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal3R",UserConstant( "LateralCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_3_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx3R",UserConstant( "Metatarsal3R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx3R",UserConstant( "ProximalPhalanx3R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx3R",UserConstant( "MiddlePhalanx3R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_3_mesh.obj")));
-	ucs.insert(std::make_pair("CuboidR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(0,0,1),"None","R_Cuboid_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal4R",UserConstant( "CuboidR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_4_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx4R",UserConstant( "Metatarsal4R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx4R",UserConstant( "ProximalPhalanx4R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx4R",UserConstant( "MiddlePhalanx4R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_4_mesh.obj")));
-	ucs.insert(std::make_pair("Metatarsal5R",UserConstant( "CuboidR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_5_mesh.obj")));
-	ucs.insert(std::make_pair("ProximalPhalanx5R",UserConstant( "Metatarsal5R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("MiddlePhalanx5R",UserConstant( "ProximalPhalanx5R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("DistalPhalanx5R",UserConstant( "MiddlePhalanx5R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_5_mesh.obj")));
-	ucs.insert(std::make_pair("CalcaneusR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-0.1),Eigen::Vector1d(0.1),Eigen::Vector3d(1,0,0),"None","R_Calcaneus_mesh.obj")));
+	// ucs.insert(std::make_pair("TalusL",UserConstant("TibiaL","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_LeftFoot","L_Talus_mesh.obj")));
+	// ucs.insert(std::make_pair("NavicularL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"None","L_Navicular_mesh.obj")));
+	// ucs.insert(std::make_pair("MedialCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Medial_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal1L",UserConstant( "MedialCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_1_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx1L",UserConstant( "Metatarsal1L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_1_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx1L",UserConstant( "ProximalPhalanx1L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_1_mesh.obj")));
+	// ucs.insert(std::make_pair("IntermediateCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Intermediate_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal2L",UserConstant( "IntermediateCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_2_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx2L",UserConstant( "Metatarsal2L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx2L",UserConstant( "ProximalPhalanx2L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx2L",UserConstant( "MiddlePhalanx2L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("LateralCuneiformL",UserConstant( "NavicularL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_Lateral_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal3L",UserConstant( "LateralCuneiformL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_3_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx3L",UserConstant( "Metatarsal3L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx3L",UserConstant( "ProximalPhalanx3L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx3L",UserConstant( "MiddlePhalanx3L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("CuboidL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(0,0,1),"None","L_Cuboid_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal4L",UserConstant( "CuboidL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_4_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx4L",UserConstant( "Metatarsal4L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx4L",UserConstant( "ProximalPhalanx4L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx4L",UserConstant( "MiddlePhalanx4L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal5L",UserConstant( "CuboidL","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Metatarsal_5_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx5L",UserConstant( "Metatarsal5L","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Proximal_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx5L",UserConstant( "ProximalPhalanx5L","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Middle_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx5L",UserConstant( "MiddlePhalanx5L","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","L_F_Distal_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("CalcaneusL",UserConstant( "TalusL","WeldJoint",0.1,Eigen::Vector1d(-0.1),Eigen::Vector1d(0.1),Eigen::Vector3d(1,0,0),"None","L_Calcaneus_mesh.obj")));
+	// //Right
+	// ucs.insert(std::make_pair("TalusR",UserConstant("TibiaR","BallJoint",0.3,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"Character1_RightFoot","R_Talus_mesh.obj")));
+	// ucs.insert(std::make_pair("NavicularR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-LARGE_VALUE),Eigen::Vector1d(LARGE_VALUE),Eigen::Vector3d(0,0,0),"None","R_Navicular_mesh.obj")));
+	// ucs.insert(std::make_pair("MedialCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Medial_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal1R",UserConstant( "MedialCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_1_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx1R",UserConstant( "Metatarsal1R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_1_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx1R",UserConstant( "ProximalPhalanx1R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_1_mesh.obj")));
+	// ucs.insert(std::make_pair("IntermediateCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Intermediate_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal2R",UserConstant( "IntermediateCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_2_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx2R",UserConstant( "Metatarsal2R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx2R",UserConstant( "ProximalPhalanx2R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx2R",UserConstant( "MiddlePhalanx2R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_2_mesh.obj")));
+	// ucs.insert(std::make_pair("LateralCuneiformR",UserConstant( "NavicularR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_Lateral_Cuneiform_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal3R",UserConstant( "LateralCuneiformR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_3_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx3R",UserConstant( "Metatarsal3R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx3R",UserConstant( "ProximalPhalanx3R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx3R",UserConstant( "MiddlePhalanx3R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_3_mesh.obj")));
+	// ucs.insert(std::make_pair("CuboidR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(0,0,1),"None","R_Cuboid_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal4R",UserConstant( "CuboidR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_4_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx4R",UserConstant( "Metatarsal4R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx4R",UserConstant( "ProximalPhalanx4R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx4R",UserConstant( "MiddlePhalanx4R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_4_mesh.obj")));
+	// ucs.insert(std::make_pair("Metatarsal5R",UserConstant( "CuboidR","WeldJoint",0.07,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Metatarsal_5_mesh.obj")));
+	// ucs.insert(std::make_pair("ProximalPhalanx5R",UserConstant( "Metatarsal5R","WeldJoint",0.05,Eigen::Vector1d(-PROXIMAL_JOINT_LIMIT),Eigen::Vector1d(PROXIMAL_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Proximal_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("MiddlePhalanx5R",UserConstant( "ProximalPhalanx5R","WeldJoint",0.05,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Middle_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("DistalPhalanx5R",UserConstant( "MiddlePhalanx5R","WeldJoint",0.04,Eigen::Vector1d(-REVOLUTE_JOINT_LIMIT),Eigen::Vector1d(REVOLUTE_JOINT_LIMIT),Eigen::Vector3d(1,0,0),"None","R_F_Distal_Phalanx_5_mesh.obj")));
+	// ucs.insert(std::make_pair("CalcaneusR",UserConstant( "TalusR","WeldJoint",0.1,Eigen::Vector1d(-0.1),Eigen::Vector1d(0.1),Eigen::Vector3d(1,0,0),"None","R_Calcaneus_mesh.obj")));
 #endif
 	TiXmlDocument doc;
 	TiXmlElement* skel_elem = new TiXmlElement("Skeleton");
@@ -227,16 +237,16 @@ int main(int argc,char** argv)
 			joint_elem->SetAttribute("bvh",uc.mBVHMap);
 		}
 		if(uc.mOBJMap!="None"){
-			joint_elem->SetAttribute("obj",uc.mOBJMap);
+			// joint_elem->SetAttribute("obj",uc.mOBJMap);
 		}
 		if(uc.mAxis.norm()>1E-4)
 		{
 			joint_elem->SetAttribute("axis",toString(uc.mAxis));
 		}
-		// if(uc.collision_on==true)
-		// {
+		if(uc.collision_on==true)
+		{
 			joint_elem->SetAttribute("contact","On");	
-		// }
+		}
 		TiXmlElement* body_position_elem = new TiXmlElement("BodyPosition");
 		body_position_elem->SetAttribute("linear",toString(mcs[i].mBodyR));
 		body_position_elem->SetAttribute("translation",toString(mcs[i].mBodyT));

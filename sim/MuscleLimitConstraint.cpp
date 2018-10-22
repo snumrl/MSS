@@ -142,21 +142,8 @@ void MuscleLimitConstraint::update()
 	if(mViolation >= 0.0) //Violate!
 	{
 		mDim = 1;
-		mMuscle->ComputeJacobians();
-		std::vector<Eigen::MatrixXd> Js = mMuscle->mCachedJs;
-		mdCdTheta.setZero();
-		for(int i =0;i<mMuscle->mAnchors.size()-1;i++)
-		{
-			Eigen::Vector3d li = mMuscle->mCachedAnchorPositions[i+1] - mMuscle->mCachedAnchorPositions[i];
-			Eigen::MatrixXd dli_dtheta = Js[i+1]-Js[i];
-			Eigen::VectorXd d_li_d_theta = (dli_dtheta.transpose()*li)/(mMuscle->l_mt0*li.norm());
-			mdCdTheta += d_li_d_theta;
-		}
 
-		for(int i =0;i<mdCdTheta.rows();i++)
-			if(std::abs(mdCdTheta[i])<1E-6)
-				mdCdTheta[i] = 0.0;
-			else
+		mdCdTheta = mMuscle->Getdl_dtheta();
 		mNegativeVel = - mdCdTheta.dot(mSkeleton->getVelocities());
 		
 		mLowerBound = -dInfinity;

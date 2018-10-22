@@ -56,7 +56,9 @@ DrawMuscles(const std::vector<MuscleLBS*>& muscles,int focus)
 	int count =0;
 	for(auto muscle : muscles)
 	{
-		// if(count==focus)
+		if(count++!=focus){
+			continue;
+		}
 		// {
 
 
@@ -80,7 +82,7 @@ DrawMuscles(const std::vector<MuscleLBS*>& muscles,int focus)
 			GUI::drawCylinder(0.003,p,p1);
 		}
 		// }
-		count++;
+		
 	}
 	glEnable(GL_LIGHTING);
 }

@@ -119,8 +119,37 @@ int main(int argc,char** argv)
 	for(int i =0;i<mcs.size();i++){
 		ucs.insert(std::make_pair(mcs[i].mName,UserConstant(2000.0,1.0,0.2,0.0,-0.1)));
 	}
-	// ucs.at("L_Semitendinosus").l_max = 1.3;
-	ucs.at("L_Vastus_Intermedius1").l_max = 1.20;
+	// ucs.at("L_Soleus1").l_max = 1.5;
+	// ucs.at("L_Extensor_Digitorum_Longus2").l_max =0.975;
+	// ucs.at("L_Extensor_Hallucis_Longus").l_max =0.975;
+
+	// ucs.at("R_Soleus1").l_max = 0.95;
+	// ucs.at("R_Extensor_Digitorum_Longus2").l_max =0.975;
+	// ucs.at("R_Extensor_Hallucis_Longus").l_max =0.975;
+
+	// // For tibia
+	// ucs.at("L_Semitendinosus").l_max = 1.02;
+	// ucs.at("L_Vastus_Intermedius1").l_max = 1.06;
+	// // ucs.at("L_Adductor_Magnus2").l_max = 1.2;
+
+	// ucs.at("R_Semitendinosus").l_max = 1.02;
+	// ucs.at("R_Vastus_Intermedius1").l_max = 1.06;
+	// // ucs.at("R_Adductor_Magnus2").l_max = 1.2;
+	// ucs.at("L_Psoas_Major1").l_max = 0.96;
+	// ucs.at("L_Sartorius").l_max = 0.9;
+	// ucs.at("L_Tensor_Fascia_Lata2").l_max = 0.98;
+
+	// ucs.at("R_Psoas_Major1").l_max = 0.96;
+	// ucs.at("L_iliacus1").l_max = 0.98;
+	// ucs.at("R_iliacus1").l_max = 0.98;
+	// ucs.at("R_Sartorius").l_max = 0.9;
+	// ucs.at("R_Tensor_Fascia_Lata2").l_max = 0.98;
+ucs.at("L_Bicep_Femoris_Longus").l_max = 1.0;
+ucs.at("R_Bicep_Femoris_Longus").l_max = 1.0;
+// ucs.at("L_Gastrocnemius_Lateral_Head").l_max = 0.95;
+ucs.at("L_Semimembranosus1").l_max = 0.95;
+ucs.at("R_Semimembranosus1").l_max = 0.95;
+// ucs.at("L_Semitendinosus").l_max = 1.2;
 	// for(int i=0;i<knee_flexor.size();i++)
 	// {
 	// 	ucs.at(knee_flexor[i]).lm = 0.4;
@@ -161,7 +190,7 @@ int main(int argc,char** argv)
 	// ucs.insert(std::make_pair("L_Vastus_Lateralis",UserConstant(500.0,1.0,0.2,0.0)));
 	// ucs.insert(std::make_pair("L_Vastus_Medialis1",UserConstant(500.0,1.0,0.2,0.0)));
 	std::vector<std::string> upper_body;
-
+	// upper_body.push_back("Pevlis");
 	upper_body.push_back("Spine");
 	upper_body.push_back("Torso");
 	upper_body.push_back("Neck");
@@ -176,11 +205,13 @@ int main(int argc,char** argv)
 	upper_body.push_back("HandR");
 	upper_body.push_back("FemurR");
 	upper_body.push_back("TibiaR");
-	upper_body.push_back("FemurL");
-	upper_body.push_back("TibiaL");
 	upper_body.push_back("TalusR");
-	upper_body.push_back("TalusL");
-	upper_body.push_back("Pevlis");
+
+
+	// upper_body.push_back("FemurL");
+	// upper_body.push_back("TibiaL");
+	// upper_body.push_back("TalusL");
+	
 	TiXmlDocument doc;
 	TiXmlElement* muscle_elem = new TiXmlElement("Muscle");
 	doc.LinkEndChild(muscle_elem);
@@ -201,13 +232,14 @@ int main(int argc,char** argv)
 		for(int j =0;j<mcs[i].mAnchors.size();j++)
 		{
 			TiXmlElement* waypoint_elem = new TiXmlElement("Waypoint");
+
 			// for(int k =0;k<upper_body.size();k++)
 			// 	if(mcs[i].mAnchors[j].first == upper_body[k])
 			// 		is_lower_body = false;
-			if(mcs[i].mAnchors[j].first == "TibiaL")
-				is_lower_body = true;
-			else
-				is_lower_body = false;
+			// if(mcs[i].mAnchors[j].first == "Pelvis")
+			// 	is_lower_body = true;
+			// else
+			// 	is_lower_body = false;
 				
 			if(uc.l_max<0.0)
 				is_lower_body = false;

@@ -65,8 +65,8 @@ LoadMuscles(const std::string& path)
 		{
 			std::string body = waypoint->Attribute("body");
 			Eigen::Vector3d glob_pos = string_to_vector3d(waypoint->Attribute("p"));
-			// if(i==0||i==num_waypoints-1)
-			if(true)
+			if(i==0||i==num_waypoints-1)
+			// if(true)
 				mMuscles.back()->AddAnchor(mSkeleton->getBodyNode(body),glob_pos);
 			else
 				mMuscles.back()->AddAnchor(mSkeleton,mSkeleton->getBodyNode(body),glob_pos,2);

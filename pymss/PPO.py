@@ -89,7 +89,7 @@ class PPO(object):
 		self.batch_size = 128
 		self.muscle_batch_size = 128
 		self.replay_buffer = ReplayBuffer(30000)
-		self.muscle_buffer = MuscleBuffer(self.buffer_size*5)
+		self.muscle_buffer = MuscleBuffer(self.buffer_size*4)
 
 		self.model = SimulationNN(self.num_state,self.num_action)
 		self.muscle_model = MuscleNN(self.num_total_muscle_related_dofs,self.num_dofs-6,self.num_muscles)
@@ -98,7 +98,7 @@ class PPO(object):
 			self.model.cuda()
 			self.muscle_model.cuda()
 
-		self.optimizer = optim.Adam(self.model.parameters(),lr=5E-5)
+		self.optimizer = optim.Adam(self.model.parameters(),lr=1E-4)
 		self.optimizer_muscle = optim.Adam(self.muscle_model.parameters(),lr=5E-5)
 
 		self.w_entropy = 0.0
@@ -120,7 +120,7 @@ class PPO(object):
 
 	def LoadModel(self,model_number):
 		self.model.load('../nn/'+str(model_number)+'.pt')
-		self.muscle_model.load('../nn_muscle/'+str(model_number)+'.pt')
+		# self.muscle_model.load('../nn_muscle/'+str(model_number)+'.pt')
 		self.num_evaluation = int(model_number)
 
 	def ComputeTDandGAE(self):
@@ -322,9 +322,8 @@ class PPO(object):
 		print('')
 	def OptimizeModel(self):
 		self.ComputeTDandGAE()
-		if self.num_evaluation>10:
-			self.OptimizeSimulationNN()
-		self.OptimizeMuscleNN()
+		self.OptimizeSimulationNN()
+		# self.OptimizeMuscleNN()
 		
 	def Train(self):
 		self.alpha = math.exp(-10.0/self.alpha_decay*self.num_evaluation)
@@ -343,11 +342,11 @@ class PPO(object):
 		s = s - h*3600 - m*60
 
 		print('# {} === {}h:{}m:{}s ==='.format(self.num_evaluation,h,m,s))
-		print('||Loss Muscle              : {:.4f}'.format(self.loss_muscle[-1]))
-		if i>10:
-			print('||Loss Actor               : {:.4f}'.format(self.loss_actor))
-			print('||Loss Critic              : {:.4f}'.format(self.loss_critic))
-			print('||Noise                    : {:.3f}'.format(self.model.log_std.exp().mean()))		
+		# print('||Loss Muscle              : {:.4f}'.format(self.loss_muscle[-1]))
+		# if i>0:
+		print('||Loss Actor               : {:.4f}'.format(self.loss_actor))
+		print('||Loss Critic              : {:.4f}'.format(self.loss_critic))
+		print('||Noise                    : {:.3f}'.format(self.model.log_std.exp().mean()))		
 		print('||Num Transition So far    : {}'.format(self.num_tuple_so_far))
 		print('||Num Transition           : {}'.format(self.num_tuple))
 		print('||Num Episode              : {}'.format(self.num_episode))
@@ -359,6 +358,7 @@ class PPO(object):
 		
 		print('=============================================')
 		return np.array(self.rewards),np.array(self.loss_muscle)
+		# return np.array(self.rewards)
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -406,6 +406,7 @@ if __name__=="__main__":
 	for i in range(50000):
 		ppo.Train()
 		rewards,losses = ppo.Evaluate()
+		# rewards = ppo.Evaluate()
 		Plot(rewards,'reward',0,False)
 		if len(losses)>100:
 			Plot(losses[-100:],'muscle Loss',1,False)
