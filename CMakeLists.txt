@@ -13,9 +13,7 @@ add_compile_options(-Wdeprecated-declarations)
 
 add_compile_options(-DHAVE_CSTDDEF)
 add_definitions(-DMSS_ROOT_DIR="${CMAKE_HOME_DIRECTORY}")
-set(CMAKE_MODULE_PATH "${CMAKE_HOME_DIRECTORY}/cmake_module")
+set(CMAKE_MODULE_PATH "${CMAKE_HOME_DIRECTORY}/cmake")
 
-add_subdirectory( sim )
-add_subdirectory( render )
-add_subdirectory( xmlparser )
-add_subdirectory( pymss )
+add_subdirectory( core )
+add_subdirectory( gui )
