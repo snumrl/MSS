@@ -118,45 +118,40 @@ MakeWeldJointProperties(const std::string& name,const Eigen::Isometry3d& parent_
 }
 BodyNode*
 MSS::
-MakeBodyNode(const SkeletonPtr& skeleton,BodyNode* parent,Joint::Properties* joint_properties,const ShapePtr& shape,dart::dynamics::Inertia inertia,bool contact)
+MakeBodyNode(const SkeletonPtr& skeleton,BodyNode* parent,Joint::Properties* joint_properties,const std::string& joint_type,dart::dynamics::Inertia inertia)
 {
 	BodyNode* bn;
 
-	if(dynamic_cast<FreeJoint::Properties*>(joint_properties)!=nullptr)
+	if(joint_type == "Free")
 	{
-		FreeJoint::Properties prop = (*(dynamic_cast<FreeJoint::Properties*>(joint_properties)));
+		FreeJoint::Properties prop = (FreeJoint::Properties)(*joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<FreeJoint>(
 			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
-	else if(dynamic_cast<PlanarJoint::Properties*>(joint_properties)!=nullptr)
+	else if(joint_type == "Planar")
 	{
-		PlanarJoint::Properties prop = (*(dynamic_cast<PlanarJoint::Properties*>(joint_properties)));
+		PlanarJoint::Properties prop = (PlanarJoint::Properties)(*joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<PlanarJoint>(
 			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
-	else if(dynamic_cast<BallJoint::Properties*>(joint_properties)!=nullptr)
+	else if(joint_type == "Ball")
 	{
-		BallJoint::Properties prop = (*(dynamic_cast<BallJoint::Properties*>(joint_properties)));
+		BallJoint::Properties prop = (BallJoint::Properties)(*joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<BallJoint>(
 			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
-	else if(dynamic_cast<RevoluteJoint::Properties*>(joint_properties)!=nullptr)
+	else if(joint_type == "Revolute")
 	{
-		RevoluteJoint::Properties prop = (*(dynamic_cast<RevoluteJoint::Properties*>(joint_properties)));
+		RevoluteJoint::Properties prop = (RevoluteJoint::Properties)(*joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<RevoluteJoint>(
 			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
-	else if(dynamic_cast<WeldJoint::Properties*>(joint_properties)!=nullptr)
+	else if(joint_type == "Weld")
 	{
-		WeldJoint::Properties prop = (*(dynamic_cast<WeldJoint::Properties*>(joint_properties)));
+		WeldJoint::Properties prop = (WeldJoint::Properties)(*joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<WeldJoint>(
 			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
-	
-	if(contact)
-		bn->createShapeNodeWith<VisualAspect,CollisionAspect,DynamicsAspect>(shape);
-	else
-		bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
 
 	bn->setInertia(inertia);
 	return bn;
@@ -284,13 +279,14 @@ BuildFromFile(const std::string& path)
 			contact = true;
 		else
 			contact = false;
+		Eigen::Vector3d color = Eigen::Vector3d::Constant(0.2);
+		if(body->Attribute("color")!=nullptr)
+			color = string_to_vector3d(body->Attribute("color"));
 
 		dart::dynamics::Inertia inertia = MakeInertia(shape,mass);
 		T_body.linear() = string_to_matrix3d(body->FirstChildElement("Transformation")->Attribute("linear"));
 		T_body.translation() = string_to_vector3d(body->FirstChildElement("Transformation")->Attribute("translation"));
 		
-
-
 		TiXmlElement* joint = node->FirstChildElement("Joint");
 		type = joint->Attribute("type");
 		Joint::Properties props;
@@ -330,8 +326,14 @@ BuildFromFile(const std::string& path)
 			props = MSS::MakeWeldJointProperties(name,parent_to_joint,child_to_joint);
 		}
 
-		MakeBodyNode(skel,parent,&props,shape,inertia,contact);
+		auto bn = MakeBodyNode(skel,parent,&props,type,inertia);
+		if(contact)
+			bn->createShapeNodeWith<VisualAspect,CollisionAspect,DynamicsAspect>(shape);
+		else
+			bn->createShapeNodeWith<VisualAspect, DynamicsAspect>(shape);
+		bn->getShapeNodesWith<VisualAspect>().back()->getVisualAspect()->setColor(color);
 	}
 
 	std::cout<<"(DOFs : "<<skel->getNumDofs()<<")"<< std::endl;
+	return skel;
 }

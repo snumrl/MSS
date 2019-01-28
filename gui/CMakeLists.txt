@@ -4,7 +4,7 @@ project(gui)
 link_directories(../core/)
 include_directories(../core/)
 
-find_package(DART REQUIRED COMPONENTS gui CONFIG)
+find_package(DART REQUIRED COMPONENTS gui collision-bullet CONFIG)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
