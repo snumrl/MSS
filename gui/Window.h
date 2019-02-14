@@ -13,7 +13,10 @@ public:
 
 	void draw() override;
 	void keyboard(unsigned char _key, int _x, int _y) override;
+	void displayTimer(int _val) override;
 private:
+	void SetFocusing();
+
 	void DrawEntity(const dart::dynamics::Entity* entity) const;
 	void DrawBodyNode(const dart::dynamics::BodyNode* bn) const;
 	void DrawSkeleton(const dart::dynamics::SkeletonPtr& skel) const;
@@ -21,10 +24,11 @@ private:
 	void DrawShape(const dart::dynamics::Shape* shape,const Eigen::Vector4d& color) const;
 
 	void Step();
-	void SetFocusing();
+	void Reset();
 
 	Environment* mEnv;
 	bool mFocus;
+	bool mSimulating;
 };
 };
 

@@ -8,7 +8,7 @@ using namespace dart::gui;
 
 Window::
 Window()
-	:mEnv(new Environment()),mFocus(true)
+	:mEnv(new Environment()),mFocus(true),mSimulating(false)
 {
 	mBackground[0] = 1.0;
 	mBackground[1] = 1.0;
@@ -21,6 +21,7 @@ void
 Window::
 draw()
 {
+	SetFocusing();
 	for(int i=0;i<mEnv->GetWorld()->getNumSkeletons();i++)
 		DrawSkeleton(mEnv->GetWorld()->getSkeleton(i));
 }
@@ -30,8 +31,10 @@ keyboard(unsigned char _key, int _x, int _y)
 {
 	switch (_key)
 	{
-	case 's': Step();break;
-	case 'f':mFocus = !mFocus;break;
+	case 's': this->Step();break;
+	case 'f': mFocus = !mFocus;break;
+	case 'r': this->Reset();break;
+	case ' ': mSimulating = !mSimulating;break;
 	case 27 : exit(0);break;
 	default:
 		break;
@@ -40,11 +43,26 @@ keyboard(unsigned char _key, int _x, int _y)
 }
 void
 Window::
-Step()
+displayTimer(int _val)
 {
-	mEnv->Step();
-	
-	SetFocusing();
+	if(mSimulating)
+		Step();
+	glutPostRedisplay();
+	glutTimerFunc(mDisplayTimeout, refreshTimer, _val);
+}
+void
+Window::
+Step()
+{	
+	int num = mEnv->GetSimulationHz()/mEnv->GetControlHz();
+	for(int i=0;i<num;i++)
+		mEnv->Step();
+}
+void
+Window::
+Reset()
+{
+	mEnv->Reset();
 }
 void
 Window::
@@ -52,7 +70,7 @@ SetFocusing()
 {
 	if(mFocus)
 	{
-		mTrans = -mEnv->GetWorld()->getSkeleton("Foot")->getRootBodyNode()->getCOM()*1000.0;
+		mTrans = -mEnv->GetWorld()->getSkeleton("Human")->getRootBodyNode()->getCOM()*1000.0;
 		mZoom = 0.3;	
 	}
 }

@@ -1,4 +1,4 @@
-<Skeleton name="Foot">
+<Skeleton name="Human">
     <Node name="Pelvis" parent="None" >
         <Body type="Box" mass="15.0" size="0.2083 0.1454 0.1294" contact="Off" color="0.6 0.6 1.5">
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="0.0 0.9809 -0.0308 "/>
@@ -24,7 +24,7 @@
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="-0.0995 0.5387 -0.0103 "/>
         </Joint>
     </Node>
-    <Node name="TalusR" parent="TibiaR" >
+    <Node name="TalusR" parent="TibiaR" endeffector="True">
         <Body type="Box" mass="0.6" size="0.0756 0.0498 0.1570" contact="On" color="0.3 0.3 1.5">
             <Transformation linear="0.9779 0.0256 0.2073 0.0199 -0.9994 0.0295 0.2079 -0.0247 -0.9778 " translation="-0.0826 0.0403 -0.0242 "/>
         </Body>
@@ -67,7 +67,7 @@
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="0.0995 0.5387 -0.0103 "/>
         </Joint>
     </Node>
-    <Node name="TalusL" parent="TibiaL" >
+    <Node name="TalusL" parent="TibiaL" endeffector="True">
         <Body type="Box" mass="0.6" size="0.0756 0.0498 0.1570" contact="On" color="0.6 0.6 1.5">
             <Transformation linear="0.9779 0.0256 0.2073 -0.0199 0.9994 -0.0295 -0.2079 0.0247 0.9778 " translation="0.0826 0.0403 -0.0242 "/>
         </Body>
@@ -118,7 +118,7 @@
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="0. 1.4844 -0.0436 "/>
         </Joint>
     </Node>
-    <Node name="Head" parent="Neck" >
+    <Node name="Head" parent="Neck" endeffector="True">
         <Body type="Box" mass="2.0" size="0.1129 0.1144 0.1166" contact="Off" color="0.6 0.6 1.5">
             <Transformation linear="1.0 0.0 0.0 0.0 0.9895 -0.1447 0.0 0.1447 0.9895 " translation="0.0 1.6527 -0.0123 "/>
         </Body>
@@ -152,7 +152,7 @@
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="-0.5234 1.4607 -0.0105 "/>
         </Joint>
     </Node>
-    <Node name="HandR" parent="ForeArmR" >
+    <Node name="HandR" parent="ForeArmR" endeffector="True">
         <Body type="Box" mass="0.2" size="0.1306 0.0104 0.0846" contact="Off" color="0.3 0.3 1.5">
             <Transformation linear="0.9712 0.2357 -0.0353 0.2243 -0.9540 -0.1990 -0.0806 0.1853 -0.9794 " translation="-0.8810 1.4647 0.0315 "/>
         </Body>
@@ -186,7 +186,7 @@
             <Transformation linear="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0" translation="0.5234 1.4607 -0.0105"/>
         </Joint>
     </Node>
-    <Node name="HandL" parent="ForeArmL" >
+    <Node name="HandL" parent="ForeArmL" endeffector="True">
         <Body type="Box" mass="0.2" size="0.1306 0.0104 0.0846" contact="Off" color="0.6 0.6 1.5">
             <Transformation linear="0.9712 0.2357 -0.0353 -0.2243 0.9540 0.1990 0.0806 -0.1853 0.9794 " translation="0.8813 1.4640 0.0315 "/>
         </Body>
