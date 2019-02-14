@@ -32,87 +32,88 @@ MakeInertia(const dart::dynamics::ShapePtr& shape,double mass)
 	return inertia;
 }
 
-FreeJoint::Properties
+FreeJoint::Properties*
 MSS::
 MakeFreeJointProperties(const std::string& name,const Eigen::Isometry3d& parent_to_joint,const Eigen::Isometry3d& child_to_joint)
 {
-	FreeJoint::Properties props;
+	FreeJoint::Properties* props = new FreeJoint::Properties();
 
-	props.mName = name;
-	props.mT_ParentBodyToJoint = parent_to_joint;
-	props.mT_ChildBodyToJoint = child_to_joint;
-	props.mIsPositionLimitEnforced = false;
-	props.mVelocityLowerLimits = Eigen::Vector6d::Constant(-100.0);
-	props.mVelocityUpperLimits = Eigen::Vector6d::Constant(100.0);
-	props.mDampingCoefficients = Eigen::Vector6d::Constant(0.4);
+	props->mName = name;
+	props->mT_ParentBodyToJoint = parent_to_joint;
+	props->mT_ChildBodyToJoint = child_to_joint;
+	props->mIsPositionLimitEnforced = false;
+	props->mVelocityLowerLimits = Eigen::Vector6d::Constant(-100.0);
+	props->mVelocityUpperLimits = Eigen::Vector6d::Constant(100.0);
+	props->mDampingCoefficients = Eigen::Vector6d::Constant(0.4);
 
 	return props;
 }
-PlanarJoint::Properties
+PlanarJoint::Properties*
 MSS::
 MakePlanarJointProperties(const std::string& name,const Eigen::Isometry3d& parent_to_joint,const Eigen::Isometry3d& child_to_joint)
 {
-	PlanarJoint::Properties props;
+	PlanarJoint::Properties* props = new PlanarJoint::Properties();
 
-	props.mName = name;
-	props.mT_ParentBodyToJoint = parent_to_joint;
-	props.mT_ChildBodyToJoint = child_to_joint;
-	props.mIsPositionLimitEnforced = false;
-	props.mVelocityLowerLimits = Eigen::Vector3d::Constant(-100.0);
-	props.mVelocityUpperLimits = Eigen::Vector3d::Constant(100.0);
-	props.mDampingCoefficients = Eigen::Vector3d::Constant(0.4);
+	props->mName = name;
+	props->mT_ParentBodyToJoint = parent_to_joint;
+	props->mT_ChildBodyToJoint = child_to_joint;
+	props->mIsPositionLimitEnforced = false;
+	props->mVelocityLowerLimits = Eigen::Vector3d::Constant(-100.0);
+	props->mVelocityUpperLimits = Eigen::Vector3d::Constant(100.0);
+	props->mDampingCoefficients = Eigen::Vector3d::Constant(0.4);
 
 	return props;
 }
-BallJoint::Properties
+BallJoint::Properties*
 MSS::
 MakeBallJointProperties(const std::string& name,const Eigen::Isometry3d& parent_to_joint,const Eigen::Isometry3d& child_to_joint,const Eigen::Vector3d& lower,const Eigen::Vector3d& upper)
 {
-	BallJoint::Properties props;
+	BallJoint::Properties* props = new BallJoint::Properties();
 
-	props.mName = name;
-	props.mT_ParentBodyToJoint = parent_to_joint;
-	props.mT_ChildBodyToJoint = child_to_joint;
-	props.mIsPositionLimitEnforced = true;
-	props.mPositionLowerLimits = lower;
-	props.mPositionUpperLimits = upper;
-	props.mVelocityLowerLimits = Eigen::Vector3d::Constant(-100.0);
-	props.mVelocityUpperLimits = Eigen::Vector3d::Constant(100.0);
-	props.mForceLowerLimits = Eigen::Vector3d::Constant(-1000.0); 
-	props.mForceUpperLimits = Eigen::Vector3d::Constant(1000.0);
-	props.mDampingCoefficients = Eigen::Vector3d::Constant(0.4);
+	props->mName = name;
+	props->mT_ParentBodyToJoint = parent_to_joint;
+	props->mT_ChildBodyToJoint = child_to_joint;
+	props->mIsPositionLimitEnforced = true;
+	props->mPositionLowerLimits = lower;
+	props->mPositionUpperLimits = upper;
+	props->mVelocityLowerLimits = Eigen::Vector3d::Constant(-100.0);
+	props->mVelocityUpperLimits = Eigen::Vector3d::Constant(100.0);
+	props->mForceLowerLimits = Eigen::Vector3d::Constant(-1000.0); 
+	props->mForceUpperLimits = Eigen::Vector3d::Constant(1000.0);
+	props->mDampingCoefficients = Eigen::Vector3d::Constant(0.4);
 
 	return props;
 }
-RevoluteJoint::Properties
+RevoluteJoint::Properties*
 MSS::
 MakeRevoluteJointProperties(const std::string& name,const Eigen::Vector3d& axis,const Eigen::Isometry3d& parent_to_joint,const Eigen::Isometry3d& child_to_joint,const Eigen::Vector1d& lower,const Eigen::Vector1d& upper)
 {
-	RevoluteJoint::Properties props;
+	RevoluteJoint::Properties* props = new RevoluteJoint::Properties();
 
-	props.mName = name;
-	props.mT_ParentBodyToJoint = parent_to_joint;
-	props.mT_ChildBodyToJoint = child_to_joint;
-	props.mIsPositionLimitEnforced = true;
-	props.mPositionLowerLimits = lower;
-	props.mPositionUpperLimits = upper;
-	props.mVelocityLowerLimits = Eigen::Vector1d::Constant(-100.0);
-	props.mVelocityUpperLimits = Eigen::Vector1d::Constant(100.0);
-	props.mForceLowerLimits = Eigen::Vector1d::Constant(-1000.0); 
-	props.mForceUpperLimits = Eigen::Vector1d::Constant(1000.0);
-	props.mDampingCoefficients = Eigen::Vector1d::Constant(0.4);
+	props->mName = name;
+	props->mT_ParentBodyToJoint = parent_to_joint;
+	props->mT_ChildBodyToJoint = child_to_joint;
+	props->mIsPositionLimitEnforced = true;
+	props->mPositionLowerLimits = lower;
+	props->mPositionUpperLimits = upper;
+	props->mAxis = axis;
+	props->mVelocityLowerLimits = Eigen::Vector1d::Constant(-100.0);
+	props->mVelocityUpperLimits = Eigen::Vector1d::Constant(100.0);
+	props->mForceLowerLimits = Eigen::Vector1d::Constant(-1000.0); 
+	props->mForceUpperLimits = Eigen::Vector1d::Constant(1000.0);
+	props->mDampingCoefficients = Eigen::Vector1d::Constant(0.4);
 
 	return props;
 }
-WeldJoint::Properties
+WeldJoint::Properties*
 MSS::
 MakeWeldJointProperties(const std::string& name,const Eigen::Isometry3d& parent_to_joint,const Eigen::Isometry3d& child_to_joint)
 {
-	WeldJoint::Properties props;
+	WeldJoint::Properties* props = new WeldJoint::Properties();
 
-	props.mName = name;
-	props.mT_ParentBodyToJoint = parent_to_joint;
-	props.mT_ChildBodyToJoint = child_to_joint;
+	props->mName = name;
+	props->mT_ParentBodyToJoint = parent_to_joint;
+	props->mT_ChildBodyToJoint = child_to_joint;
 
 	return props;
 }
@@ -124,33 +125,33 @@ MakeBodyNode(const SkeletonPtr& skeleton,BodyNode* parent,Joint::Properties* joi
 
 	if(joint_type == "Free")
 	{
-		FreeJoint::Properties prop = (FreeJoint::Properties)(*joint_properties);
+		FreeJoint::Properties* prop = dynamic_cast<FreeJoint::Properties*>(joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<FreeJoint>(
-			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
+			parent,(*prop),BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
 	else if(joint_type == "Planar")
 	{
-		PlanarJoint::Properties prop = (PlanarJoint::Properties)(*joint_properties);
+		PlanarJoint::Properties* prop = dynamic_cast<PlanarJoint::Properties*>(joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<PlanarJoint>(
-			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
+			parent,(*prop),BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
 	else if(joint_type == "Ball")
 	{
-		BallJoint::Properties prop = (BallJoint::Properties)(*joint_properties);
+		BallJoint::Properties* prop = dynamic_cast<BallJoint::Properties*>(joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<BallJoint>(
-			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
+			parent,(*prop),BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
 	else if(joint_type == "Revolute")
 	{
-		RevoluteJoint::Properties prop = (RevoluteJoint::Properties)(*joint_properties);
+		RevoluteJoint::Properties* prop = dynamic_cast<RevoluteJoint::Properties*>(joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<RevoluteJoint>(
-			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
+			parent,(*prop),BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
 	else if(joint_type == "Weld")
 	{
-		WeldJoint::Properties prop = (WeldJoint::Properties)(*joint_properties);
+		WeldJoint::Properties* prop = dynamic_cast<WeldJoint::Properties*>(joint_properties);
 		bn = skeleton->createJointAndBodyNodePair<WeldJoint>(
-			parent,prop,BodyNode::AspectProperties(joint_properties->mName)).second;
+			parent,(*prop),BodyNode::AspectProperties(joint_properties->mName)).second;
 	}
 
 	bn->setInertia(inertia);
@@ -274,11 +275,12 @@ BuildFromFile(const std::string& path)
 			double height = std::stod(body->Attribute("height"));
 			shape = MSS::MakeCapsuleShape(radius,height);
 		}
-		bool contact;
-		if(body->Attribute("contact")!=nullptr)
-			contact = true;
-		else
-			contact = false;
+		bool contact = false;
+		if(body->Attribute("contact")!=nullptr){
+			std::string c = body->Attribute("contact");
+			if(c == "On")
+				contact = true;
+		}
 		Eigen::Vector3d color = Eigen::Vector3d::Constant(0.2);
 		if(body->Attribute("color")!=nullptr)
 			color = string_to_vector3d(body->Attribute("color"));
@@ -286,14 +288,14 @@ BuildFromFile(const std::string& path)
 		dart::dynamics::Inertia inertia = MakeInertia(shape,mass);
 		T_body.linear() = string_to_matrix3d(body->FirstChildElement("Transformation")->Attribute("linear"));
 		T_body.translation() = string_to_vector3d(body->FirstChildElement("Transformation")->Attribute("translation"));
-		
+		T_body = Orthonormalize(T_body);			
 		TiXmlElement* joint = node->FirstChildElement("Joint");
 		type = joint->Attribute("type");
-		Joint::Properties props;
+		Joint::Properties* props;
 		Eigen::Isometry3d T_joint = Eigen::Isometry3d::Identity();
 		T_joint.linear() = string_to_matrix3d(joint->FirstChildElement("Transformation")->Attribute("linear"));
 		T_joint.translation() = string_to_vector3d(joint->FirstChildElement("Transformation")->Attribute("translation"));
-
+		T_joint = Orthonormalize(T_joint);	
 		Eigen::Isometry3d parent_to_joint;
 		if(parent==nullptr)
 			parent_to_joint = T_joint;
@@ -326,7 +328,7 @@ BuildFromFile(const std::string& path)
 			props = MSS::MakeWeldJointProperties(name,parent_to_joint,child_to_joint);
 		}
 
-		auto bn = MakeBodyNode(skel,parent,&props,type,inertia);
+		auto bn = MakeBodyNode(skel,parent,props,type,inertia);
 		if(contact)
 			bn->createShapeNodeWith<VisualAspect,CollisionAspect,DynamicsAspect>(shape);
 		else

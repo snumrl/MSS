@@ -20,7 +20,11 @@ private:
 	void DrawShapeFrame(const dart::dynamics::ShapeFrame* shapeFrame) const;
 	void DrawShape(const dart::dynamics::Shape* shape,const Eigen::Vector4d& color) const;
 
+	void Step();
+	void SetFocusing();
+
 	Environment* mEnv;
+	bool mFocus;
 };
 };
 

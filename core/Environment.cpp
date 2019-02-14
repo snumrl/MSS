@@ -19,8 +19,8 @@ Environment(int control_Hz,int simulation_Hz)
 {
 	mWorld->setGravity(Eigen::Vector3d(0,-9.8,0.0));
 	mWorld->getConstraintSolver()->setCollisionDetector(dart::collision::BulletCollisionDetector::create());
-	mCharacter = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/character/capsule.xml"));
-	mGround = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/character/ground.xml"));
+	mCharacter = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/human.xml"));
+	mGround = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/ground.xml"));
 	mWorld->addSkeleton(mCharacter);
 	mWorld->addSkeleton(mGround);
 }
@@ -29,8 +29,6 @@ void
 Environment::
 Step()
 {
-	int n = mSimulationHz/mControlHz;
-	for(int i =0;i<n;i++)
-		mWorld->step();
+	mWorld->step();
 }
 

@@ -8,12 +8,14 @@ using namespace dart::gui;
 
 Window::
 Window()
-	:mEnv(new Environment())
+	:mEnv(new Environment()),mFocus(true)
 {
 	mBackground[0] = 1.0;
 	mBackground[1] = 1.0;
 	mBackground[2] = 1.0;
 	mBackground[3] = 1.0;
+	SetFocusing();
+	mFocus = false;
 }
 void
 Window::
@@ -28,12 +30,31 @@ keyboard(unsigned char _key, int _x, int _y)
 {
 	switch (_key)
 	{
-	case 's':mEnv->Step();break;
+	case 's': Step();break;
+	case 'f':mFocus = !mFocus;break;
 	case 27 : exit(0);break;
 	default:
 		break;
 	}
 
+}
+void
+Window::
+Step()
+{
+	mEnv->Step();
+	
+	SetFocusing();
+}
+void
+Window::
+SetFocusing()
+{
+	if(mFocus)
+	{
+		mTrans = -mEnv->GetWorld()->getSkeleton("Foot")->getRootBodyNode()->getCOM()*1000.0;
+		mZoom = 0.3;	
+	}
 }
 void
 Window::
