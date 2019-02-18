@@ -5,21 +5,26 @@
 namespace MSS
 {
 class BVH;
+class Muscle;
 class Character
 {
 public:
 	Character();
 
 	void LoadSkeleton(const std::string& path,bool create_bvh = true);
+	void LoadMuscles(const std::string& path);
 	void LoadBVH(const std::string& path);
 
 	Eigen::VectorXd GetTargetPositions(double t);
 
-	BVH* GetBVH(){return mBVH;}
+	
 	const dart::dynamics::SkeletonPtr& GetSkeleton(){return mSkeleton;}
+	const std::vector<Muscle*>& GetMuscles() {return mMuscles;}
+	BVH* GetBVH(){return mBVH;}
 public:
 	dart::dynamics::SkeletonPtr mSkeleton;
 	BVH* mBVH;
+	std::vector<Muscle*> mMuscles;
 	
 
 	std::vector<dart::dynamics::BodyNode*> mEndEffectors;

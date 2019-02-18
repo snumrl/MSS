@@ -6,6 +6,7 @@
 namespace MSS
 {
 class Environment;
+class Muscle;
 class Window : public dart::gui::Win3D
 {
 public:
@@ -23,6 +24,7 @@ private:
 	void DrawShapeFrame(const dart::dynamics::ShapeFrame* shapeFrame) const;
 	void DrawShape(const dart::dynamics::Shape* shape,const Eigen::Vector4d& color) const;
 
+	void DrawMuscles(const std::vector<Muscle*>& muscles);
 	void Step();
 	void Reset();
 

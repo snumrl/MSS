@@ -1,5 +1,7 @@
 #include "Window.h"
 #include "Environment.h"
+#include "Character.h"
+#include "Muscle.h"
 using namespace MSS;
 using namespace dart;
 using namespace dart::dynamics;
@@ -22,8 +24,9 @@ Window::
 draw()
 {
 	SetFocusing();
-	for(int i=0;i<mEnv->GetWorld()->getNumSkeletons();i++)
-		DrawSkeleton(mEnv->GetWorld()->getSkeleton(i));
+	DrawSkeleton(mEnv->GetGround());
+	DrawMuscles(mEnv->GetCharacter()->GetMuscles());
+	DrawSkeleton(mEnv->GetCharacter()->GetSkeleton());
 }
 void
 Window::
@@ -154,6 +157,7 @@ DrawShape(const Shape* shape,const Eigen::Vector4d& color) const
 
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_DEPTH_TEST);
 	mRI->setPenColor(color);
 	if (shape->is<SphereShape>())
 	{
@@ -177,4 +181,69 @@ DrawShape(const Shape* shape,const Eigen::Vector4d& color) const
 		mRI->drawMesh(mesh->getScale(), mesh->getMesh());
 	}
 	glDisable(GL_COLOR_MATERIAL);
+}
+void
+Window::
+DrawMuscles(const std::vector<Muscle*>& muscles)
+{
+	int count =0;
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+	for(auto muscle : muscles)
+	{
+		auto aps = muscle->GetAnchors();
+		bool lower_body = true;
+		double a = muscle->activation;
+		// Eigen::Vector3d color(0.7*(3.0*a),0.2,0.7*(1.0-3.0*a));
+		Eigen::Vector4d color(0.6+(2.0*a),0.6,0.6,1.0);//0.7*(1.0-3.0*a));
+		// glColor3f(1.0,0.0,0.362);
+		// glColor3f(0.0,0.0,0.0);
+		mRI->setPenColor(color);
+		for(int i=0;i<aps.size();i++)
+		{
+			Eigen::Vector3d p = aps[i]->GetPoint();
+			mRI->pushMatrix();
+			mRI->translate(p);
+			mRI->drawSphere(0.005*sqrt(muscle->f0/1000.0));
+			mRI->popMatrix();
+		}
+			
+		for(int i=0;i<aps.size()-1;i++)
+		{
+			Eigen::Vector3d p = aps[i]->GetPoint();
+			Eigen::Vector3d p1 = aps[i+1]->GetPoint();
+
+			Eigen::Vector3d u(0,0,1);
+			Eigen::Vector3d v = p-p1;
+			Eigen::Vector3d mid = 0.5*(p+p1);
+			double len = v.norm();
+			v /= len;
+			Eigen::Isometry3d T;
+			T.setIdentity();
+			Eigen::Vector3d axis = u.cross(v);
+			axis.normalize();
+			double angle = acos(u.dot(v));
+			Eigen::Matrix3d w_bracket = Eigen::Matrix3d::Zero();
+			w_bracket(0, 1) = -axis(2);
+			w_bracket(1, 0) =  axis(2);
+			w_bracket(0, 2) =  axis(1);
+			w_bracket(2, 0) = -axis(1);
+			w_bracket(1, 2) = -axis(0);
+			w_bracket(2, 1) =  axis(0);
+
+			Eigen::Matrix3d R = Eigen::Matrix3d::Identity()+(sin(angle))*w_bracket+(1.0-cos(angle))*w_bracket*w_bracket;
+			T.linear() = R;
+			T.translation() = mid;
+			mRI->pushMatrix();
+			mRI->transform(T);
+			mRI->drawCylinder(0.005*sqrt(muscle->f0/1000.0),len);
+			mRI->popMatrix();
+		}
+		
+	}
+	glEnable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
 }

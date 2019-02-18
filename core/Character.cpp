@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "BVH.h"
 #include "DARTHelper.h"
+#include "Muscle.h"
 #include <tinyxml.h>
 using namespace dart;
 using namespace dart::dynamics;
@@ -40,7 +41,46 @@ LoadSkeleton(const std::string& path,bool create_bvh)
 	if(create_bvh)
 		mBVH = new BVH(mSkeleton,bvh_map);
 }
+void
+Character::
+LoadMuscles(const std::string& path)
+{
+	TiXmlDocument doc;
+	if(!doc.LoadFile(path)){
+		std::cout << "Can't open file : " << path << std::endl;
+		return;
+	}
 
+	TiXmlElement *muscledoc = doc.FirstChildElement("Muscle");
+	for(TiXmlElement* unit = muscledoc->FirstChildElement("Unit");unit!=nullptr;unit = unit->NextSiblingElement("Unit"))
+	{
+		std::string name = unit->Attribute("name");
+		double f0 = std::stod(unit->Attribute("f0"));
+		double lm = std::stod(unit->Attribute("lm"));
+		double lt = std::stod(unit->Attribute("lt"));
+		double pa = std::stod(unit->Attribute("pen_angle"));
+		double lmax = std::stod(unit->Attribute("lmax"));
+		mMuscles.push_back(new Muscle(name,f0,lm,lt,pa,lmax));
+		int num_waypoints = 0;
+		for(TiXmlElement* waypoint = unit->FirstChildElement("Waypoint");waypoint!=nullptr;waypoint = waypoint->NextSiblingElement("Waypoint"))	
+			num_waypoints++;
+		int i = 0;
+		for(TiXmlElement* waypoint = unit->FirstChildElement("Waypoint");waypoint!=nullptr;waypoint = waypoint->NextSiblingElement("Waypoint"))	
+		{
+			std::string body = waypoint->Attribute("body");
+			Eigen::Vector3d glob_pos = string_to_vector3d(waypoint->Attribute("p"));
+			if(i==0||i==num_waypoints-1)
+			// if(true)
+				mMuscles.back()->AddAnchor(mSkeleton->getBodyNode(body),glob_pos);
+			else
+				mMuscles.back()->AddAnchor(mSkeleton,mSkeleton->getBodyNode(body),glob_pos,2);
+
+			i++;
+		}
+	}
+	
+
+}
 void
 Character::
 LoadBVH(const std::string& path)

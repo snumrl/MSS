@@ -23,6 +23,7 @@ Environment(int control_Hz,int simulation_Hz)
 
 	mCharacter = new Character();
 	mCharacter->LoadSkeleton(std::string(MSS_ROOT_DIR)+std::string("/data/human.xml"),true);
+	mCharacter->LoadMuscles(std::string(MSS_ROOT_DIR)+std::string("/data/muscle.xml"));
 	mCharacter->LoadBVH(std::string(MSS_ROOT_DIR)+std::string("/data/motion/kick.bvh"));
 	mGround = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/ground.xml"));
 	mWorld->addSkeleton(mCharacter->GetSkeleton());

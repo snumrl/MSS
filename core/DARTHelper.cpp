@@ -210,7 +210,14 @@ Eigen::Vector3d string_to_vector3d(const std::string& input){
 
 	return res;
 }
+Eigen::Vector4d string_to_vector4d(const std::string& input)
+{
+	std::vector<double> v = split_to_double(input, 4);
+	Eigen::Vector4d res;
+	res << v[0], v[1], v[2],v[3];
 
+	return res;	
+}
 Eigen::VectorXd string_to_vectorXd(const std::string& input, int n){
 	std::vector<double> v = split_to_double(input, n);
 	Eigen::VectorXd res(n);
@@ -281,9 +288,9 @@ BuildFromFile(const std::string& path)
 			if(c == "On")
 				contact = true;
 		}
-		Eigen::Vector3d color = Eigen::Vector3d::Constant(0.2);
+		Eigen::Vector4d color = Eigen::Vector4d::Constant(0.2);
 		if(body->Attribute("color")!=nullptr)
-			color = string_to_vector3d(body->Attribute("color"));
+			color = string_to_vector4d(body->Attribute("color"));
 
 		dart::dynamics::Inertia inertia = MakeInertia(shape,mass);
 		T_body.linear() = string_to_matrix3d(body->FirstChildElement("Transformation")->Attribute("linear"));

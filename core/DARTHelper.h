@@ -6,6 +6,12 @@ namespace Eigen {
 using Vector1d = Matrix<double, 1, 1>;
 using Matrix1d = Matrix<double, 1, 1>;
 }
+std::vector<double> split_to_double(const std::string& input, int num);
+Eigen::Vector1d string_to_vector1d(const std::string& input);
+Eigen::Vector3d string_to_vector3d(const std::string& input);
+Eigen::Vector4d string_to_vector4d(const std::string& input);
+Eigen::VectorXd string_to_vectorXd(const std::string& input, int n);
+Eigen::Matrix3d string_to_matrix3d(const std::string& input);
 namespace MSS
 {
 dart::dynamics::ShapePtr MakeSphereShape(double radius);
