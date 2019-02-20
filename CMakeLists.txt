@@ -17,3 +17,4 @@ set(CMAKE_MODULE_PATH "${CMAKE_HOME_DIRECTORY}/cmake")
 
 add_subdirectory( core )
 add_subdirectory( gui )
+add_subdirectory( python )

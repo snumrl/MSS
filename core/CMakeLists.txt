@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.6)
-project(core)
+project(mss)
 
 SET(CMAKE_BUILD_TYPE Release CACHE STRING
 	"Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
@@ -13,5 +13,5 @@ include_directories(${DART_INCLUDE_DIRS})
 
 file(GLOB srcs "*.h" "*.cpp")
 
-add_library(core ${srcs})
-target_link_libraries(core ${DART_LIBRARIES} ${TinyXML_LIBRARIES})
+add_library(mss ${srcs})
+target_link_libraries(mss ${DART_LIBRARIES} ${TinyXML_LIBRARIES})

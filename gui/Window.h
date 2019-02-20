@@ -25,6 +25,7 @@ private:
 	void DrawShape(const dart::dynamics::Shape* shape,const Eigen::Vector4d& color) const;
 
 	void DrawMuscles(const std::vector<Muscle*>& muscles);
+	void DrawGround(double y);
 	void Step();
 	void Reset();
 

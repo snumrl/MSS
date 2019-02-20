@@ -8,13 +8,6 @@ using namespace dart::dynamics;
 using namespace MSS;
 
 Environment::
-Environment()
-	:Environment(30,900)
-{
-
-}
-
-Environment::
 Environment(int control_Hz,int simulation_Hz)
 	:mControlHz(control_Hz),mSimulationHz(simulation_Hz),mWorld(std::make_shared<World>())
 {

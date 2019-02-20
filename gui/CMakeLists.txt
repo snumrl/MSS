@@ -14,4 +14,4 @@ include_directories(${GLUT_INCLUDE_DIR})
 
 file(GLOB srcs "*.h" "*.cpp")
 add_executable(gui ${srcs})
-target_link_libraries(gui ${DART_LIBRARIES} GL GLU glut core)
+target_link_libraries(gui ${DART_LIBRARIES} GL GLU glut mss)

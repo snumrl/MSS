@@ -7,8 +7,7 @@ class Character;
 class Environment
 {
 public:
-	Environment();
-	Environment(int control_Hz,int simulation_Hz);
+	Environment(int control_Hz = 30,int simulation_Hz = 900);
 
 	void Step();
 	void Reset();

@@ -247,3 +247,29 @@ DrawMuscles(const std::vector<Muscle*>& muscles)
 	glEnable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 }
+void
+Window::
+DrawGround(double y)
+{
+	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+	
+	double width = 0.005;
+	int count = 0;
+	glBegin(GL_QUADS);
+	for(double x = -100.0;x<100.01;x+=1.0)
+	{
+		for(double z = -100.0;z<100.01;z+=1.0)
+		{
+			if(count%2==0)
+				glColor3f(216.0/255.0,211.0/255.0,204.0/255.0);			
+			else
+				glColor3f(216.0/255.0-0.1,211.0/255.0-0.1,204.0/255.0-0.1);
+			count++;
+			glVertex3f(x,y,z);
+			glVertex3f(x+1.0,y,z);
+			glVertex3f(x+1.0,y,z+1.0);
+			glVertex3f(x,y,z+1.0);
+		}
+	}
+	glEnd();
+}
