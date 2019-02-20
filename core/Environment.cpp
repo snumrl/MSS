@@ -21,21 +21,29 @@ Environment(int control_Hz,int simulation_Hz)
 	mGround = BuildFromFile(std::string(MSS_ROOT_DIR)+std::string("/data/ground.xml"));
 	mWorld->addSkeleton(mCharacter->GetSkeleton());
 	mWorld->addSkeleton(mGround);
+
+	double kp = 300.0;
+	mCharacter->SetPDParameters(kp,sqrt(2*kp));
+
+	Reset();
 }
 
 void
 Environment::
 Step()
 {
-	mWorld->step();
-
 	double t = mWorld->getTime();
 	Eigen::VectorXd p_des = mCharacter->GetTargetPositions(t);
-	int dof = mCharacter->GetSkeleton()->getNumDofs();
+
+	Eigen::VectorXd tau = mCharacter->GetSPDForces(p_des);
+	mCharacter->GetSkeleton()->setForces(tau);
+
+	mWorld->step();
+	// int dof = mCharacter->GetSkeleton()->getNumDofs();
 	
-	mCharacter->GetSkeleton()->setPositions(p_des);
-	mCharacter->GetSkeleton()->setVelocities(Eigen::VectorXd::Zero(dof));
-	mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+	// mCharacter->GetSkeleton()->setPositions(p_des);
+	// mCharacter->GetSkeleton()->setVelocities(Eigen::VectorXd::Zero(dof));
+	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
 }
 
 void

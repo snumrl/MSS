@@ -91,7 +91,36 @@ LoadBVH(const std::string& path)
 	}
 	mBVH->Parse(path);
 }
+void
+Character::
+SetPDParameters(double kp, double kv)
+{
+	int dof = mSkeleton->getNumDofs();
+	mKp = Eigen::VectorXd::Constant(dof,kp);	
+	mKv = Eigen::VectorXd::Constant(dof,kv);	
+}
+Eigen::VectorXd
+Character::
+GetSPDForces(const Eigen::VectorXd& p_desired)
+{
+	Eigen::VectorXd q = mSkeleton->getPositions();
+	Eigen::VectorXd dq = mSkeleton->getVelocities();
+	double dt = mSkeleton->getTimeStep();
+	// Eigen::MatrixXd M_inv = mSkeleton->getInvMassMatrix();
+	Eigen::MatrixXd M_inv = (mSkeleton->getMassMatrix() + Eigen::MatrixXd(dt*mKv.asDiagonal())).inverse();
 
+	Eigen::VectorXd qdqdt = q + dq*dt;
+
+	Eigen::VectorXd p_diff = -mKp.cwiseProduct(mSkeleton->getPositionDifferences(qdqdt,p_desired));
+	Eigen::VectorXd v_diff = -mKv.cwiseProduct(dq);
+	Eigen::VectorXd ddq = M_inv*(-mSkeleton->getCoriolisAndGravityForces()+p_diff+v_diff+mSkeleton->getConstraintForces());
+
+	Eigen::VectorXd tau = p_diff + v_diff - dt*mKv.cwiseProduct(ddq);
+
+	tau.head<6>().setZero();
+
+	return tau;
+}
 Eigen::VectorXd
 Character::
 GetTargetPositions(double t)

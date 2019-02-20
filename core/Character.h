@@ -15,8 +15,10 @@ public:
 	void LoadMuscles(const std::string& path);
 	void LoadBVH(const std::string& path);
 
-	Eigen::VectorXd GetTargetPositions(double t);
+	void SetPDParameters(double kp, double kv);
+	Eigen::VectorXd GetSPDForces(const Eigen::VectorXd& p_desired);
 
+	Eigen::VectorXd GetTargetPositions(double t);
 	
 	const dart::dynamics::SkeletonPtr& GetSkeleton(){return mSkeleton;}
 	const std::vector<Muscle*>& GetMuscles() {return mMuscles;}
@@ -25,9 +27,9 @@ public:
 	dart::dynamics::SkeletonPtr mSkeleton;
 	BVH* mBVH;
 	std::vector<Muscle*> mMuscles;
-	
-
 	std::vector<dart::dynamics::BodyNode*> mEndEffectors;
+
+	Eigen::VectorXd mKp, mKv;
 };
 };
 
