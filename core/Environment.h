@@ -11,18 +11,26 @@ public:
 
 	void Step();
 	void Reset();
-	
+	bool IsEndOfEpisode();
+	Eigen::VectorXd GetState();
+	void SetAction(const Eigen::VectorXd& a);
+	double GetReward();
+
 	const dart::simulation::WorldPtr& GetWorld(){return mWorld;}
 	Character* GetCharacter(){return mCharacter;}
 	const dart::dynamics::SkeletonPtr& GetGround(){return mGround;}
 	int GetControlHz(){return mControlHz;}
 	int GetSimulationHz(){return mSimulationHz;}
+	int GetStateDofs();
+	int GetActionDofs();
+	int GetSystemDofs();
 private:
 	dart::simulation::WorldPtr mWorld;
 	int mControlHz,mSimulationHz;
 
 	Character* mCharacter;
 	dart::dynamics::SkeletonPtr mGround;
+	Eigen::VectorXd mAction;
 };
 };
 

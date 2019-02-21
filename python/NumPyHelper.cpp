@@ -1,4 +1,4 @@
-#include "NumpyHelper.h"
+#include "NumPyHelper.h"
 
 np::ndarray toNumPyArray(const std::vector<float>& val)
 {

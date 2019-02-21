@@ -24,7 +24,7 @@ Environment(int control_Hz,int simulation_Hz)
 
 	double kp = 300.0;
 	mCharacter->SetPDParameters(kp,sqrt(2*kp));
-
+	mAction = Eigen::VectorXd::Zero(mCharacter->GetSkeleton()->getNumDofs()-6);
 	Reset();
 }
 
@@ -39,11 +39,6 @@ Step()
 	mCharacter->GetSkeleton()->setForces(tau);
 
 	mWorld->step();
-	// int dof = mCharacter->GetSkeleton()->getNumDofs();
-	
-	// mCharacter->GetSkeleton()->setPositions(p_des);
-	// mCharacter->GetSkeleton()->setVelocities(Eigen::VectorXd::Zero(dof));
-	// mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
 }
 
 void
@@ -63,4 +58,51 @@ Reset()
 	mCharacter->GetSkeleton()->setPositions(p_des);
 	mCharacter->GetSkeleton()->setVelocities(Eigen::VectorXd::Zero(dof));
 	mCharacter->GetSkeleton()->computeForwardKinematics(true,false,false);
+}
+
+bool
+Environment::
+IsEndOfEpisode()
+{
+	if(mWorld->getTime()>10.0)
+		return true;
+	else
+		return false;
+}
+Eigen::VectorXd 
+Environment::
+GetState()
+{
+	Eigen::VectorXd state = Eigen::VectorXd::Zero(10);
+	return state;
+
+}
+void 
+Environment::
+SetAction(const Eigen::VectorXd& a)
+{
+}
+double 
+Environment::
+GetReward()
+{
+	return 1;
+}
+int
+Environment::
+GetStateDofs()
+{
+	return 10;
+}
+int
+Environment::
+GetActionDofs()
+{
+	return 10;
+}
+int
+Environment::
+GetSystemDofs()
+{
+	return 10;
 }
